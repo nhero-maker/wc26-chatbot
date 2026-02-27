@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ──────────────────────────────── */
+:root {
+  --bg: #06080e;
+  --surface: #0b1120;
+  --surface-2: #101828;
+  --surface-3: #162035;
+  --border: #1a2945;
+  --border-bright: #253c65;
+
+  --blue: #1c43c8;
+  --blue-mid: #2563eb;
+  --blue-bright: #60a5fa;
+  --blue-glow: rgba(37, 99, 235, 0.25);
+
+  --red: #b91c1c;
+  --red-mid: #dc2626;
+  --red-bright: #f87171;
+  --red-glow: rgba(220, 38, 38, 0.25);
+
+  --gold: #b8860b;
+  --gold-mid: #d4a017;
+  --gold-bright: #fbbf24;
+  --gold-glow: rgba(212, 160, 23, 0.2);
+
+  --text: #c8daf0;
+  --text-muted: #4e6c94;
+  --text-dim: #1e3050;
+
+  --font-display: var(--font-barlow-condensed), "Barlow Condensed", sans-serif;
+  --font-body: var(--font-barlow), "Barlow", sans-serif;
+  --font-mono: var(--font-space-mono), "Space Mono", monospace;
+
+  --radius: 4px;
+  --radius-lg: 8px;
+}
+
+/* ─── Reset & Base ───────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Noise grain overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Typography ─────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ─── Layout ─────────────────────────────────────── */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+/* ─── Section Label ──────────────────────────────── */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ─── Badges ─────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.badge-blue { background: rgba(37,99,235,0.12); color: var(--blue-bright); border: 1px solid rgba(37,99,235,0.25); }
+.badge-red  { background: rgba(220,38,38,0.12);  color: var(--red-bright);  border: 1px solid rgba(220,38,38,0.25); }
+.badge-gold { background: rgba(212,160,23,0.1);  color: var(--gold-bright); border: 1px solid rgba(212,160,23,0.25); }
+
+/* ─── Divider ────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border-bright) 50%, var(--border) 80%, transparent);
+  margin: 0;
+}
+
+/* ─── Animations ─────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+  30%            { transform: translateY(-4px); opacity: 1; }
+}
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-fade-up    { animation: fadeUp 0.5s ease forwards; }
+.animate-fade-in    { animation: fadeIn 0.4s ease forwards; }
+.message-enter      { animation: message-in 0.22s ease forwards; }
