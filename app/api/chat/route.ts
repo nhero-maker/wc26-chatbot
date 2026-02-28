@@ -38,7 +38,8 @@ export async function POST(req: NextRequest) {
   }
 
   const webhookUrl = process.env.N8N_WEBHOOK_URL;
-  if (!webhookUrl) {
+  const webhookSecret = process.env.N8N_WEBHOOK_SECRET;
+  if (!webhookUrl || !webhookSecret) {
     return NextResponse.json(
       { success: false, error: "Webhook not configured" },
       { status: 500 }
@@ -90,7 +91,10 @@ export async function POST(req: NextRequest) {
   try {
     const response = await fetch(webhookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-wc26-secret": webhookSecret,
+      },
       body: JSON.stringify({ message: message.trim(), sessionId }),
     });
 
