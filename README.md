@@ -30,11 +30,11 @@ npm run dev
 
 | Variable | Description |
 |---|---|
-| `N8N_WEBHOOK_URL` | N8N webhook URL (never exposed to client) |
+| `N8N_WEBHOOK_URL` | N8N webhook URL — keep this server-side only, never expose to client |
 
 ## N8N Workflow
 
-Workflow: **WC26 Chatbot** — POST `https://aishel.app.n8n.cloud/webhook/wc26-chat`
+The app proxies all chat requests through `/api/chat` to an N8N webhook.
 
 Expected request body:
 ```json
