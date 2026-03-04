@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ─── Design Tokens ──────────────────────────────── */
+/* \u2500\u2500\u2500 Design Tokens \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 :root {
   --bg: #06080e;
   --surface: #0b1120;
@@ -36,7 +36,7 @@
   --radius-lg: 8px;
 }
 
-/* ─── Reset & Base ───────────────────────────────── */
+/* \u2500\u2500\u2500 Reset & Base \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 *, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
@@ -64,7 +64,7 @@ body::before {
   z-index: 9999;
 }
 
-/* ─── Typography ─────────────────────────────────── */
+/* \u2500\u2500\u2500 Typography \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   line-height: 1;
@@ -72,19 +72,19 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
 }
 
-/* ─── Layout ─────────────────────────────────────── */
+/* \u2500\u2500\u2500 Layout \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* ─── Scrollbar ──────────────────────────────────── */
+/* \u2500\u2500\u2500 Scrollbar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
 ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
 
-/* ─── Section Label ──────────────────────────────── */
+/* \u2500\u2500\u2500 Section Label \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .section-label {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -104,7 +104,7 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
 }
 
-/* ─── Badges ─────────────────────────────────────── */
+/* \u2500\u2500\u2500 Badges \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -121,14 +121,14 @@ h1, h2, h3, h4 {
 .badge-red  { background: rgba(220,38,38,0.12);  color: var(--red-bright);  border: 1px solid rgba(220,38,38,0.25); }
 .badge-gold { background: rgba(212,160,23,0.1);  color: var(--gold-bright); border: 1px solid rgba(212,160,23,0.25); }
 
-/* ─── Divider ────────────────────────────────────── */
+/* \u2500\u2500\u2500 Divider \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border-bright) 50%, var(--border) 80%, transparent);
   margin: 0;
 }
 
-/* ─── Animations ─────────────────────────────────── */
+/* \u2500\u2500\u2500 Animations \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }

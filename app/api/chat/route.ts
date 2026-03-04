@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// ─── Rate limiting (in-memory, per serverless instance) ───────────────────────
+// \u2500\u2500\u2500 Rate limiting (in-memory, per serverless instance) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // Limits: 20 requests per minute per IP
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT = 20;
@@ -19,7 +19,7 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-// ─── Input validation ─────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Input validation \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const MAX_MESSAGE_LENGTH = 2000;
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Validate sessionId — must be a UUID
+  // Validate sessionId \u2014 must be a UUID
   if (!sessionId || typeof sessionId !== "string" || !UUID_REGEX.test(sessionId)) {
     return NextResponse.json(
       { success: false, error: "Invalid session" },
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Webhook error:", error);
+    console.error("Webhook error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json(
       { success: false, error: "Failed to reach the chatbot. Please try again." },
       { status: 502 }
