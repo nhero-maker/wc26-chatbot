@@ -1,0 +1,109 @@
+import React from "react";
+
+interface AuthLayoutProps {
+  children: React.ReactNode;
+  title: string;
+  subtitle?: string;
+}
+
+export default function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "var(--bg)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+      }}
+    >
+      {/* Background grid lines */}
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(var(--border) 1px, transparent 1px),
+            linear-gradient(90deg, var(--border) 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+          opacity: 0.3,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Logo */}
+      <a
+        href="/"
+        style={{
+          position: "fixed",
+          top: "24px",
+          left: "32px",
+          fontFamily: "var(--font-display)",
+          fontWeight: 900,
+          fontSize: "18px",
+          letterSpacing: "0.15em",
+          color: "var(--text)",
+          textDecoration: "none",
+          zIndex: 10,
+        }}
+      >
+        WC26
+      </a>
+
+      {/* Card */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          maxWidth: "440px",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+          borderRadius: "var(--radius-lg)",
+          padding: "40px",
+          animation: "fadeUp 0.4s ease both",
+        }}
+      >
+        {/* Section label */}
+        <div className="section-label" style={{ marginBottom: "24px" }}>
+          Winter Cup 2026
+        </div>
+
+        {/* Title */}
+        <h1
+          style={{
+            fontFamily: "var(--font-display)",
+            fontWeight: 900,
+            fontSize: "32px",
+            letterSpacing: "0.04em",
+            color: "var(--text)",
+            marginBottom: subtitle ? "8px" : "32px",
+            lineHeight: 1,
+          }}
+        >
+          {title}
+        </h1>
+
+        {subtitle && (
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "14px",
+              color: "var(--text-muted)",
+              marginBottom: "32px",
+              lineHeight: 1.5,
+            }}
+          >
+            {subtitle}
+          </p>
+        )}
+
+        {children}
+      </div>
+    </div>
+  );
+}
