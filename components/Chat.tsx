@@ -7,14 +7,14 @@ import { sendChatMessage } from "@/lib/n8n";
 const WELCOME_MESSAGE: Message = {
   id: "welcome",
   role: "bot",
-  text: "Hei! Olen WC26 Winter Cup 2026 -turnauksen virallinen assistentti 👋\n\nVoin kertoa turnauksen formaatista, kentistä, pisteytyssäännöistä ja palkintokategorioista. Voin myös ottaa sinun ilmoittautumistietosi vastaan, jos olet kiinnostunut osallistumaan!\n\nMistä haluaisit tietää lisää?",
+  text: "Hei! Olen WC26 Winter Cup 2026 -turnauksen virallinen assistentti \ud83d\udc4b\n\nVoin kertoa turnauksen formaatista, kentist\u00e4, pisteytys\u00e4\u00e4nn\u00f6ist\u00e4 ja palkintokategorioista. Voin my\u00f6s ottaa sinun ilmoittautumistietosi vastaan, jos olet kiinnostunut osallistumaan!\n\nMist\u00e4 haluaisit tiet\u00e4\u00e4 lis\u00e4\u00e4?",
 };
 
 const SUGGESTIONS = [
   "Kerro turnausformaatista",
-  "Mitä kenttiä pelataan?",
+  "Mit\u00e4 kentti\u00e4 pelataan?",
   "Haluan ilmoittautua",
-  "Mitkä ovat palkintokategoriat?",
+  "Mitk\u00e4 ovat palkintokategoriat?",
 ];
 
 export default function Chat() {
@@ -69,7 +69,7 @@ export default function Chat() {
         };
         setMessages((prev) => [...prev, botMsg]);
       } catch {
-        setError("Yhteysvirhe. Tarkista verkkoyhteytesi ja yritä uudelleen.");
+        setError("Yhteysvirhe. Tarkista verkkoyhteytesi ja yrit\u00e4 uudelleen.");
       } finally {
         setIsLoading(false);
         setTimeout(() => inputRef.current?.focus(), 50);
@@ -182,7 +182,7 @@ export default function Chat() {
         </div>
       </div>
 
-      {/* Suggestion chips — only when 1 message */}
+      {/* Suggestion chips \u2014 only when 1 message */}
       {messages.length === 1 && (
         <div
           style={{
@@ -360,7 +360,7 @@ export default function Chat() {
             letterSpacing: "0.06em",
           }}
         >
-          ENTER lähettää · SHIFT+ENTER rivinvaihto
+          ENTER l\u00e4hett\u00e4\u00e4 \u00b7 SHIFT+ENTER rivinvaihto
         </div>
       </div>
     </div>

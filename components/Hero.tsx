@@ -104,35 +104,61 @@ export default function Hero() {
         >
           KAUSI 2026
         </div>
-        <a
-          href="#chat"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "11px",
-            color: "var(--blue-bright)",
-            letterSpacing: "0.1em",
-            textDecoration: "none",
-            padding: "6px 14px",
-            border: "1px solid rgba(37,99,235,0.3)",
-            borderRadius: "var(--radius)",
-            transition: "all 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgba(37,99,235,0.1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "transparent";
-          }}
-        >
-          KYSY ASSISTENTILTA
-        </a>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <a
+            href="/signin"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              color: "var(--text-muted)",
+              letterSpacing: "0.1em",
+              textDecoration: "none",
+              padding: "6px 14px",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius)",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "var(--border-bright)";
+              e.currentTarget.style.color = "var(--text)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "var(--border)";
+              e.currentTarget.style.color = "var(--text-muted)";
+            }}
+          >
+            KIRJAUDU
+          </a>
+          <a
+            href="#chat"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              color: "var(--blue-bright)",
+              letterSpacing: "0.1em",
+              textDecoration: "none",
+              padding: "6px 14px",
+              border: "1px solid rgba(37,99,235,0.3)",
+              borderRadius: "var(--radius)",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(37,99,235,0.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+            }}
+          >
+            KYSY ASSISTENTILTA
+          </a>
+        </div>
       </div>
 
       {/* Main hero content */}
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         {/* Season label */}
         <div className="section-label" style={{ marginBottom: "32px", animation: "fadeUp 0.5s 0.1s ease both" }}>
-          Talvigolf · Simulaattoriturnaus · 2026
+          Talvigolf \u00b7 Simulaattoriturnaus \u00b7 2026
         </div>
 
         {/* Giant title */}
@@ -437,6 +463,35 @@ export default function Hero() {
               <path d="M8 3l5 5-5 5M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
+          <a
+            href="/register"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              background: "transparent",
+              color: "var(--gold-bright)",
+              padding: "14px 28px",
+              borderRadius: "var(--radius)",
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: "16px",
+              letterSpacing: "0.08em",
+              textDecoration: "none",
+              border: "1px solid rgba(212,160,23,0.4)",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(212,160,23,0.1)";
+              e.currentTarget.style.borderColor = "var(--gold-bright)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = "rgba(212,160,23,0.4)";
+            }}
+          >
+            REKISTER\u00d6IDY
+          </a>
           <div
             style={{
               fontFamily: "var(--font-mono)",
@@ -445,9 +500,9 @@ export default function Hero() {
               lineHeight: 1.5,
             }}
           >
-            6 kierrosta · 6 kenttää
+            6 kierrosta \u00b7 6 kentt\u00e4\u00e4
             <br />
-            Tammikuu — Kesäkuu 2026
+            Tammikuu \u2014 Kes\u00e4kuu 2026
           </div>
         </div>
       </div>
