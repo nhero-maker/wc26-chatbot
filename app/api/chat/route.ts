@@ -99,7 +99,12 @@ export async function POST(req: NextRequest) {
     });
 
     if (!response.ok) {
-      throw new Error(`Upstream returned ${response.status}`);
+      const errText = await response.text().catch(() => "");
+      console.error(`Webhook upstream error: status=${response.status} body=${errText} url_length=${webhookUrl.length} secret_length=${webhookSecret.length}`);
+      return NextResponse.json(
+        { success: false, error: "Failed to reach the chatbot. Please try again.", _debug: { status: response.status, secretLen: webhookSecret.length, urlLen: webhookUrl.length } },
+        { status: 502 }
+      );
     }
 
     const data = await response.json();
@@ -107,7 +112,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Webhook error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json(
-      { success: false, error: "Failed to reach the chatbot. Please try again." },
+      { success: false, error: "Failed to reach the chatbot. Please try again.", _debug: { type: "exception", msg: error instanceof Error ? error.message : "unknown" } },
       { status: 502 }
     );
   }
