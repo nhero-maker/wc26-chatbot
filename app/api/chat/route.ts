@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// \u2500\u2500\u2500 Rate limiting (in-memory, per serverless instance) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ─── Rate limiting (in-memory, per serverless instance) ───────────────────────
 // Limits: 20 requests per minute per IP
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT = 20;
@@ -19,7 +19,7 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-// \u2500\u2500\u2500 Input validation \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ─── Input validation ─────────────────────────────────────────────────────────
 const MAX_MESSAGE_LENGTH = 2000;
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -37,8 +37,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const webhookUrl = process.env.N8N_WEBHOOK_URL;
-  const webhookSecret = process.env.N8N_WEBHOOK_SECRET;
+  const webhookUrl = process.env.N8N_WEBHOOK_URL?.trim();
+  const webhookSecret = process.env.N8N_WEBHOOK_SECRET?.trim();
   if (!webhookUrl || !webhookSecret) {
     return NextResponse.json(
       { success: false, error: "Webhook not configured" },
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Validate sessionId \u2014 must be a UUID
+  // Validate sessionId — must be a UUID
   if (!sessionId || typeof sessionId !== "string" || !UUID_REGEX.test(sessionId)) {
     return NextResponse.json(
       { success: false, error: "Invalid session" },

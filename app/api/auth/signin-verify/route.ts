@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { setSessionCookie } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
-  const baseUrl = process.env.N8N_BASE_URL;
-  const webhookSecret = process.env.N8N_PLAYER_SECRET;
+  const baseUrl = process.env.N8N_BASE_URL?.trim();
+  const webhookSecret = process.env.N8N_PLAYER_SECRET?.trim();
   if (!baseUrl || !webhookSecret) {
     return NextResponse.json({ success: false, error: "Palvelinvirhe" }, { status: 500 });
   }
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ success: false, error: "Virheellinen pyynt\u00f6" }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Virheellinen pyyntö" }, { status: 400 });
   }
 
   const { token } = body as Record<string, unknown>;
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       return NextResponse.json(
-        { success: false, error: "Linkki on vanhentunut tai jo k\u00e4ytetty." },
+        { success: false, error: "Linkki on vanhentunut tai jo käytetty." },
         { status: 401 }
       );
     }
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
     if (!data.success || !data.data?.sessionToken) {
       return NextResponse.json(
-        { success: false, error: "Kirjautuminen ep\u00e4onnistui." },
+        { success: false, error: "Kirjautuminen epäonnistui." },
         { status: 401 }
       );
     }
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Signin verify error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json(
-      { success: false, error: "Palvelinvirhe. Yrit\u00e4 uudelleen." },
+      { success: false, error: "Palvelinvirhe. Yritä uudelleen." },
       { status: 502 }
     );
   }

@@ -24,13 +24,13 @@ export async function POST(req: NextRequest) {
     req.headers.get("x-real-ip") ??
     "unknown";
 
-  // Return 200 even when rate limited \u2014 don't reveal rate limiting to potential attackers
+  // Return 200 even when rate limited — don't reveal rate limiting to potential attackers
   if (isRateLimited(ip)) {
     return NextResponse.json({ success: true });
   }
 
-  const baseUrl = process.env.N8N_BASE_URL;
-  const webhookSecret = process.env.N8N_PLAYER_SECRET;
+  const baseUrl = process.env.N8N_BASE_URL?.trim();
+  const webhookSecret = process.env.N8N_PLAYER_SECRET?.trim();
   if (!baseUrl || !webhookSecret) {
     return NextResponse.json({ success: false, error: "Palvelinvirhe" }, { status: 500 });
   }
@@ -39,16 +39,16 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ success: false, error: "Virheellinen pyynt\u00f6" }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Virheellinen pyyntö" }, { status: 400 });
   }
 
   const { email } = body as Record<string, unknown>;
   if (!email || typeof email !== "string" || !EMAIL_REGEX.test(email.trim())) {
-    return NextResponse.json({ success: false, error: "S\u00e4hk\u00f6posti puuttuu" }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Sähköposti puuttuu" }, { status: 400 });
   }
 
   try {
-    // Fire and forget \u2014 always return 200 to avoid revealing if email exists
+    // Fire and forget — always return 200 to avoid revealing if email exists
     fetch(`${baseUrl}/wc26/auth/signin-request`, {
       method: "POST",
       headers: {

@@ -7,8 +7,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: false, error: "Ei kirjautunut" }, { status: 401 });
   }
 
-  const baseUrl = process.env.N8N_BASE_URL;
-  const webhookSecret = process.env.N8N_PLAYER_SECRET;
+  const baseUrl = process.env.N8N_BASE_URL?.trim();
+  const webhookSecret = process.env.N8N_PLAYER_SECRET?.trim();
   if (!baseUrl || !webhookSecret) {
     return NextResponse.json({ success: false, error: "Palvelinvirhe" }, { status: 500 });
   }

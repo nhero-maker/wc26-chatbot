@@ -26,13 +26,13 @@ export async function POST(req: NextRequest) {
 
   if (isRateLimited(ip)) {
     return NextResponse.json(
-      { success: false, error: "Liian monta pyynt\u00f6\u00e4. Odota hetki." },
+      { success: false, error: "Liian monta pyyntöä. Odota hetki." },
       { status: 429 }
     );
   }
 
-  const baseUrl = process.env.N8N_BASE_URL;
-  const webhookSecret = process.env.N8N_PLAYER_SECRET;
+  const baseUrl = process.env.N8N_BASE_URL?.trim();
+  const webhookSecret = process.env.N8N_PLAYER_SECRET?.trim();
   if (!baseUrl || !webhookSecret) {
     return NextResponse.json({ success: false, error: "Palvelinvirhe" }, { status: 500 });
   }
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ success: false, error: "Virheellinen pyynt\u00f6" }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Virheellinen pyyntö" }, { status: 400 });
   }
 
   const { name, email, phone, handicap } = body as Record<string, unknown>;
@@ -50,13 +50,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: "Nimi puuttuu tai on liian lyhyt" }, { status: 400 });
   }
   if (!email || typeof email !== "string" || !EMAIL_REGEX.test(email.trim())) {
-    return NextResponse.json({ success: false, error: "S\u00e4hk\u00f6posti puuttuu tai on virheellinen" }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Sähköposti puuttuu tai on virheellinen" }, { status: 400 });
   }
   if (!phone || typeof phone !== "string" || phone.trim().length < 5) {
     return NextResponse.json({ success: false, error: "Puhelinnumero puuttuu" }, { status: 400 });
   }
   if (typeof handicap !== "number" || handicap < 0 || handicap > 54) {
-    return NextResponse.json({ success: false, error: "Tasoitus puuttuu tai on virheellinen (0\u201354)" }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Tasoitus puuttuu tai on virheellinen (0–54)" }, { status: 400 });
   }
 
   try {
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Register error:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json(
-      { success: false, error: "Palvelinvirhe. Yrit\u00e4 uudelleen." },
+      { success: false, error: "Palvelinvirhe. Yritä uudelleen." },
       { status: 502 }
     );
   }
