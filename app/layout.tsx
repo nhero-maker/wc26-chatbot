@@ -24,9 +24,9 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WC26 \u2014 Winter Cup 2026",
+  title: "WC26 — Winter Cup 2026",
   description:
-    "Winter Cup 2026 on kuuden kuukauden simulaattorigolf-turnaus. Kaksi joukkuetta, kuusi kentt\u00e4\u00e4, yksi mestari.",
+    "Winter Cup 2026 on kuuden kuukauden simulaattorigolf-turnaus. Kaksi joukkuetta, kuusi kenttää, yksi mestari.",
 };
 
 export default function RootLayout({

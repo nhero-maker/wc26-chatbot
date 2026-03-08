@@ -107,31 +107,31 @@ export default function RoundForm({
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {/* Course selection */}
       <div>
-        <label style={labelStyle}>Kentt\u00e4</label>
+        <label style={labelStyle}>Kenttä</label>
         <select
           value={courseId}
           onChange={(e) => setCourseId(e.target.value)}
           style={{ ...inputStyle, cursor: "pointer" }}
           required
         >
-          <option value="">Valitse kentt\u00e4</option>
+          <option value="">Valitse kenttä</option>
           {COURSES.map((c) => (
             <option key={c.id} value={c.id.toString()}>
               {c.name}
             </option>
           ))}
-          <option value="other">Muu kentt\u00e4</option>
+          <option value="other">Muu kenttä</option>
         </select>
       </div>
 
       {isOther && (
         <div>
-          <label style={labelStyle}>Kent\u00e4n nimi</label>
+          <label style={labelStyle}>Kentän nimi</label>
           <input
             type="text"
             value={courseCustom}
             onChange={(e) => setCourseCustom(e.target.value)}
-            placeholder="Sy\u00f6t\u00e4 kent\u00e4n nimi"
+            placeholder="Syötä kentän nimi"
             style={inputStyle}
             required
           />
@@ -140,7 +140,7 @@ export default function RoundForm({
 
       {/* Date */}
       <div>
-        <label style={labelStyle}>Pelip\u00e4iv\u00e4</label>
+        <label style={labelStyle}>Pelipäivä</label>
         <input
           type="date"
           value={datePlayed}
@@ -153,7 +153,7 @@ export default function RoundForm({
       {/* Total shots + Handicap */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
         <div>
-          <label style={labelStyle}>Ly\u00f6nnit yhteens\u00e4</label>
+          <label style={labelStyle}>Lyönnit yhteensä</label>
           <input
             type="number"
             value={totalShots}
@@ -185,7 +185,7 @@ export default function RoundForm({
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
         <div>
           <label style={labelStyle}>
-            Pisin ly\u00f6nti (m) <span style={optionalStyle}>valinnainen</span>
+            Pisin lyönti (m) <span style={optionalStyle}>valinnainen</span>
           </label>
           <input
             type="number"
@@ -198,7 +198,7 @@ export default function RoundForm({
         </div>
         <div>
           <label style={labelStyle}>
-            L\u00e4himp\u00e4n\u00e4 (cm) <span style={optionalStyle}>valinnainen</span>
+            Lähimpänä (cm) <span style={optionalStyle}>valinnainen</span>
           </label>
           <input
             type="number"

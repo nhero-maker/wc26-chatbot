@@ -22,10 +22,10 @@ export default function EditRoundPage() {
         if (found) {
           setRound(found);
         } else {
-          setLoadError("Kierrosta ei l\u00f6ydy.");
+          setLoadError("Kierrosta ei löydy.");
         }
       } else {
-        setLoadError(res.error ?? "Lataus ep\u00e4onnistui.");
+        setLoadError(res.error ?? "Lataus epäonnistui.");
       }
     });
   }, [roundId]);
@@ -38,10 +38,10 @@ export default function EditRoundPage() {
       if (res.success) {
         router.push("/dashboard");
       } else {
-        setSubmitError(res.error ?? "Tallennus ep\u00e4onnistui.");
+        setSubmitError(res.error ?? "Tallennus epäonnistui.");
       }
     } catch {
-      setSubmitError("Verkkovirhe. Yrit\u00e4 uudelleen.");
+      setSubmitError("Verkkovirhe. Yritä uudelleen.");
     } finally {
       setLoading(false);
     }
@@ -90,7 +90,7 @@ export default function EditRoundPage() {
           onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
           onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
         >
-          \u2190 TAKAISIN
+          ← TAKAISIN
         </a>
       </header>
 

@@ -82,7 +82,7 @@ export default function Home() {
             letterSpacing: "0.08em",
           }}
         >
-          WINTER CUP 2026 \u00b7 TALVIGOLF \u00b7 TAMMIKUU \u2014 KES\u00c4KUU
+          WINTER CUP 2026 · TALVIGOLF · TAMMIKUU — KESÄKUU
         </div>
         <div
           style={{

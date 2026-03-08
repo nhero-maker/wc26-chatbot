@@ -158,7 +158,7 @@ export default function Hero() {
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         {/* Season label */}
         <div className="section-label" style={{ marginBottom: "32px", animation: "fadeUp 0.5s 0.1s ease both" }}>
-          Talvigolf \u00b7 Simulaattoriturnaus \u00b7 2026
+          Talvigolf · Simulaattoriturnaus · 2026
         </div>
 
         {/* Giant title */}
@@ -490,7 +490,7 @@ export default function Hero() {
               e.currentTarget.style.borderColor = "rgba(212,160,23,0.4)";
             }}
           >
-            REKISTER\u00d6IDY
+            REKISTERÖIDY
           </a>
           <div
             style={{
@@ -500,9 +500,9 @@ export default function Hero() {
               lineHeight: 1.5,
             }}
           >
-            6 kierrosta \u00b7 6 kentt\u00e4\u00e4
+            6 kierrosta · 6 kenttää
             <br />
-            Tammikuu \u2014 Kes\u00e4kuu 2026
+            Tammikuu — Kesäkuu 2026
           </div>
         </div>
       </div>

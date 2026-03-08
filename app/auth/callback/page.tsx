@@ -24,19 +24,19 @@ function CallbackContent() {
         if (res.success) {
           router.replace("/dashboard");
         } else {
-          setErrorMsg(res.error ?? "Linkki on vanhentunut tai jo k\u00e4ytetty.");
+          setErrorMsg(res.error ?? "Linkki on vanhentunut tai jo käytetty.");
           setStatus("error");
         }
       })
       .catch(() => {
-        setErrorMsg("Verkkovirhe. Yrit\u00e4 uudelleen.");
+        setErrorMsg("Verkkovirhe. Yritä uudelleen.");
         setStatus("error");
       });
   }, [router, searchParams]);
 
   if (status === "loading") {
     return (
-      <AuthLayout title="KIRJAUDUTAAN SIS\u00c4\u00c4N">
+      <AuthLayout title="KIRJAUDUTAAN SISÄÄN">
         <div style={{ textAlign: "center", padding: "16px 0" }}>
           <div
             style={{
@@ -74,7 +74,7 @@ function CallbackContent() {
   }
 
   return (
-    <AuthLayout title="KIRJAUTUMINEN EP\u00c4ONNISTUI">
+    <AuthLayout title="KIRJAUTUMINEN EPÄONNISTUI">
       <div style={{ textAlign: "center", padding: "8px 0 16px" }}>
         <div
           style={{
@@ -85,7 +85,7 @@ function CallbackContent() {
             marginBottom: "16px",
           }}
         >
-          \u2715
+          ✕
         </div>
         <p
           style={{
@@ -113,7 +113,7 @@ function CallbackContent() {
             textDecoration: "none",
           }}
         >
-          PYYD\u00c4 UUSI LINKKI
+          PYYDÄ UUSI LINKKI
         </a>
       </div>
     </AuthLayout>
@@ -124,7 +124,7 @@ export default function CallbackPage() {
   return (
     <Suspense
       fallback={
-        <AuthLayout title="KIRJAUDUTAAN SIS\u00c4\u00c4N">
+        <AuthLayout title="KIRJAUDUTAAN SISÄÄN">
           <div style={{ textAlign: "center", padding: "16px 0" }}>
             <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text-muted)" }}>
               Ladataan...

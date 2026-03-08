@@ -8,8 +8,8 @@ type Tab = "bestScores" | "longestDrives" | "closestToPin" | "netScores";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "bestScores", label: "PARAS TULOS" },
-  { key: "longestDrives", label: "PISIN LY\u00d6NTI" },
-  { key: "closestToPin", label: "L\u00c4HIMP\u00c4N\u00c4" },
+  { key: "longestDrives", label: "PISIN LYÖNTI" },
+  { key: "closestToPin", label: "LÄHIMPÄNÄ" },
   { key: "netScores", label: "NETTOTULOS" },
 ];
 
@@ -58,7 +58,7 @@ export default function LeaderboardsPage() {
       if (res.error?.includes("kirjautunut")) {
         router.replace("/signin");
       } else {
-        setError(res.error ?? "Lataus ep\u00e4onnistui.");
+        setError(res.error ?? "Lataus epäonnistui.");
       }
     }
     setLoading(false);
@@ -176,7 +176,7 @@ export default function LeaderboardsPage() {
         {/* Page header */}
         <div style={{ marginBottom: "40px", animation: "fadeUp 0.4s ease both" }}>
           <div className="section-label" style={{ marginBottom: "16px" }}>
-            J\u00e4senten tulostaulukot
+            Jäsenten tulostaulukot
           </div>
           <h1
             style={{
@@ -223,7 +223,7 @@ export default function LeaderboardsPage() {
                 cursor: "pointer",
               }}
             >
-              YRIT\u00c4 UUDELLEEN
+              YRITÄ UUDELLEEN
             </button>
           </div>
         ) : (
@@ -294,7 +294,7 @@ export default function LeaderboardsPage() {
               {data && activeTab === "bestScores" && (
                 <LeaderTable
                   rows={data.bestScores}
-                  columns={["Nimi", "Kentt\u00e4", "Ly\u00f6nti\u00e4", "P\u00e4iv\u00e4"]}
+                  columns={["Nimi", "Kenttä", "Lyöntiä", "Päivä"]}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -315,14 +315,14 @@ export default function LeaderboardsPage() {
                       </span>
                     </>
                   )}
-                  emptyMsg="Ei tuloksia viel\u00e4."
+                  emptyMsg="Ei tuloksia vielä."
                 />
               )}
 
               {data && activeTab === "longestDrives" && (
                 <LeaderTable
                   rows={data.longestDrives}
-                  columns={["Nimi", "Kentt\u00e4", "Metri\u00e4", "P\u00e4iv\u00e4"]}
+                  columns={["Nimi", "Kenttä", "Metriä", "Päivä"]}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -344,14 +344,14 @@ export default function LeaderboardsPage() {
                       </span>
                     </>
                   )}
-                  emptyMsg="Ei ly\u00f6ntej\u00e4 kirjattu."
+                  emptyMsg="Ei lyöntejä kirjattu."
                 />
               )}
 
               {data && activeTab === "closestToPin" && (
                 <LeaderTable
                   rows={data.closestToPin}
-                  columns={["Nimi", "Kentt\u00e4", "Senttimetri\u00e4", "P\u00e4iv\u00e4"]}
+                  columns={["Nimi", "Kenttä", "Senttimetriä", "Päivä"]}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -380,7 +380,7 @@ export default function LeaderboardsPage() {
               {data && activeTab === "netScores" && (
                 <LeaderTable
                   rows={data.netScores}
-                  columns={["Nimi", "Kentt\u00e4", "Netto", "P\u00e4iv\u00e4"]}
+                  columns={["Nimi", "Kenttä", "Netto", "Päivä"]}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -395,14 +395,14 @@ export default function LeaderboardsPage() {
                         }}
                       >
                         {row.net_score}
-                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "10px", color: "var(--text-muted)", marginLeft: "3px" }}>({row.total_shots} \u2212 {row.handicap_at_time})</span>
+                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "10px", color: "var(--text-muted)", marginLeft: "3px" }}>({row.total_shots} − {row.handicap_at_time})</span>
                       </span>
                       <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--text-muted)" }}>
                         {formatDate(row.date_played)}
                       </span>
                     </>
                   )}
-                  emptyMsg="Ei tuloksia viel\u00e4."
+                  emptyMsg="Ei tuloksia vielä."
                 />
               )}
             </div>

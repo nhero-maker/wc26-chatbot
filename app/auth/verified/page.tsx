@@ -9,7 +9,7 @@ export default async function VerifiedPage({
   const isError = !!error;
 
   return (
-    <AuthLayout title={isError ? "LINKKI VANHENTUNUT" : "S\u00c4HK\u00d6POSTI VAHVISTETTU"}>
+    <AuthLayout title={isError ? "LINKKI VANHENTUNUT" : "SÄHKÖPOSTI VAHVISTETTU"}>
       <div style={{ textAlign: "center", padding: "8px 0 24px" }}>
         <div
           style={{
@@ -21,7 +21,7 @@ export default async function VerifiedPage({
             color: isError ? "var(--red-bright)" : "var(--blue-bright)",
           }}
         >
-          {isError ? "\u2715" : "\u2713"}
+          {isError ? "✕" : "✓"}
         </div>
         <p
           style={{
@@ -32,8 +32,8 @@ export default async function VerifiedPage({
           }}
         >
           {isError
-            ? "Vahvistuslinkki on vanhentunut tai jo k\u00e4ytetty. Rekister\u00f6idy uudelleen tai ota yhteytt\u00e4."
-            : "Tilisi on nyt aktivoitu. Kirjaudu sis\u00e4\u00e4n aloittaaksesi."}
+            ? "Vahvistuslinkki on vanhentunut tai jo käytetty. Rekisteröidy uudelleen tai ota yhteyttä."
+            : "Tilisi on nyt aktivoitu. Kirjaudu sisään aloittaaksesi."}
         </p>
 
         <a
@@ -53,7 +53,7 @@ export default async function VerifiedPage({
             border: isError ? "1px solid var(--border)" : "none",
           }}
         >
-          {isError ? "REKISTER\u00d6IDY UUDELLEEN" : "KIRJAUDU SIS\u00c4\u00c4N"}
+          {isError ? "REKISTERÖIDY UUDELLEEN" : "KIRJAUDU SISÄÄN"}
         </a>
       </div>
     </AuthLayout>

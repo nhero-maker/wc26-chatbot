@@ -46,10 +46,10 @@ export default function RegisterPage() {
       if (res.success) {
         setSuccess(true);
       } else {
-        setError(res.error ?? "Rekister\u00f6inti ep\u00e4onnistui.");
+        setError(res.error ?? "Rekisteröinti epäonnistui.");
       }
     } catch {
-      setError("Verkkovirhe. Yrit\u00e4 uudelleen.");
+      setError("Verkkovirhe. Yritä uudelleen.");
     } finally {
       setLoading(false);
     }
@@ -58,8 +58,8 @@ export default function RegisterPage() {
   if (success) {
     return (
       <AuthLayout
-        title="TARKISTA S\u00c4HK\u00d6POSTI"
-        subtitle="L\u00e4hetimme sinulle vahvistuslinkin. Klikkaa sit\u00e4 aktivoidaksesi tilisi."
+        title="TARKISTA SÄHKÖPOSTI"
+        subtitle="Lähetimme sinulle vahvistuslinkin. Klikkaa sitä aktivoidaksesi tilisi."
       >
         <div
           style={{
@@ -80,7 +80,7 @@ export default function RegisterPage() {
               marginBottom: "12px",
             }}
           >
-            \u2713
+            ✓
           </div>
           <div
             style={{
@@ -90,7 +90,7 @@ export default function RegisterPage() {
               lineHeight: 1.5,
             }}
           >
-            S\u00e4hk\u00f6posti l\u00e4hetetty osoitteeseen{" "}
+            Sähköposti lähetetty osoitteeseen{" "}
             <strong style={{ color: "var(--text)" }}>{form.email}</strong>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function RegisterPage() {
             textAlign: "center",
           }}
         >
-          Ei s\u00e4hk\u00f6postia?{" "}
+          Ei sähköpostia?{" "}
           <button
             onClick={() => setSuccess(false)}
             style={{
@@ -114,7 +114,7 @@ export default function RegisterPage() {
               fontFamily: "var(--font-body)",
             }}
           >
-            Yrit\u00e4 uudelleen
+            Yritä uudelleen
           </button>
         </p>
       </AuthLayout>
@@ -122,13 +122,13 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthLayout title="REKISTER\u00d6IDY" subtitle="Luo pelaajaprofiili WC26-turnaukseen.">
+    <AuthLayout title="REKISTERÖIDY" subtitle="Luo pelaajaprofiili WC26-turnaukseen.">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <div>
           <label style={labelStyle}>Nimi</label>
           <input
             type="text"
-            placeholder="Matti Meik\u00e4l\u00e4inen"
+            placeholder="Matti Meikäläinen"
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             style={inputStyle}
@@ -137,7 +137,7 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label style={labelStyle}>S\u00e4hk\u00f6posti</label>
+          <label style={labelStyle}>Sähköposti</label>
           <input
             type="email"
             placeholder="matti@esimerkki.fi"
@@ -209,7 +209,7 @@ export default function RegisterPage() {
             width: "100%",
           }}
         >
-          {loading ? "REKISTER\u00d6ID\u00c4\u00c4N..." : "REKISTER\u00d6IDY"}
+          {loading ? "REKISTERÖIDÄÄN..." : "REKISTERÖIDY"}
         </button>
       </form>
 
@@ -222,9 +222,9 @@ export default function RegisterPage() {
           color: "var(--text-muted)",
         }}
       >
-        Jo rekister\u00f6itynyt?{" "}
+        Jo rekisteröitynyt?{" "}
         <a href="/signin" style={{ color: "var(--blue-bright)", textDecoration: "none" }}>
-          Kirjaudu sis\u00e4\u00e4n
+          Kirjaudu sisään
         </a>
       </p>
     </AuthLayout>

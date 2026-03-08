@@ -18,7 +18,7 @@ export default function SignInPage() {
       await requestSignIn(email);
       setSent(true);
     } catch {
-      setError("Verkkovirhe. Yrit\u00e4 uudelleen.");
+      setError("Verkkovirhe. Yritä uudelleen.");
     } finally {
       setLoading(false);
     }
@@ -26,7 +26,7 @@ export default function SignInPage() {
 
   if (sent) {
     return (
-      <AuthLayout title="TARKISTA S\u00c4HK\u00d6POSTI">
+      <AuthLayout title="TARKISTA SÄHKÖPOSTI">
         <div style={{ textAlign: "center", padding: "8px 0 16px" }}>
           <div
             style={{
@@ -37,7 +37,7 @@ export default function SignInPage() {
               marginBottom: "20px",
             }}
           >
-            \u26f3
+            ⛳
           </div>
           <p
             style={{
@@ -47,8 +47,8 @@ export default function SignInPage() {
               lineHeight: 1.7,
             }}
           >
-            Jos osoite <strong style={{ color: "var(--text)" }}>{email}</strong> on rekister\u00f6ity,
-            l\u00e4hetimme sinulle kirjautumislinkin.
+            Jos osoite <strong style={{ color: "var(--text)" }}>{email}</strong> on rekisteröity,
+            lähetimme sinulle kirjautumislinkin.
             <br />
             <br />
             Linkki vanhenee 15 minuutissa.
@@ -77,7 +77,7 @@ export default function SignInPage() {
               e.currentTarget.style.color = "var(--text-muted)";
             }}
           >
-            L\u00c4HET\u00c4 UUDELLEEN
+            LÄHETÄ UUDELLEEN
           </button>
         </div>
       </AuthLayout>
@@ -85,7 +85,7 @@ export default function SignInPage() {
   }
 
   return (
-    <AuthLayout title="KIRJAUDU SIS\u00c4\u00c4N" subtitle="Sy\u00f6t\u00e4 s\u00e4hk\u00f6postisi ja saat kirjautumislinkin.">
+    <AuthLayout title="KIRJAUDU SISÄÄN" subtitle="Syötä sähköpostisi ja saat kirjautumislinkin.">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <div>
           <label
@@ -99,7 +99,7 @@ export default function SignInPage() {
               marginBottom: "6px",
             }}
           >
-            S\u00e4hk\u00f6posti
+            Sähköposti
           </label>
           <input
             type="email"
@@ -154,7 +154,7 @@ export default function SignInPage() {
             width: "100%",
           }}
         >
-          {loading ? "L\u00c4HETET\u00c4\u00c4N..." : "L\u00c4HET\u00c4 LINKKI"}
+          {loading ? "LÄHETETÄÄN..." : "LÄHETÄ LINKKI"}
         </button>
       </form>
 
@@ -167,9 +167,9 @@ export default function SignInPage() {
           color: "var(--text-muted)",
         }}
       >
-        Ei tili\u00e4 viel\u00e4?{" "}
+        Ei tiliä vielä?{" "}
         <a href="/register" style={{ color: "var(--blue-bright)", textDecoration: "none" }}>
-          Rekister\u00f6idy
+          Rekisteröidy
         </a>
       </p>
     </AuthLayout>

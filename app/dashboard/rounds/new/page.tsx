@@ -18,10 +18,10 @@ export default function NewRoundPage() {
       if (res.success) {
         router.push("/dashboard");
       } else {
-        setError(res.error ?? "Tallennus ep\u00e4onnistui.");
+        setError(res.error ?? "Tallennus epäonnistui.");
       }
     } catch {
-      setError("Verkkovirhe. Yrit\u00e4 uudelleen.");
+      setError("Verkkovirhe. Yritä uudelleen.");
     } finally {
       setLoading(false);
     }
@@ -70,7 +70,7 @@ export default function NewRoundPage() {
           onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
           onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
         >
-          \u2190 TAKAISIN
+          ← TAKAISIN
         </a>
       </header>
 

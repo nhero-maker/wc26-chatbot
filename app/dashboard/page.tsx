@@ -43,7 +43,7 @@ function StatCard({ label, value, unit }: { label: string; value: string | numbe
           lineHeight: 1,
         }}
       >
-        {value !== null ? value : "\u2014"}
+        {value !== null ? value : "—"}
         {value !== null && unit && (
           <span
             style={{
@@ -77,7 +77,7 @@ export default function DashboardPage() {
       if (res.error?.includes("vanhentunut") || res.error?.includes("kirjautunut")) {
         router.replace("/signin");
       } else {
-        setError(res.error ?? "Lataus ep\u00e4onnistui.");
+        setError(res.error ?? "Lataus epäonnistui.");
       }
     }
     setLoading(false);
@@ -94,7 +94,7 @@ export default function DashboardPage() {
     if (res.success) {
       loadDashboard();
     } else {
-      alert(res.error ?? "Poisto ep\u00e4onnistui.");
+      alert(res.error ?? "Poisto epäonnistui.");
     }
     setDeletingId(null);
   }
@@ -176,7 +176,7 @@ export default function DashboardPage() {
               cursor: "pointer",
             }}
           >
-            YRIT\u00c4 UUDELLEEN
+            YRITÄ UUDELLEEN
           </button>
         </div>
       </div>
@@ -315,7 +315,7 @@ export default function DashboardPage() {
               letterSpacing: "0.1em",
             }}
           >
-            TASOITUS {player.handicap} \u00b7 {player.email}
+            TASOITUS {player.handicap} · {player.email}
           </div>
         </div>
 
@@ -332,14 +332,14 @@ export default function DashboardPage() {
           }}
         >
           <StatCard label="Kierroksia" value={stats.rounds_count} />
-          <StatCard label="Paras tulos" value={stats.best_score} unit="ly\u00f6nti\u00e4" />
+          <StatCard label="Paras tulos" value={stats.best_score} unit="lyöntiä" />
           <StatCard
             label="Keskim. tulos"
             value={stats.avg_score !== null ? Math.round(stats.avg_score) : null}
-            unit="ly\u00f6nti\u00e4"
+            unit="lyöntiä"
           />
-          <StatCard label="Pisin ly\u00f6nti" value={stats.best_longest_drive} unit="m" />
-          <StatCard label="L\u00e4himp\u00e4n\u00e4" value={stats.best_closest_to_pin} unit="cm" />
+          <StatCard label="Pisin lyönti" value={stats.best_longest_drive} unit="m" />
+          <StatCard label="Lähimpänä" value={stats.best_closest_to_pin} unit="cm" />
         </div>
 
         {/* Action buttons */}
@@ -435,7 +435,7 @@ export default function DashboardPage() {
                   marginBottom: "12px",
                 }}
               >
-                \u26f3
+                ⛳
               </div>
               <p
                 style={{
@@ -444,9 +444,9 @@ export default function DashboardPage() {
                   color: "var(--text-muted)",
                 }}
               >
-                Ei kierroksia viel\u00e4.{" "}
+                Ei kierroksia vielä.{" "}
                 <a href="/dashboard/rounds/new" style={{ color: "var(--blue-bright)", textDecoration: "none" }}>
-                  Kirjaa ensimm\u00e4inen.
+                  Kirjaa ensimmäinen.
                 </a>
               </p>
             </div>
@@ -484,7 +484,7 @@ export default function DashboardPage() {
                         fontWeight: 500,
                       }}
                     >
-                      {round.course_name ?? round.course_name_custom ?? "Tuntematon kentt\u00e4"}
+                      {round.course_name ?? round.course_name_custom ?? "Tuntematon kenttä"}
                     </div>
                     <div
                       style={{
@@ -519,7 +519,7 @@ export default function DashboardPage() {
                         marginLeft: "4px",
                       }}
                     >
-                      ly\u00f6nti\u00e4
+                      lyöntiä
                     </span>
                   </div>
 
