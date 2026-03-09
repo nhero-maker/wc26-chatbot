@@ -48,8 +48,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Fire and forget — always return 200 to avoid revealing if email exists
-    fetch(`${baseUrl}/wc26/auth/signin-request`, {
+    // Always return 200 to avoid revealing if email exists
+    await fetch(`${baseUrl}/wc26/auth/signin-request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
