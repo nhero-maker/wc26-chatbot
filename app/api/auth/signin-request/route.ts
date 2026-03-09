@@ -49,13 +49,14 @@ export async function POST(req: NextRequest) {
 
   try {
     // Always return 200 to avoid revealing if email exists
+    const appBaseUrl = new URL(req.url).origin;
     await fetch(`${baseUrl}/wc26/auth/signin-request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-wc26-secret": webhookSecret,
       },
-      body: JSON.stringify({ email: email.trim().toLowerCase() }),
+      body: JSON.stringify({ email: email.trim().toLowerCase(), base_url: appBaseUrl }),
     }).catch(() => {});
 
     return NextResponse.json({ success: true });
