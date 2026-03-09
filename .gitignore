@@ -41,6 +41,12 @@ yarn-error.log*
 credentials.json
 *.key
 
+# Claude Code local settings
+.claude/
+
+# Design reference files (contain player personal data)
+design-refs/
+
 # vercel
 .vercel
 

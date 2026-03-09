@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getParsForCourse } from "@/lib/course-pars";
+import type { HoleScore } from "@/lib/player";
 
 const COURSES = [
   { id: 1, name: "Lofoten Links" },
@@ -20,10 +22,11 @@ export interface RoundFormData {
   closest_to_pin?: number;
   notes?: string;
   handicap_at_time: number;
+  holes?: HoleScore[];
 }
 
 interface RoundFormProps {
-  initial?: Partial<RoundFormData & { course_id: number | null }>;
+  initial?: Partial<RoundFormData & { course_id: number | null; holes: HoleScore[] }>;
   onSubmit: (data: RoundFormData) => Promise<void>;
   submitLabel: string;
   loading?: boolean;
@@ -60,6 +63,10 @@ const optionalStyle: React.CSSProperties = {
   fontSize: "10px",
 };
 
+function emptyHoles(): { par: number; strokes: string }[] {
+  return Array.from({ length: 18 }, () => ({ par: 4, strokes: "" }));
+}
+
 export default function RoundForm({
   initial = {},
   onSubmit,
@@ -80,7 +87,50 @@ export default function RoundForm({
   const [notes, setNotes] = useState(initial.notes ?? "");
   const [handicap, setHandicap] = useState(initial.handicap_at_time?.toString() ?? "");
 
+  const [showHoles, setShowHoles] = useState(!!initial.holes?.length);
+  const [holes, setHoles] = useState<{ par: number; strokes: string }[]>(() => {
+    if (initial.holes?.length === 18) {
+      return initial.holes.map((h) => ({ par: h.par, strokes: h.strokes.toString() }));
+    }
+    return emptyHoles();
+  });
+
   const isOther = courseId === "other";
+
+  // Pre-fill par values when course changes
+  useEffect(() => {
+    if (!isOther && courseId) {
+      const pars = getParsForCourse(parseInt(courseId));
+      setHoles((prev) =>
+        prev.map((h, i) => ({ ...h, par: pars[i] ?? 4 }))
+      );
+    }
+  }, [courseId, isOther]);
+
+  // Auto-calculate total shots from holes
+  const holesTotal = holes.reduce((sum, h) => {
+    const s = parseInt(h.strokes);
+    return sum + (isNaN(s) ? 0 : s);
+  }, 0);
+  const allHolesFilled = holes.every((h) => h.strokes !== "" && !isNaN(parseInt(h.strokes)));
+
+  useEffect(() => {
+    if (showHoles && allHolesFilled && holesTotal > 0) {
+      setTotalShots(holesTotal.toString());
+    }
+  }, [showHoles, allHolesFilled, holesTotal]);
+
+  function updateHole(index: number, field: "par" | "strokes", value: string) {
+    setHoles((prev) => {
+      const next = [...prev];
+      if (field === "par") {
+        next[index] = { ...next[index], par: parseInt(value) || 4 };
+      } else {
+        next[index] = { ...next[index], strokes: value };
+      }
+      return next;
+    });
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -100,8 +150,18 @@ export default function RoundForm({
     if (closestToPin) data.closest_to_pin = parseInt(closestToPin);
     if (notes.trim()) data.notes = notes.trim();
 
+    if (showHoles && allHolesFilled) {
+      data.holes = holes.map((h, i) => ({
+        hole_number: i + 1,
+        par: h.par,
+        strokes: parseInt(h.strokes),
+      }));
+    }
+
     await onSubmit(data);
   }
+
+  const parTotal = holes.reduce((sum, h) => sum + h.par, 0);
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -150,10 +210,219 @@ export default function RoundForm({
         />
       </div>
 
+      {/* Hole-by-hole toggle */}
+      <div>
+        <button
+          type="button"
+          onClick={() => setShowHoles(!showHoles)}
+          style={{
+            background: showHoles ? "rgba(37,99,235,0.15)" : "transparent",
+            border: `1px solid ${showHoles ? "var(--blue-mid)" : "var(--border)"}`,
+            borderRadius: "var(--radius)",
+            padding: "10px 16px",
+            fontFamily: "var(--font-mono)",
+            fontSize: "10px",
+            letterSpacing: "0.1em",
+            color: showHoles ? "var(--blue-bright)" : "var(--text-muted)",
+            cursor: "pointer",
+            transition: "all 0.2s",
+            width: "100%",
+            textAlign: "left",
+          }}
+        >
+          {showHoles ? "▾ VÄYLÄKOHTAISET TULOKSET" : "▸ LISÄÄ VÄYLÄKOHTAISET TULOKSET"}
+          <span style={{ ...optionalStyle, marginLeft: "8px" }}>valinnainen</span>
+        </button>
+      </div>
+
+      {/* Hole-by-hole grid */}
+      {showHoles && (
+        <div
+          style={{
+            background: "var(--surface)",
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius-lg)",
+            padding: "16px",
+          }}
+        >
+          {/* Header */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "40px 60px 1fr",
+              gap: "8px",
+              marginBottom: "8px",
+              paddingBottom: "8px",
+              borderBottom: "1px solid var(--border)",
+            }}
+          >
+            <div style={{ ...labelStyle, marginBottom: 0 }}>Väylä</div>
+            <div style={{ ...labelStyle, marginBottom: 0 }}>Par</div>
+            <div style={{ ...labelStyle, marginBottom: 0 }}>Lyönnit</div>
+          </div>
+
+          {/* Hole rows */}
+          {holes.map((hole, i) => {
+            const strokes = parseInt(hole.strokes);
+            const diff = !isNaN(strokes) ? strokes - hole.par : 0;
+            let diffColor = "var(--text-muted)";
+            if (diff < 0) diffColor = "var(--blue-bright)";
+            else if (diff > 0) diffColor = "var(--red-bright)";
+            else if (!isNaN(strokes)) diffColor = "var(--text)";
+
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "40px 60px 1fr",
+                  gap: "8px",
+                  alignItems: "center",
+                  padding: "3px 0",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "12px",
+                    color: "var(--text-muted)",
+                    textAlign: "center",
+                  }}
+                >
+                  {i + 1}
+                </div>
+                <select
+                  value={hole.par}
+                  onChange={(e) => updateHole(i, "par", e.target.value)}
+                  style={{
+                    ...inputStyle,
+                    padding: "6px 8px",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                    textAlign: "center",
+                  }}
+                >
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                </select>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <input
+                    type="number"
+                    value={hole.strokes}
+                    onChange={(e) => updateHole(i, "strokes", e.target.value)}
+                    placeholder="—"
+                    min={1}
+                    max={20}
+                    style={{
+                      ...inputStyle,
+                      padding: "6px 8px",
+                      fontSize: "13px",
+                      width: "70px",
+                      textAlign: "center",
+                    }}
+                  />
+                  {hole.strokes && !isNaN(strokes) && (
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "11px",
+                        color: diffColor,
+                        minWidth: "28px",
+                      }}
+                    >
+                      {diff === 0 ? "E" : diff > 0 ? `+${diff}` : diff}
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Totals row */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "40px 60px 1fr",
+              gap: "8px",
+              marginTop: "8px",
+              paddingTop: "8px",
+              borderTop: "1px solid var(--border)",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "10px",
+                color: "var(--text-muted)",
+                textAlign: "center",
+                letterSpacing: "0.08em",
+              }}
+            >
+              YHT
+            </div>
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontSize: "14px",
+                color: "var(--text-muted)",
+                textAlign: "center",
+              }}
+            >
+              {parTotal}
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 900,
+                  fontSize: "14px",
+                  color: allHolesFilled ? "var(--text)" : "var(--text-dim)",
+                  width: "70px",
+                  textAlign: "center",
+                }}
+              >
+                {holesTotal > 0 ? holesTotal : "—"}
+              </div>
+              {allHolesFilled && holesTotal > 0 && (
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "11px",
+                    color:
+                      holesTotal - parTotal < 0
+                        ? "var(--blue-bright)"
+                        : holesTotal - parTotal > 0
+                          ? "var(--red-bright)"
+                          : "var(--text)",
+                    minWidth: "28px",
+                  }}
+                >
+                  {holesTotal - parTotal === 0
+                    ? "E"
+                    : holesTotal - parTotal > 0
+                      ? `+${holesTotal - parTotal}`
+                      : holesTotal - parTotal}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Total shots + Handicap */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
         <div>
-          <label style={labelStyle}>Lyönnit yhteensä</label>
+          <label style={labelStyle}>
+            Lyönnit yhteensä
+            {showHoles && allHolesFilled && (
+              <span style={{ ...optionalStyle, marginLeft: "6px", color: "var(--blue-bright)" }}>
+                (väyliltä)
+              </span>
+            )}
+          </label>
           <input
             type="number"
             value={totalShots}
@@ -161,7 +430,11 @@ export default function RoundForm({
             placeholder="72"
             min={1}
             max={299}
-            style={inputStyle}
+            style={{
+              ...inputStyle,
+              background: showHoles && allHolesFilled ? "var(--surface-3)" : "var(--surface-2)",
+            }}
+            readOnly={showHoles && allHolesFilled}
             required
           />
         </div>

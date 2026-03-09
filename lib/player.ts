@@ -23,6 +23,13 @@ export interface Round {
   notes: string | null;
   handicap_at_time: number;
   created_at: string;
+  holes?: HoleScore[];
+}
+
+export interface HoleScore {
+  hole_number: number;
+  par: number;
+  strokes: number;
 }
 
 export interface DashboardStats {
@@ -133,6 +140,7 @@ export async function createRound(data: {
   closest_to_pin?: number;
   notes?: string;
   handicap_at_time: number;
+  holes?: HoleScore[];
 }) {
   const res = await fetch("/api/player/rounds", {
     method: "POST",
@@ -153,6 +161,7 @@ export async function updateRound(
     closest_to_pin: number;
     notes: string;
     handicap_at_time: number;
+    holes: HoleScore[];
   }>
 ) {
   const res = await fetch(`/api/player/rounds/${id}`, {

@@ -61,6 +61,21 @@ export async function POST(req: NextRequest) {
     sanitized.notes = notes.trim();
   }
 
+  const { holes } = body as Record<string, unknown>;
+  if (holes !== undefined) {
+    if (!Array.isArray(holes) || holes.length !== 18) {
+      return NextResponse.json({ success: false, error: "Väyläkohtaiset tulokset vaativat 18 väylää" }, { status: 400 });
+    }
+    for (const h of holes) {
+      if (!h || typeof h !== "object") return NextResponse.json({ success: false, error: "Virheellinen väylätieto" }, { status: 400 });
+      const { hole_number, par, strokes } = h as Record<string, unknown>;
+      if (typeof hole_number !== "number" || hole_number < 1 || hole_number > 18) return NextResponse.json({ success: false, error: "Virheellinen väylänumero" }, { status: 400 });
+      if (typeof par !== "number" || par < 3 || par > 5) return NextResponse.json({ success: false, error: "Virheellinen par-arvo" }, { status: 400 });
+      if (typeof strokes !== "number" || strokes < 1 || strokes > 20) return NextResponse.json({ success: false, error: "Virheellinen lyöntimäärä väylällä" }, { status: 400 });
+    }
+    sanitized.holes = holes;
+  }
+
   try {
     const response = await fetch(`${baseUrl}/wc26/rounds/create`, {
       method: "POST",

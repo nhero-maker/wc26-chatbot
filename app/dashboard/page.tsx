@@ -409,6 +409,35 @@ export default function DashboardPage() {
           >
             TULOSTAULUKOT
           </a>
+          <a
+            href="/dashboard/player-card"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "transparent",
+              color: "var(--gold-bright)",
+              padding: "12px 22px",
+              borderRadius: "var(--radius)",
+              border: "1px solid var(--gold-mid)",
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: "14px",
+              letterSpacing: "0.08em",
+              textDecoration: "none",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(212,160,23,0.1)";
+              e.currentTarget.style.borderColor = "var(--gold-bright)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = "var(--gold-mid)";
+            }}
+          >
+            PELAAJAN KORTTI
+          </a>
         </div>
 
         {/* Rounds list */}
