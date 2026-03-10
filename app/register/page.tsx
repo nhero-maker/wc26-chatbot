@@ -188,6 +188,13 @@ export default function RegisterPage() {
             }}
           >
             {error}
+            {error.toLowerCase().includes("rekisteröity") && (
+              <span style={{ display: "block", marginTop: "6px" }}>
+                <a href="/signin" style={{ color: "var(--blue-bright)", textDecoration: "none" }}>
+                  Kokeile kirjautua sisään
+                </a>
+              </span>
+            )}
           </div>
         )}
 
