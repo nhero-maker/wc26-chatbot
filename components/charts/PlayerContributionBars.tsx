@@ -17,7 +17,7 @@ export default function PlayerContributionBars({ matchups, eventId }: Props) {
         textAlign: "center", padding: "32px 0",
         fontFamily: "var(--font-body)", fontSize: "13px", color: "var(--text-dim)",
       }}>
-        No matchup data
+        Ei ottelutietoja
       </div>
     );
   }

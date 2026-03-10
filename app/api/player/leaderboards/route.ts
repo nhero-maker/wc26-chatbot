@@ -22,6 +22,10 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    if (response.status === 401) {
+      return NextResponse.json({ success: false, error: "Istunto vanhentunut" }, { status: 401 });
+    }
+
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {

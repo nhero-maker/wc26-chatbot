@@ -25,6 +25,10 @@ async function handleRequest(req: NextRequest) {
       body: JSON.stringify({ _method: req.method, ...body }),
     });
 
+    if (response.status === 401) {
+      return NextResponse.json({ success: false, error: "Istunto vanhentunut" }, { status: 401 });
+    }
+
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
