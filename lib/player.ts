@@ -90,6 +90,8 @@ export interface TournamentPlayer {
   name: string;
   team: number;
   handicap: number;
+  email?: string;
+  linked_player_id?: string;
 }
 
 export interface TournamentEvent {

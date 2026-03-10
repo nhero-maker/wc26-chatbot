@@ -11,7 +11,7 @@ import {
   type BonusPointEntry,
 } from "@/lib/player";
 
-type Tab = "events" | "matchups" | "bonus";
+type Tab = "events" | "matchups" | "bonus" | "players";
 
 const MONTH_OPTIONS = [
   { value: "2026-01", label: "Tammikuu" },
@@ -149,6 +149,10 @@ export default function AdminPage() {
     type: "mvp" as BonusPointEntry["type"],
     points: 1,
   });
+
+  // ─── Player email state ─────────────────────────────────────────────────
+  const [playerEmails, setPlayerEmails] = useState<Record<number, string>>({});
+  const [savingPlayerId, setSavingPlayerId] = useState<number | null>(null);
 
   // ─── Load data ─────────────────────────────────────────────────────────────
   const loadData = async () => {
@@ -395,6 +399,31 @@ export default function AdminPage() {
     }
   }
 
+  // ─── Player email CRUD ───────────────────────────────────────────────────
+
+  async function savePlayerEmail(tournamentPlayerId: number) {
+    setSavingPlayerId(tournamentPlayerId);
+    try {
+      const email = (playerEmails[tournamentPlayerId] ?? "").trim();
+      const res = await fetch("/api/admin/players", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tournament_player_id: tournamentPlayerId, email }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        flash(email ? "Sähköposti tallennettu." : "Sähköposti poistettu.");
+        await loadData();
+      } else {
+        flash(json.error ?? "Virhe tallennuksessa.");
+      }
+    } catch {
+      flash("Verkkovirhe.");
+    } finally {
+      setSavingPlayerId(null);
+    }
+  }
+
   // ─── Loading / Error states ────────────────────────────────────────────────
 
   if (loading) {
@@ -554,6 +583,9 @@ export default function AdminPage() {
           </button>
           <button onClick={() => setTab("bonus")} style={tabBtn("bonus", "BONUSPISTEET")}>
             BONUSPISTEET
+          </button>
+          <button onClick={() => setTab("players")} style={tabBtn("players", "PELAAJAT")}>
+            PELAAJAT
           </button>
         </div>
 
@@ -998,6 +1030,117 @@ export default function AdminPage() {
                         </td>
                       </tr>
                     )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ─── PLAYERS TAB ──────────────────────────────────────────────────── */}
+        {tab === "players" && (
+          <div style={{ animation: "fadeUp 0.3s ease both" }}>
+            <div style={cardStyle}>
+              <div style={{
+                fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "16px",
+                letterSpacing: "0.08em", color: "var(--text)", marginBottom: "8px",
+                textTransform: "uppercase",
+              }}>
+                PELAAJIEN SÄHKÖPOSTIT
+              </div>
+              <div style={{
+                fontFamily: "var(--font-body)", fontSize: "13px",
+                color: "var(--text-muted)", marginBottom: "20px",
+              }}>
+                Yhdistä turnauspelaaja rekisteröityyn käyttäjään syöttämällä sähköpostiosoite.
+                Linkitys tapahtuu automaattisesti kun pelaaja rekisteröityy samalla osoitteella.
+              </div>
+
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr>
+                      <th style={thStyle}>Nimi</th>
+                      <th style={thStyle}>Joukkue</th>
+                      <th style={thStyle}>Sähköposti</th>
+                      <th style={thStyle}>Tila</th>
+                      <th style={thStyle}>Toiminnot</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {players.map((p) => {
+                      const emailVal = playerEmails[p.id] ?? p.email ?? "";
+                      const isLinked = !!p.linked_player_id;
+                      const isDirty = (playerEmails[p.id] !== undefined) && (playerEmails[p.id] !== (p.email ?? ""));
+                      return (
+                        <tr key={p.id}>
+                          <td style={{ ...cellStyle, fontWeight: 600 }}>{p.name}</td>
+                          <td style={cellStyle}>
+                            <span style={{
+                              display: "inline-flex", alignItems: "center", gap: "6px",
+                            }}>
+                              <span style={{
+                                width: "8px", height: "8px", borderRadius: "50%",
+                                background: p.team === 1 ? "#2563eb" : "#60a5fa",
+                              }} />
+                              {p.team}
+                            </span>
+                          </td>
+                          <td style={{ ...cellStyle, minWidth: "220px" }}>
+                            <input
+                              style={{ ...inputStyle, fontSize: "12px", padding: "6px 8px" }}
+                              type="email"
+                              placeholder="email@esimerkki.fi"
+                              value={emailVal}
+                              onChange={(e) => setPlayerEmails({ ...playerEmails, [p.id]: e.target.value })}
+                            />
+                          </td>
+                          <td style={cellStyle}>
+                            {isLinked ? (
+                              <span style={{
+                                display: "inline-flex", alignItems: "center", gap: "4px",
+                                fontFamily: "var(--font-mono)", fontSize: "10px",
+                                letterSpacing: "0.08em", color: "#22c55e",
+                              }}>
+                                <span style={{
+                                  width: "6px", height: "6px", borderRadius: "50%",
+                                  background: "#22c55e",
+                                }} />
+                                YHDISTETTY
+                              </span>
+                            ) : p.email ? (
+                              <span style={{
+                                fontFamily: "var(--font-mono)", fontSize: "10px",
+                                letterSpacing: "0.08em", color: "var(--gold)",
+                              }}>
+                                ODOTTAA
+                              </span>
+                            ) : (
+                              <span style={{
+                                fontFamily: "var(--font-mono)", fontSize: "10px",
+                                letterSpacing: "0.08em", color: "var(--text-muted)",
+                              }}>
+                                EI ASETETTU
+                              </span>
+                            )}
+                          </td>
+                          <td style={cellStyle}>
+                            <button
+                              onClick={() => savePlayerEmail(p.id)}
+                              disabled={savingPlayerId === p.id || !isDirty}
+                              style={{
+                                ...btnPrimary,
+                                fontSize: "10px",
+                                padding: "5px 12px",
+                                opacity: (!isDirty || savingPlayerId === p.id) ? 0.4 : 1,
+                              }}
+                            >
+                              {savingPlayerId === p.id ? "..." : "TALLENNA"}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
