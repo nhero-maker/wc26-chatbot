@@ -58,14 +58,14 @@ const btnPrimary: React.CSSProperties = {
 };
 
 const btnDanger: React.CSSProperties = {
-  background: "rgba(220,38,38,0.15)",
+  background: "rgba(220,38,38,0.06)",
   color: "var(--red-bright)",
-  border: "1px solid rgba(220,38,38,0.25)",
+  border: "1px solid rgba(220,38,38,0.18)",
   borderRadius: "var(--radius)",
   padding: "6px 12px",
   fontFamily: "var(--font-mono)",
   fontWeight: 700,
-  fontSize: "10px",
+  fontSize: "12px",
   letterSpacing: "0.08em",
   cursor: "pointer",
   textTransform: "uppercase",
@@ -77,7 +77,7 @@ const btnOutline: React.CSSProperties = {
   borderRadius: "var(--radius)",
   padding: "6px 12px",
   fontFamily: "var(--font-mono)",
-  fontSize: "10px",
+  fontSize: "12px",
   letterSpacing: "0.1em",
   color: "var(--text-muted)",
   cursor: "pointer",
@@ -95,7 +95,7 @@ const cellStyle: React.CSSProperties = {
 const thStyle: React.CSSProperties = {
   ...cellStyle,
   fontFamily: "var(--font-mono)",
-  fontSize: "10px",
+  fontSize: "12px",
   letterSpacing: "0.1em",
   color: "var(--text-muted)",
   textTransform: "uppercase" as const,
@@ -433,7 +433,7 @@ export default function AdminPage() {
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         <div style={{
-          fontFamily: "var(--font-mono)", fontSize: "11px",
+          fontFamily: "var(--font-mono)", fontSize: "13px",
           color: "var(--text-muted)", letterSpacing: "0.1em",
         }}>
           LADATAAN ADMINDATAA...
@@ -449,7 +449,7 @@ export default function AdminPage() {
         display: "flex", alignItems: "center", justifyContent: "center", padding: "24px",
       }}>
         <div style={{
-          background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.25)",
+          background: "rgba(220,38,38,0.06)", border: "1px solid rgba(220,38,38,0.18)",
           borderRadius: "var(--radius-lg)", padding: "24px", maxWidth: "400px", textAlign: "center",
         }}>
           <div style={{
@@ -500,25 +500,25 @@ export default function AdminPage() {
       <header style={{
         borderBottom: "1px solid var(--border)", padding: "18px 32px",
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        backdropFilter: "blur(8px)", background: "rgba(6,8,14,0.8)",
+        backdropFilter: "blur(8px)", background: "rgba(255,255,255,0.9)",
         position: "sticky", top: 0, zIndex: 10,
       }}>
         <a href="/" style={{ textDecoration: "none" }}><img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} /></a>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <a href="/dashboard" style={{
-            fontFamily: "var(--font-mono)", fontSize: "11px",
+            fontFamily: "var(--font-mono)", fontSize: "13px",
             color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
           }}>
             HALLINTAPANEELI
           </a>
           <a href="/tournament" style={{
-            fontFamily: "var(--font-mono)", fontSize: "11px",
+            fontFamily: "var(--font-mono)", fontSize: "13px",
             color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
           }}>
             TURNAUS
           </a>
           <a href="/leaderboards" style={{
-            fontFamily: "var(--font-mono)", fontSize: "11px",
+            fontFamily: "var(--font-mono)", fontSize: "13px",
             color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
           }}>
             TULOKSET
@@ -526,7 +526,7 @@ export default function AdminPage() {
           <button onClick={handleSignOut} style={{
             background: "none", border: "1px solid var(--border)",
             borderRadius: "var(--radius)", padding: "6px 12px",
-            fontFamily: "var(--font-mono)", fontSize: "10px",
+            fontFamily: "var(--font-mono)", fontSize: "12px",
             letterSpacing: "0.1em", color: "var(--text-muted)", cursor: "pointer",
           }}>
             KIRJAUDU ULOS
@@ -559,9 +559,9 @@ export default function AdminPage() {
         {/* Feedback */}
         {feedback && (
           <div style={{
-            background: "rgba(63,91,123,0.1)", border: "1px solid rgba(63,91,123,0.25)",
+            background: "rgba(63,91,123,0.06)", border: "1px solid rgba(63,91,123,0.18)",
             borderRadius: "var(--radius)", padding: "10px 16px", marginBottom: "20px",
-            fontFamily: "var(--font-mono)", fontSize: "11px",
+            fontFamily: "var(--font-mono)", fontSize: "13px",
             color: "var(--blue-bright)", letterSpacing: "0.05em",
           }}>
             {feedback}
@@ -762,7 +762,7 @@ export default function AdminPage() {
               }}>
                 {/* Team 1 */}
                 <div style={{
-                  background: "rgba(63,91,123,0.05)", border: "1px solid rgba(63,91,123,0.15)",
+                  background: "rgba(63,91,123,0.04)", border: "1px solid rgba(63,91,123,0.06)",
                   borderRadius: "var(--radius)", padding: "12px",
                 }}>
                   <div style={{
@@ -800,7 +800,7 @@ export default function AdminPage() {
 
                 {/* Team 2 */}
                 <div style={{
-                  background: "rgba(107,141,181,0.05)", border: "1px solid rgba(107,141,181,0.15)",
+                  background: "rgba(107,141,181,0.04)", border: "1px solid rgba(107,141,181,0.06)",
                   borderRadius: "var(--radius)", padding: "12px",
                 }}>
                   <div style={{
@@ -1094,7 +1094,7 @@ export default function AdminPage() {
                             {isLinked ? (
                               <span style={{
                                 display: "inline-flex", alignItems: "center", gap: "4px",
-                                fontFamily: "var(--font-mono)", fontSize: "10px",
+                                fontFamily: "var(--font-mono)", fontSize: "12px",
                                 letterSpacing: "0.08em", color: "#22c55e",
                               }}>
                                 <span style={{
@@ -1105,14 +1105,14 @@ export default function AdminPage() {
                               </span>
                             ) : p.email ? (
                               <span style={{
-                                fontFamily: "var(--font-mono)", fontSize: "10px",
+                                fontFamily: "var(--font-mono)", fontSize: "12px",
                                 letterSpacing: "0.08em", color: "var(--gold)",
                               }}>
                                 ODOTTAA
                               </span>
                             ) : (
                               <span style={{
-                                fontFamily: "var(--font-mono)", fontSize: "10px",
+                                fontFamily: "var(--font-mono)", fontSize: "12px",
                                 letterSpacing: "0.08em", color: "var(--text-muted)",
                               }}>
                                 EI ASETETTU
@@ -1125,7 +1125,7 @@ export default function AdminPage() {
                               disabled={savingPlayerId === p.id || !isDirty}
                               style={{
                                 ...btnPrimary,
-                                fontSize: "10px",
+                                fontSize: "12px",
                                 padding: "5px 12px",
                                 opacity: (!isDirty || savingPlayerId === p.id) ? 0.4 : 1,
                               }}

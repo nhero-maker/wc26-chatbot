@@ -28,7 +28,7 @@ function TeamDot({ name, tourney }: { name: string; tourney: TournamentData | nu
   const color = p.team === 1 ? "#3f5b7b" : "#6b8db5";
   return (
     <span style={{
-      display: "inline-block", width: "8px", height: "8px",
+      display: "inline-block", width: "10px", height: "10px",
       borderRadius: "50%", background: color, marginRight: "6px", flexShrink: 0,
     }} />
   );
@@ -104,7 +104,7 @@ export default function LeaderboardsPage() {
         <div
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "11px",
+            fontSize: "13px",
             color: "var(--text-muted)",
             letterSpacing: "0.1em",
           }}
@@ -125,7 +125,7 @@ export default function LeaderboardsPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: "rgba(6,8,14,0.8)",
+          background: "rgba(255,255,255,0.9)",
           backdropFilter: "blur(8px)",
           position: "sticky",
           top: 0,
@@ -138,7 +138,7 @@ export default function LeaderboardsPage() {
             href="/dashboard"
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "13px",
               color: "var(--text-muted)",
               letterSpacing: "0.1em",
               textDecoration: "none",
@@ -153,7 +153,7 @@ export default function LeaderboardsPage() {
             href="/tournament"
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "13px",
               color: "var(--text-muted)",
               letterSpacing: "0.1em",
               textDecoration: "none",
@@ -172,7 +172,7 @@ export default function LeaderboardsPage() {
               borderRadius: "var(--radius)",
               padding: "6px 12px",
               fontFamily: "var(--font-mono)",
-              fontSize: "10px",
+              fontSize: "12px",
               letterSpacing: "0.1em",
               color: "var(--text-muted)",
               cursor: "pointer",
@@ -273,7 +273,7 @@ export default function LeaderboardsPage() {
                     border: "none",
                     borderRadius: "var(--radius)",
                     fontFamily: "var(--font-mono)",
-                    fontSize: "10px",
+                    fontSize: "12px",
                     letterSpacing: "0.1em",
                     cursor: "pointer",
                     transition: "all 0.2s",
@@ -302,7 +302,7 @@ export default function LeaderboardsPage() {
                     padding: "48px",
                     textAlign: "center",
                     fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
+                    fontSize: "13px",
                     color: "var(--text-muted)",
                     letterSpacing: "0.1em",
                   }}
@@ -332,7 +332,7 @@ export default function LeaderboardsPage() {
                       >
                         {row.total_shots}
                       </span>
-                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--text-muted)" }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-muted)" }}>
                         {formatDate(row.date_played)}
                       </span>
                     </>
@@ -361,9 +361,9 @@ export default function LeaderboardsPage() {
                         }}
                       >
                         {row.longest_drive}
-                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "11px", color: "var(--text-muted)", marginLeft: "3px" }}>m</span>
+                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "13px", color: "var(--text-muted)", marginLeft: "3px" }}>m</span>
                       </span>
-                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--text-muted)" }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-muted)" }}>
                         {formatDate(row.date_played)}
                       </span>
                     </>
@@ -392,9 +392,9 @@ export default function LeaderboardsPage() {
                         }}
                       >
                         {row.closest_to_pin}
-                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "11px", color: "var(--text-muted)", marginLeft: "3px" }}>cm</span>
+                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "13px", color: "var(--text-muted)", marginLeft: "3px" }}>cm</span>
                       </span>
-                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--text-muted)" }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-muted)" }}>
                         {formatDate(row.date_played)}
                       </span>
                     </>
@@ -423,9 +423,9 @@ export default function LeaderboardsPage() {
                         }}
                       >
                         {row.net_score}
-                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "10px", color: "var(--text-muted)", marginLeft: "3px" }}>({row.total_shots} − {row.handicap_at_time})</span>
+                        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "12px", color: "var(--text-muted)", marginLeft: "3px" }}>({row.total_shots} − {row.handicap_at_time})</span>
                       </span>
-                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--text-muted)" }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-muted)" }}>
                         {formatDate(row.date_played)}
                       </span>
                     </>

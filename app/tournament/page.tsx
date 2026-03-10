@@ -63,7 +63,7 @@ export default function TournamentPage() {
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         <div style={{
-          fontFamily: "var(--font-mono)", fontSize: "11px",
+          fontFamily: "var(--font-mono)", fontSize: "13px",
           color: "var(--text-muted)", letterSpacing: "0.1em",
         }}>
           LADATAAN TURNAUSDATAA...
@@ -79,7 +79,7 @@ export default function TournamentPage() {
         display: "flex", alignItems: "center", justifyContent: "center", padding: "24px",
       }}>
         <div style={{
-          background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.25)",
+          background: "rgba(220,38,38,0.06)", border: "1px solid rgba(220,38,38,0.15)",
           borderRadius: "var(--radius-lg)", padding: "24px", maxWidth: "400px", textAlign: "center",
         }}>
           <div style={{
@@ -119,19 +119,19 @@ export default function TournamentPage() {
       <header style={{
         borderBottom: "1px solid var(--border)", padding: "18px 32px",
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        backdropFilter: "blur(8px)", background: "rgba(6,8,14,0.8)",
+        backdropFilter: "blur(8px)", background: "rgba(255,255,255,0.9)",
         position: "sticky", top: 0, zIndex: 10,
       }}>
         <a href="/" style={{ textDecoration: "none" }}><img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} /></a>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <a href="/dashboard" style={{
-            fontFamily: "var(--font-mono)", fontSize: "11px",
+            fontFamily: "var(--font-mono)", fontSize: "13px",
             color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
           }}>
             HALLINTAPANEELI
           </a>
           <a href="/leaderboards" style={{
-            fontFamily: "var(--font-mono)", fontSize: "11px",
+            fontFamily: "var(--font-mono)", fontSize: "13px",
             color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
           }}>
             TULOKSET
@@ -139,7 +139,7 @@ export default function TournamentPage() {
           <button onClick={handleSignOut} style={{
             background: "none", border: "1px solid var(--border)",
             borderRadius: "var(--radius)", padding: "6px 12px",
-            fontFamily: "var(--font-mono)", fontSize: "10px",
+            fontFamily: "var(--font-mono)", fontSize: "12px",
             letterSpacing: "0.1em", color: "var(--text-muted)", cursor: "pointer",
           }}>
             KIRJAUDU ULOS
@@ -205,7 +205,7 @@ export default function TournamentPage() {
                   style={{
                     background: "none", border: "1px solid var(--border)",
                     borderRadius: "var(--radius)", padding: "8px 16px",
-                    fontFamily: "var(--font-mono)", fontSize: "10px",
+                    fontFamily: "var(--font-mono)", fontSize: "12px",
                     letterSpacing: "0.1em", color: "var(--text-muted)",
                     cursor: "pointer", width: "100%",
                   }}
@@ -288,7 +288,7 @@ export default function TournamentPage() {
                         {p.name}
                       </span>
                       <span style={{
-                        fontFamily: "var(--font-mono)", fontSize: "10px",
+                        fontFamily: "var(--font-mono)", fontSize: "12px",
                         color: "var(--text-muted)",
                       }}>
                         HCP {p.handicap}

@@ -19,7 +19,7 @@ const inputStyle: React.CSSProperties = {
 const labelStyle: React.CSSProperties = {
   display: "block",
   fontFamily: "var(--font-mono)",
-  fontSize: "10px",
+  fontSize: "12px",
   letterSpacing: "0.12em",
   color: "var(--text-muted)",
   textTransform: "uppercase",
@@ -178,8 +178,8 @@ export default function RegisterPage() {
         {error && (
           <div
             style={{
-              background: "rgba(220,38,38,0.1)",
-              border: "1px solid rgba(220,38,38,0.25)",
+              background: "rgba(220,38,38,0.06)",
+              border: "1px solid rgba(220,38,38,0.15)",
               borderRadius: "var(--radius)",
               padding: "10px 14px",
               fontSize: "13px",

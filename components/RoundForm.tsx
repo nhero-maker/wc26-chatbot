@@ -48,7 +48,7 @@ const inputStyle: React.CSSProperties = {
 const labelStyle: React.CSSProperties = {
   display: "block",
   fontFamily: "var(--font-mono)",
-  fontSize: "10px",
+  fontSize: "12px",
   letterSpacing: "0.12em",
   color: "var(--text-muted)",
   textTransform: "uppercase",
@@ -60,7 +60,7 @@ const optionalStyle: React.CSSProperties = {
   fontFamily: "var(--font-body)",
   textTransform: "none",
   letterSpacing: 0,
-  fontSize: "10px",
+  fontSize: "12px",
 };
 
 function emptyHoles(): { par: number; strokes: string }[] {
@@ -216,14 +216,14 @@ export default function RoundForm({
           type="button"
           onClick={() => setShowHoles(!showHoles)}
           style={{
-            background: showHoles ? "rgba(63,91,123,0.15)" : "transparent",
+            background: showHoles ? "rgba(63,91,123,0.06)" : "transparent",
             border: `1px solid ${showHoles ? "var(--blue-mid)" : "var(--border)"}`,
             borderRadius: "var(--radius)",
             padding: "10px 16px",
             fontFamily: "var(--font-mono)",
-            fontSize: "10px",
+            fontSize: "12px",
             letterSpacing: "0.1em",
-            color: showHoles ? "var(--blue-bright)" : "var(--text-muted)",
+            color: showHoles ? "var(--blue-mid)" : "var(--text-muted)",
             cursor: "pointer",
             transition: "all 0.2s",
             width: "100%",
@@ -326,7 +326,7 @@ export default function RoundForm({
                     <span
                       style={{
                         fontFamily: "var(--font-mono)",
-                        fontSize: "11px",
+                        fontSize: "12px",
                         color: diffColor,
                         minWidth: "28px",
                       }}
@@ -354,7 +354,7 @@ export default function RoundForm({
             <div
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "10px",
+                fontSize: "12px",
                 color: "var(--text-muted)",
                 textAlign: "center",
                 letterSpacing: "0.08em",
@@ -390,7 +390,7 @@ export default function RoundForm({
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
+                    fontSize: "12px",
                     color:
                       holesTotal - parTotal < 0
                         ? "var(--blue-bright)"
@@ -501,8 +501,8 @@ export default function RoundForm({
       {error && (
         <div
           style={{
-            background: "rgba(220,38,38,0.1)",
-            border: "1px solid rgba(220,38,38,0.25)",
+            background: "rgba(220,38,38,0.06)",
+            border: "1px solid rgba(220,38,38,0.15)",
             borderRadius: "var(--radius)",
             padding: "12px 16px",
             fontFamily: "var(--font-body)",

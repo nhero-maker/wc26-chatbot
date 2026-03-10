@@ -8,7 +8,7 @@ interface Props {
 }
 
 const labelStyle: React.CSSProperties = {
-  fontSize: "11px",
+  fontSize: "12px",
   color: COLORS.textMuted,
   fontFamily: "Barlow, sans-serif",
   marginBottom: "2px",
@@ -23,7 +23,7 @@ const valueStyle: React.CSSProperties = {
 };
 
 const headingStyle: React.CSSProperties = {
-  fontSize: "10px",
+  fontSize: "12px",
   color: COLORS.blueBright,
   fontFamily: "Barlow Condensed, sans-serif",
   fontWeight: 700,

@@ -63,7 +63,7 @@ export default function SignInPage() {
               padding: "10px 20px",
               color: "var(--text-muted)",
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "12px",
               letterSpacing: "0.1em",
               cursor: "pointer",
               transition: "all 0.2s",
@@ -92,7 +92,7 @@ export default function SignInPage() {
             style={{
               display: "block",
               fontFamily: "var(--font-mono)",
-              fontSize: "10px",
+              fontSize: "12px",
               letterSpacing: "0.12em",
               color: "var(--text-muted)",
               textTransform: "uppercase" as const,
@@ -124,8 +124,8 @@ export default function SignInPage() {
         {error && (
           <div
             style={{
-              background: "rgba(220,38,38,0.1)",
-              border: "1px solid rgba(220,38,38,0.25)",
+              background: "rgba(220,38,38,0.06)",
+              border: "1px solid rgba(220,38,38,0.15)",
               borderRadius: "var(--radius)",
               padding: "10px 14px",
               fontSize: "13px",

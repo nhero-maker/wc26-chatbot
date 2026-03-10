@@ -98,12 +98,13 @@ export default function Chat() {
         display: "flex",
         flexDirection: "column",
         height: "700px",
-        background: "var(--surface)",
+        background: "#fff",
         border: "1px solid var(--border)",
         borderRadius: "var(--radius-lg)",
         overflow: "hidden",
         position: "sticky",
         top: "24px",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       {/* Chat header */}
@@ -114,7 +115,7 @@ export default function Chat() {
           display: "flex",
           alignItems: "center",
           gap: "12px",
-          background: "var(--surface-2)",
+          background: "var(--surface)",
           flexShrink: 0,
         }}
       >
@@ -122,8 +123,8 @@ export default function Chat() {
           src="/wc26-logo.png"
           alt="WC26"
           style={{
-            width: "36px",
-            height: "36px",
+            width: "38px",
+            height: "38px",
             objectFit: "contain",
             borderRadius: "6px",
           }}
@@ -135,6 +136,7 @@ export default function Chat() {
               fontWeight: 700,
               fontSize: "15px",
               letterSpacing: "0.04em",
+              color: "var(--text)",
             }}
           >
             WC26 ASSISTENTTI
@@ -142,7 +144,7 @@ export default function Chat() {
           <div
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "10px",
+              fontSize: "12px",
               color: "var(--text-muted)",
               letterSpacing: "0.08em",
             }}
@@ -157,17 +159,17 @@ export default function Chat() {
             alignItems: "center",
             gap: "6px",
             fontFamily: "var(--font-mono)",
-            fontSize: "10px",
-            color: "#22c55e",
+            fontSize: "12px",
+            color: "#16a34a",
             letterSpacing: "0.08em",
           }}
         >
           <div
             style={{
-              width: "6px",
-              height: "6px",
+              width: "8px",
+              height: "8px",
               borderRadius: "50%",
-              background: "#22c55e",
+              background: "#16a34a",
             }}
           />
           ONLINE
@@ -191,24 +193,26 @@ export default function Chat() {
               key={s}
               onClick={() => sendMessage(s)}
               style={{
-                padding: "6px 12px",
-                background: "var(--surface-3)",
-                border: "1px solid var(--border-bright)",
+                padding: "8px 14px",
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
                 borderRadius: "20px",
                 color: "var(--text-muted)",
                 fontFamily: "var(--font-body)",
-                fontSize: "12px",
+                fontSize: "13px",
                 cursor: "pointer",
                 transition: "all 0.15s",
                 whiteSpace: "nowrap",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--blue-bright)";
-                e.currentTarget.style.color = "var(--blue-bright)";
+                e.currentTarget.style.borderColor = "var(--blue-mid)";
+                e.currentTarget.style.color = "var(--blue-mid)";
+                e.currentTarget.style.background = "rgba(63,91,123,0.06)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--border-bright)";
+                e.currentTarget.style.borderColor = "var(--border)";
                 e.currentTarget.style.color = "var(--text-muted)";
+                e.currentTarget.style.background = "var(--surface)";
               }}
             >
               {s}
@@ -225,6 +229,7 @@ export default function Chat() {
           padding: "20px 16px",
           display: "flex",
           flexDirection: "column",
+          background: "#fff",
         }}
       >
         {messages.map((msg) => (
@@ -235,8 +240,8 @@ export default function Chat() {
           <div
             style={{
               padding: "10px 14px",
-              background: "rgba(239,68,68,0.1)",
-              border: "1px solid rgba(239,68,68,0.2)",
+              background: "rgba(220,38,38,0.06)",
+              border: "1px solid rgba(220,38,38,0.15)",
               borderRadius: "var(--radius)",
               fontSize: "13px",
               color: "var(--red-bright)",
@@ -254,7 +259,7 @@ export default function Chat() {
         style={{
           padding: "12px 16px",
           borderTop: "1px solid var(--border)",
-          background: "var(--surface-2)",
+          background: "var(--surface)",
           flexShrink: 0,
         }}
       >
@@ -263,8 +268,8 @@ export default function Chat() {
             display: "flex",
             alignItems: "flex-end",
             gap: "10px",
-            background: "var(--surface-3)",
-            border: "1px solid var(--border-bright)",
+            background: "#fff",
+            border: "1px solid var(--border)",
             borderRadius: "var(--radius-lg)",
             padding: "10px 14px",
             transition: "border-color 0.2s",
@@ -273,7 +278,7 @@ export default function Chat() {
             (e.currentTarget as HTMLDivElement).style.borderColor = "var(--blue-mid)";
           }}
           onBlurCapture={(e) => {
-            (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border-bright)";
+            (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)";
           }}
         >
           <textarea
@@ -292,7 +297,7 @@ export default function Chat() {
               resize: "none",
               color: "var(--text)",
               fontFamily: "var(--font-body)",
-              fontSize: "14px",
+              fontSize: "15px",
               lineHeight: 1.5,
               maxHeight: "120px",
               minHeight: "24px",
@@ -303,10 +308,10 @@ export default function Chat() {
             onClick={() => sendMessage(input)}
             disabled={!input.trim() || isLoading}
             style={{
-              width: "34px",
-              height: "34px",
+              width: "36px",
+              height: "36px",
               borderRadius: "6px",
-              background: input.trim() && !isLoading ? "var(--blue-mid)" : "var(--surface)",
+              background: input.trim() && !isLoading ? "var(--blue-mid)" : "var(--surface-2)",
               border: "none",
               cursor: input.trim() && !isLoading ? "pointer" : "not-allowed",
               display: "flex",
@@ -322,12 +327,12 @@ export default function Chat() {
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background =
-                input.trim() && !isLoading ? "var(--blue-mid)" : "var(--surface)";
+                input.trim() && !isLoading ? "var(--blue-mid)" : "var(--surface-2)";
             }}
           >
             <svg
-              width="16"
-              height="16"
+              width="18"
+              height="18"
               viewBox="0 0 16 16"
               fill="none"
               style={{
@@ -346,7 +351,7 @@ export default function Chat() {
           style={{
             marginTop: "8px",
             fontFamily: "var(--font-mono)",
-            fontSize: "10px",
+            fontSize: "12px",
             color: "var(--text-dim)",
             textAlign: "center",
             letterSpacing: "0.06em",

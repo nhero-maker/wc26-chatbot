@@ -15,8 +15,7 @@ export default function Hero() {
       style={{
         position: "relative",
         overflow: "hidden",
-        background: "var(--bg)",
-        borderBottom: "1px solid var(--border)",
+        background: "#0e1a2e",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
@@ -32,23 +31,23 @@ export default function Hero() {
           backgroundImage: "url(/wc26-hero-bg.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.15,
+          opacity: 0.35,
         }}
       />
 
-      {/* Dark overlay for readability */}
+      {/* Navy overlay for readability */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(6,8,14,0.4) 0%, rgba(6,8,14,0.7) 50%, rgba(6,8,14,0.95) 100%)",
+            "linear-gradient(to bottom, rgba(14,26,46,0.5) 0%, rgba(14,26,46,0.65) 50%, rgba(14,26,46,0.9) 85%, #FEFEFE 100%)",
           pointerEvents: "none",
         }}
       />
 
-      {/* Header nav */}
+      {/* Header nav — frosted glass */}
       <div
         style={{
           position: "absolute",
@@ -59,22 +58,22 @@ export default function Hero() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          borderBottom: "1px solid var(--border)",
-          backdropFilter: "blur(8px)",
-          background: "rgba(6,8,14,0.6)",
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
+          backdropFilter: "blur(12px)",
+          background: "rgba(255,255,255,0.08)",
           zIndex: 10,
         }}
       >
         <img
           src="/wc26-logo.png"
           alt="WC26 Winter Cup 2026"
-          style={{ height: "36px", width: "auto" }}
+          style={{ height: "40px", width: "auto" }}
         />
         <div
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "11px",
-            color: "var(--text-muted)",
+            fontSize: "13px",
+            color: "rgba(255,255,255,0.6)",
             letterSpacing: "0.12em",
           }}
         >
@@ -85,22 +84,24 @@ export default function Hero() {
             href="/signin"
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
-              color: "var(--text-muted)",
+              fontSize: "13px",
+              color: "rgba(255,255,255,0.7)",
               letterSpacing: "0.1em",
               textDecoration: "none",
-              padding: "6px 14px",
-              border: "1px solid var(--border)",
+              padding: "8px 16px",
+              border: "1px solid rgba(255,255,255,0.2)",
               borderRadius: "var(--radius)",
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--border-bright)";
-              e.currentTarget.style.color = "var(--text)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
+              e.currentTarget.style.color = "#fff";
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "var(--border)";
-              e.currentTarget.style.color = "var(--text-muted)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              e.currentTarget.style.color = "rgba(255,255,255,0.7)";
+              e.currentTarget.style.background = "transparent";
             }}
           >
             KIRJAUDU
@@ -109,20 +110,21 @@ export default function Hero() {
             href="#chat"
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
-              color: "var(--blue-bright)",
+              fontSize: "13px",
+              color: "#fff",
               letterSpacing: "0.1em",
               textDecoration: "none",
-              padding: "6px 14px",
-              border: "1px solid rgba(63,91,123,0.4)",
+              padding: "8px 16px",
+              border: "1px solid rgba(107,141,181,0.5)",
               borderRadius: "var(--radius)",
+              background: "rgba(63,91,123,0.3)",
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(63,91,123,0.15)";
+              e.currentTarget.style.background = "rgba(63,91,123,0.5)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.background = "rgba(63,91,123,0.3)";
             }}
           >
             KYSY ASSISTENTILTA
@@ -139,6 +141,7 @@ export default function Hero() {
             marginBottom: "32px",
             animation: "fadeUp 0.5s 0.1s ease both",
             justifyContent: "center",
+            color: "rgba(255,255,255,0.5)",
           }}
         >
           Talvigolf · Simulaattoriturnaus · 2026
@@ -150,11 +153,11 @@ export default function Hero() {
             src="/wc26-logo.png"
             alt="Winter Cup 2026"
             style={{
-              height: "clamp(200px, 30vw, 320px)",
+              height: "clamp(220px, 32vw, 350px)",
               width: "auto",
               margin: "0 auto",
               display: "block",
-              filter: "drop-shadow(0 4px 40px rgba(0,0,0,0.5))",
+              filter: "drop-shadow(0 8px 48px rgba(0,0,0,0.4))",
             }}
           />
         </div>
@@ -175,9 +178,9 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "22px",
+                fontSize: "24px",
                 letterSpacing: "0.08em",
-                color: "var(--blue-bright)",
+                color: "#8bb0d8",
               }}
             >
               SINISET
@@ -185,8 +188,8 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "11px",
-                color: "var(--text-muted)",
+                fontSize: "13px",
+                color: "rgba(255,255,255,0.45)",
               }}
             >
               JOUKKUE 1
@@ -196,7 +199,7 @@ export default function Hero() {
             <div
               style={{
                 height: "4px",
-                background: "var(--border)",
+                background: "rgba(255,255,255,0.15)",
                 borderRadius: "2px",
                 overflow: "hidden",
               }}
@@ -208,7 +211,7 @@ export default function Hero() {
                   top: 0,
                   height: "100%",
                   width: "50%",
-                  background: "linear-gradient(90deg, var(--blue-mid), var(--blue-bright))",
+                  background: "linear-gradient(90deg, #3f5b7b, #6b8db5)",
                   borderRadius: "2px 0 0 2px",
                 }}
               />
@@ -219,9 +222,9 @@ export default function Hero() {
                   top: 0,
                   height: "100%",
                   width: "50%",
-                  background: "linear-gradient(90deg, var(--blue-light), var(--blue-light))",
+                  background: "#a1b5cb",
                   borderRadius: "0 2px 2px 0",
-                  opacity: 0.6,
+                  opacity: 0.7,
                 }}
               />
             </div>
@@ -231,18 +234,18 @@ export default function Hero() {
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                background: "var(--bg)",
-                border: "1px solid var(--border-bright)",
+                background: "rgba(14,26,46,0.8)",
+                border: "1px solid rgba(255,255,255,0.2)",
                 borderRadius: "50%",
-                width: "28px",
-                height: "28px",
+                width: "32px",
+                height: "32px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontFamily: "var(--font-display)",
-                fontSize: "10px",
+                fontSize: "12px",
                 letterSpacing: "0.05em",
-                color: "var(--text-muted)",
+                color: "rgba(255,255,255,0.6)",
               }}
             >
               VS
@@ -252,9 +255,9 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "22px",
+                fontSize: "24px",
                 letterSpacing: "0.08em",
-                color: "var(--blue-light)",
+                color: "#a1b5cb",
               }}
             >
               PUNAISET
@@ -262,8 +265,8 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "11px",
-                color: "var(--text-muted)",
+                fontSize: "13px",
+                color: "rgba(255,255,255,0.45)",
               }}
             >
               JOUKKUE 2
@@ -278,7 +281,10 @@ export default function Hero() {
             animation: "fadeUp 0.6s 0.5s ease both",
           }}
         >
-          <div className="section-label" style={{ marginBottom: "20px", justifyContent: "center" }}>
+          <div
+            className="section-label"
+            style={{ marginBottom: "20px", justifyContent: "center", color: "rgba(255,255,255,0.5)" }}
+          >
             Kauden eteneminen
           </div>
           <div
@@ -307,11 +313,11 @@ export default function Hero() {
                   <div
                     style={{
                       position: "absolute",
-                      top: "11px",
+                      top: "12px",
                       left: "50%",
                       right: "-50%",
                       height: "1px",
-                      background: "var(--border)",
+                      background: "rgba(255,255,255,0.15)",
                       zIndex: 0,
                     }}
                   />
@@ -319,11 +325,11 @@ export default function Hero() {
                 {/* Dot */}
                 <div
                   style={{
-                    width: "22px",
-                    height: "22px",
+                    width: "24px",
+                    height: "24px",
                     borderRadius: "50%",
-                    border: `2px solid ${course.active ? "var(--gold-bright)" : "var(--border)"}`,
-                    background: course.active ? "var(--gold-glow)" : "var(--surface)",
+                    border: `2px solid ${course.active ? "#c9a96e" : "rgba(255,255,255,0.2)"}`,
+                    background: course.active ? "rgba(201,169,110,0.2)" : "rgba(14,26,46,0.6)",
                     position: "relative",
                     zIndex: 1,
                     display: "flex",
@@ -331,7 +337,7 @@ export default function Hero() {
                     justifyContent: "center",
                     transition: "all 0.3s",
                     boxShadow: course.active
-                      ? "0 0 12px var(--gold-glow), 0 0 24px rgba(201,169,110,0.1)"
+                      ? "0 0 12px rgba(201,169,110,0.3), 0 0 24px rgba(201,169,110,0.1)"
                       : "none",
                   }}
                 >
@@ -341,7 +347,7 @@ export default function Hero() {
                         width: "8px",
                         height: "8px",
                         borderRadius: "50%",
-                        background: "var(--gold-bright)",
+                        background: "#c9a96e",
                       }}
                     />
                   )}
@@ -352,8 +358,8 @@ export default function Hero() {
                     marginTop: "8px",
                     textAlign: "center",
                     fontFamily: "var(--font-mono)",
-                    fontSize: "10px",
-                    color: course.active ? "var(--gold-bright)" : "var(--text-muted)",
+                    fontSize: "12px",
+                    color: course.active ? "#c9a96e" : "rgba(255,255,255,0.4)",
                     letterSpacing: "0.08em",
                   }}
                 >
@@ -364,9 +370,9 @@ export default function Hero() {
                     marginTop: "2px",
                     textAlign: "center",
                     fontFamily: "var(--font-body)",
-                    fontSize: "11px",
-                    color: course.active ? "var(--text)" : "var(--text-dim)",
-                    maxWidth: "72px",
+                    fontSize: "13px",
+                    color: course.active ? "#fff" : "rgba(255,255,255,0.35)",
+                    maxWidth: "80px",
                     lineHeight: 1.3,
                   }}
                 >
@@ -395,27 +401,28 @@ export default function Hero() {
               display: "inline-flex",
               alignItems: "center",
               gap: "10px",
-              background: "var(--blue-mid)",
+              background: "#3f5b7b",
               color: "#fff",
-              padding: "14px 28px",
+              padding: "16px 32px",
               borderRadius: "var(--radius)",
               fontFamily: "var(--font-display)",
               fontSize: "16px",
               letterSpacing: "0.08em",
               textDecoration: "none",
               transition: "all 0.2s",
+              boxShadow: "0 4px 16px rgba(63,91,123,0.3)",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "var(--blue-bright)";
-              e.currentTarget.style.color = "var(--bg)";
+              e.currentTarget.style.background = "#6b8db5";
+              e.currentTarget.style.boxShadow = "0 6px 20px rgba(63,91,123,0.4)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "var(--blue-mid)";
-              e.currentTarget.style.color = "#fff";
+              e.currentTarget.style.background = "#3f5b7b";
+              e.currentTarget.style.boxShadow = "0 4px 16px rgba(63,91,123,0.3)";
             }}
           >
             KYSY ASSISTENTILTA
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
               <path d="M8 3l5 5-5 5M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
@@ -426,8 +433,8 @@ export default function Hero() {
               alignItems: "center",
               gap: "10px",
               background: "transparent",
-              color: "var(--gold-bright)",
-              padding: "14px 28px",
+              color: "#c9a96e",
+              padding: "16px 32px",
               borderRadius: "var(--radius)",
               fontFamily: "var(--font-display)",
               fontSize: "16px",
@@ -438,7 +445,7 @@ export default function Hero() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "rgba(201,169,110,0.1)";
-              e.currentTarget.style.borderColor = "var(--gold-bright)";
+              e.currentTarget.style.borderColor = "#c9a96e";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";
@@ -450,8 +457,8 @@ export default function Hero() {
           <div
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
-              color: "var(--text-muted)",
+              fontSize: "13px",
+              color: "rgba(255,255,255,0.45)",
               lineHeight: 1.5,
             }}
           >
@@ -461,20 +468,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Bottom fade */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "80px",
-          background: "linear-gradient(to bottom, transparent, var(--bg))",
-          pointerEvents: "none",
-        }}
-      />
     </section>
   );
 }

@@ -57,7 +57,7 @@ export default function EditRoundPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: "rgba(6,8,14,0.8)",
+          background: "rgba(255,255,255,0.9)",
           backdropFilter: "blur(8px)",
           position: "sticky",
           top: 0,
@@ -75,13 +75,13 @@ export default function EditRoundPage() {
             textDecoration: "none",
           }}
         >
-          WC26
+          <img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} />
         </a>
         <a
           href="/dashboard"
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "11px",
+            fontSize: "13px",
             color: "var(--text-muted)",
             letterSpacing: "0.1em",
             textDecoration: "none",
@@ -118,8 +118,8 @@ export default function EditRoundPage() {
         {loadError && (
           <div
             style={{
-              background: "rgba(220,38,38,0.1)",
-              border: "1px solid rgba(220,38,38,0.25)",
+              background: "rgba(220,38,38,0.06)",
+              border: "1px solid rgba(220,38,38,0.15)",
               borderRadius: "var(--radius)",
               padding: "16px",
               fontFamily: "var(--font-body)",
@@ -138,7 +138,7 @@ export default function EditRoundPage() {
               textAlign: "center",
               padding: "40px",
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "13px",
               color: "var(--text-muted)",
               letterSpacing: "0.1em",
             }}

@@ -30,7 +30,7 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
             linear-gradient(90deg, var(--border) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
-          opacity: 0.3,
+          opacity: 0.15,
           pointerEvents: "none",
         }}
       />
@@ -49,7 +49,7 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
         <img
           src="/wc26-logo.png"
           alt="WC26"
-          style={{ height: "40px", width: "auto" }}
+          style={{ height: "44px", width: "auto" }}
         />
       </a>
 
@@ -60,10 +60,11 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
           zIndex: 1,
           width: "100%",
           maxWidth: "440px",
-          background: "var(--surface)",
+          background: "#fff",
           border: "1px solid var(--border)",
           borderRadius: "var(--radius-lg)",
           padding: "40px",
+          boxShadow: "var(--shadow-card)",
           animation: "fadeUp 0.4s ease both",
         }}
       >
@@ -91,7 +92,7 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
           <p
             style={{
               fontFamily: "var(--font-body)",
-              fontSize: "14px",
+              fontSize: "15px",
               color: "var(--text-muted)",
               marginBottom: "32px",
               lineHeight: 1.5,

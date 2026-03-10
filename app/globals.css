@@ -2,32 +2,32 @@
 
 /* ─── Design Tokens ──────────────────────────────── */
 :root {
-  --bg: #06080e;
-  --surface: #0b1120;
-  --surface-2: #101828;
-  --surface-3: #162035;
-  --border: #1a2945;
-  --border-bright: #2a4060;
+  --bg: #FEFEFE;
+  --surface: #f5f7fa;
+  --surface-2: #eef1f6;
+  --surface-3: #e5e9f0;
+  --border: #d0d7e2;
+  --border-bright: #b8c3d0;
 
   --blue: #2a3f5b;
   --blue-mid: #3f5b7b;
   --blue-bright: #6b8db5;
   --blue-light: #a1b5cb;
-  --blue-glow: rgba(63, 91, 123, 0.25);
+  --blue-glow: rgba(63, 91, 123, 0.12);
 
   --red: #b91c1c;
   --red-mid: #dc2626;
-  --red-bright: #f87171;
-  --red-glow: rgba(220, 38, 38, 0.25);
+  --red-bright: #dc2626;
+  --red-glow: rgba(220, 38, 38, 0.1);
 
   --gold: #a08040;
   --gold-mid: #c9a96e;
-  --gold-bright: #dbb878;
-  --gold-glow: rgba(201, 169, 110, 0.2);
+  --gold-bright: #b8952e;
+  --gold-glow: rgba(201, 169, 110, 0.15);
 
-  --text: #ccd0d8;
+  --text: #1a2940;
   --text-muted: #5a6e88;
-  --text-dim: #1e3050;
+  --text-dim: #8a9bb0;
 
   --font-display: var(--font-graduate), "Graduate", serif;
   --font-body: var(--font-montserrat), "Montserrat", sans-serif;
@@ -35,6 +35,9 @@
 
   --radius: 4px;
   --radius-lg: 8px;
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
 }
 
 /* ─── Reset & Base ───────────────────────────────── */
@@ -60,9 +63,15 @@ body::before {
   background-image: url("/wc26-watermark.png");
   background-repeat: repeat;
   background-size: 280px;
-  opacity: 0.025;
+  opacity: 0.04;
   pointer-events: none;
   z-index: 9999;
+}
+
+/* ─── Focus States ──────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--blue-mid);
+  outline-offset: 2px;
 }
 
 /* ─── Typography ─────────────────────────────────── */
@@ -88,7 +97,7 @@ h1, h2, h3, h4 {
 /* ─── Section Label ──────────────────────────────── */
 .section-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -101,7 +110,7 @@ h1, h2, h3, h4 {
   display: inline-block;
   width: 18px;
   height: 1px;
-  background: var(--text-muted);
+  background: var(--border-bright);
   flex-shrink: 0;
 }
 
@@ -109,18 +118,18 @@ h1, h2, h3, h4 {
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: var(--radius);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 700;
   white-space: nowrap;
 }
-.badge-blue { background: rgba(63,91,123,0.15); color: var(--blue-bright); border: 1px solid rgba(63,91,123,0.3); }
-.badge-red  { background: rgba(220,38,38,0.12);  color: var(--red-bright);  border: 1px solid rgba(220,38,38,0.25); }
-.badge-gold { background: rgba(201,169,110,0.12);  color: var(--gold-bright); border: 1px solid rgba(201,169,110,0.25); }
+.badge-blue { background: rgba(63,91,123,0.08); color: var(--blue-mid); border: 1px solid rgba(63,91,123,0.2); }
+.badge-red  { background: rgba(220,38,38,0.06); color: var(--red-bright); border: 1px solid rgba(220,38,38,0.15); }
+.badge-gold { background: rgba(201,169,110,0.08); color: var(--gold-bright); border: 1px solid rgba(201,169,110,0.2); }
 
 /* ─── Divider ────────────────────────────────────── */
 .divider {

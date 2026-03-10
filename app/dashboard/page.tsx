@@ -25,7 +25,7 @@ function StatCard({ label, value, unit }: { label: string; value: string | numbe
       <div
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: "10px",
+          fontSize: "12px",
           letterSpacing: "0.12em",
           color: "var(--text-muted)",
           textTransform: "uppercase",
@@ -118,7 +118,7 @@ export default function DashboardPage() {
         <div
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "11px",
+            fontSize: "13px",
             color: "var(--text-muted)",
             letterSpacing: "0.1em",
           }}
@@ -143,8 +143,8 @@ export default function DashboardPage() {
       >
         <div
           style={{
-            background: "rgba(220,38,38,0.1)",
-            border: "1px solid rgba(220,38,38,0.25)",
+            background: "rgba(220,38,38,0.06)",
+            border: "1px solid rgba(220,38,38,0.15)",
             borderRadius: "var(--radius-lg)",
             padding: "24px",
             maxWidth: "400px",
@@ -203,7 +203,7 @@ export default function DashboardPage() {
           alignItems: "center",
           justifyContent: "space-between",
           backdropFilter: "blur(8px)",
-          background: "rgba(6,8,14,0.8)",
+          background: "rgba(255,255,255,0.9)",
           position: "sticky",
           top: 0,
           zIndex: 10,
@@ -227,7 +227,7 @@ export default function DashboardPage() {
             href="/tournament"
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "13px",
               color: "var(--text-muted)",
               letterSpacing: "0.1em",
               textDecoration: "none",
@@ -242,7 +242,7 @@ export default function DashboardPage() {
             href="/leaderboards"
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "13px",
               color: "var(--text-muted)",
               letterSpacing: "0.1em",
               textDecoration: "none",
@@ -270,7 +270,7 @@ export default function DashboardPage() {
               borderRadius: "var(--radius)",
               padding: "6px 12px",
               fontFamily: "var(--font-mono)",
-              fontSize: "10px",
+              fontSize: "12px",
               letterSpacing: "0.1em",
               color: "var(--text-muted)",
               cursor: "pointer",
@@ -319,7 +319,7 @@ export default function DashboardPage() {
             style={{
               marginTop: "8px",
               fontFamily: "var(--font-mono)",
-              fontSize: "11px",
+              fontSize: "13px",
               color: "var(--text-muted)",
               letterSpacing: "0.1em",
             }}
@@ -527,7 +527,7 @@ export default function DashboardPage() {
                     <div
                       style={{
                         fontFamily: "var(--font-mono)",
-                        fontSize: "10px",
+                        fontSize: "12px",
                         color: "var(--text-muted)",
                         marginTop: "2px",
                         letterSpacing: "0.06em",
@@ -552,7 +552,7 @@ export default function DashboardPage() {
                     <span
                       style={{
                         fontFamily: "var(--font-mono)",
-                        fontSize: "10px",
+                        fontSize: "12px",
                         color: "var(--text-muted)",
                         marginLeft: "4px",
                       }}
@@ -571,11 +571,11 @@ export default function DashboardPage() {
                     href={`/dashboard/rounds/${round.id}/edit`}
                     style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: "10px",
+                      fontSize: "12px",
                       letterSpacing: "0.08em",
                       color: "var(--text-muted)",
                       textDecoration: "none",
-                      padding: "6px 10px",
+                      padding: "8px 12px",
                       border: "1px solid var(--border)",
                       borderRadius: "var(--radius)",
                       transition: "all 0.2s",
@@ -600,9 +600,9 @@ export default function DashboardPage() {
                       background: "none",
                       border: "1px solid rgba(220,38,38,0.3)",
                       borderRadius: "var(--radius)",
-                      padding: "6px 10px",
+                      padding: "8px 12px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: "10px",
+                      fontSize: "12px",
                       letterSpacing: "0.08em",
                       color: "var(--red-bright)",
                       cursor: deletingId === round.id ? "not-allowed" : "pointer",

@@ -77,7 +77,7 @@ export default function Home() {
         <div
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "11px",
+            fontSize: "13px",
             color: "var(--text-dim)",
             letterSpacing: "0.08em",
           }}

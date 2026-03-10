@@ -129,7 +129,7 @@ export default function TournamentInfo() {
             style={{
               padding: "16px 20px",
               background: "var(--surface)",
-              border: "1px solid rgba(201,169,110,0.15)",
+              border: "1px solid rgba(201,169,110,0.2)",
               borderRadius: "var(--radius-lg)",
               display: "flex",
               alignItems: "flex-start",
@@ -177,7 +177,7 @@ export default function TournamentInfo() {
               <div
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "11px",
+                  fontSize: "13px",
                   color: "var(--text-dim)",
                   paddingTop: "2px",
                 }}
@@ -198,7 +198,7 @@ export default function TournamentInfo() {
                   </span>
                   <span
                     className={`badge ${course.format === "Fourball" ? "badge-blue" : course.number === "06" ? "badge-gold" : "badge-red"}`}
-                    style={{ fontSize: "9px" }}
+                    style={{ fontSize: "12px" }}
                   >
                     {course.format}
                   </span>
@@ -207,7 +207,7 @@ export default function TournamentInfo() {
                   <span
                     style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: "10px",
+                      fontSize: "12px",
                       color: "var(--text-muted)",
                     }}
                   >
@@ -216,7 +216,7 @@ export default function TournamentInfo() {
                   <span
                     style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: "10px",
+                      fontSize: "12px",
                       color: "var(--text-dim)",
                     }}
                   >
