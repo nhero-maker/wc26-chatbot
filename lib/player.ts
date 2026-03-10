@@ -83,6 +83,67 @@ export interface LeaderboardData {
   netScores: NetEntry[];
 }
 
+// ─── Tournament Types ────────────────────────────────────────────────────────
+
+export interface TournamentPlayer {
+  id: number;
+  name: string;
+  team: number;
+  handicap: number;
+}
+
+export interface TournamentEvent {
+  id: number;
+  course_id: number;
+  course_name: string;
+  event_month: string;
+  format: "fourball" | "singles";
+  course_settings: {
+    male_tee?: string;
+    female_tee?: string;
+    scoring?: string;
+    holes?: string;
+    putting?: string;
+    pins?: string;
+    mulligans?: string;
+    wind?: string;
+    fairway_firmness?: string;
+    green_firmness?: string;
+    green_stimp?: string;
+  };
+}
+
+export interface Matchup {
+  id: number;
+  event_id: number;
+  t1p1: string;
+  t1p2: string | null;
+  t2p1: string;
+  t2p2: string | null;
+  team1_points: number;
+  team2_points: number;
+}
+
+export interface BonusPointEntry {
+  player: string;
+  event_id: number;
+  type: "mvp" | "birdman" | "skill_drive" | "skill_pin";
+  points: number;
+}
+
+export interface TeamStandings {
+  team1_total: number;
+  team2_total: number;
+}
+
+export interface TournamentData {
+  players: TournamentPlayer[];
+  events: TournamentEvent[];
+  matchups: Matchup[];
+  bonusPoints: BonusPointEntry[];
+  teamStandings: TeamStandings;
+}
+
 // ─── API Client Functions ─────────────────────────────────────────────────────
 
 export async function registerPlayer(data: {
@@ -183,5 +244,14 @@ export async function getLeaderboards(): Promise<{
   error?: string;
 }> {
   const res = await fetch("/api/player/leaderboards");
+  return res.json();
+}
+
+export async function getTournament(): Promise<{
+  success: boolean;
+  data?: TournamentData;
+  error?: string;
+}> {
+  const res = await fetch("/api/tournament");
   return res.json();
 }

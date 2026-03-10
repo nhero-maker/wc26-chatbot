@@ -230,6 +230,21 @@ export default function DashboardPage() {
           }}
         >
           <a
+            href="/tournament"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              color: "var(--text-muted)",
+              letterSpacing: "0.1em",
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+          >
+            TURNAUS
+          </a>
+          <a
             href="/leaderboards"
             style={{
               fontFamily: "var(--font-mono)",

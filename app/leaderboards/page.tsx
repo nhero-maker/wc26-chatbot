@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getLeaderboards, signOut, type LeaderboardData } from "@/lib/player";
+import { getLeaderboards, getTournament, signOut, type LeaderboardData, type TournamentData } from "@/lib/player";
 
 type Tab = "bestScores" | "longestDrives" | "closestToPin" | "netScores";
 
@@ -19,6 +19,19 @@ function formatDate(iso: string) {
     month: "numeric",
     year: "numeric",
   });
+}
+
+function TeamDot({ name, tourney }: { name: string; tourney: TournamentData | null }) {
+  if (!tourney) return null;
+  const p = tourney.players.find((tp) => tp.name === name);
+  if (!p) return null;
+  const color = p.team === 1 ? "#2563eb" : "#60a5fa";
+  return (
+    <span style={{
+      display: "inline-block", width: "8px", height: "8px",
+      borderRadius: "50%", background: color, marginRight: "6px", flexShrink: 0,
+    }} />
+  );
 }
 
 function MedalBadge({ rank }: { rank: number }) {
@@ -46,12 +59,13 @@ function MedalBadge({ rank }: { rank: number }) {
 export default function LeaderboardsPage() {
   const router = useRouter();
   const [data, setData] = useState<LeaderboardData | null>(null);
+  const [tourney, setTourney] = useState<TournamentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("bestScores");
 
   async function load() {
-    const res = await getLeaderboards();
+    const [res, tRes] = await Promise.all([getLeaderboards(), getTournament()]);
     if (res.success && res.data) {
       setData(res.data);
     } else {
@@ -60,6 +74,9 @@ export default function LeaderboardsPage() {
       } else {
         setError(res.error ?? "Lataus epäonnistui.");
       }
+    }
+    if (tRes.success && tRes.data) {
+      setTourney(tRes.data);
     }
     setLoading(false);
   }
@@ -143,6 +160,21 @@ export default function LeaderboardsPage() {
             onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
           >
             HALLINTAPANEELI
+          </a>
+          <a
+            href="/tournament"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              color: "var(--text-muted)",
+              letterSpacing: "0.1em",
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+          >
+            TURNAUS
           </a>
           <button
             onClick={handleSignOut}
@@ -298,7 +330,9 @@ export default function LeaderboardsPage() {
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)" }}>{row.player_name}</span>
+                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)", display: "flex", alignItems: "center" }}>
+                        <TeamDot name={row.player_name} tourney={tourney} />{row.player_name}
+                      </span>
                       <span style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "var(--text-muted)" }}>{row.course_name}</span>
                       <span
                         style={{
@@ -326,7 +360,9 @@ export default function LeaderboardsPage() {
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)" }}>{row.player_name}</span>
+                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)", display: "flex", alignItems: "center" }}>
+                        <TeamDot name={row.player_name} tourney={tourney} />{row.player_name}
+                      </span>
                       <span style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "var(--text-muted)" }}>{row.course_name}</span>
                       <span
                         style={{
@@ -355,7 +391,9 @@ export default function LeaderboardsPage() {
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)" }}>{row.player_name}</span>
+                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)", display: "flex", alignItems: "center" }}>
+                        <TeamDot name={row.player_name} tourney={tourney} />{row.player_name}
+                      </span>
                       <span style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "var(--text-muted)" }}>{row.course_name}</span>
                       <span
                         style={{
@@ -384,7 +422,9 @@ export default function LeaderboardsPage() {
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
-                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)" }}>{row.player_name}</span>
+                      <span style={{ fontFamily: "var(--font-body)", fontSize: "14px", color: "var(--text)", display: "flex", alignItems: "center" }}>
+                        <TeamDot name={row.player_name} tourney={tourney} />{row.player_name}
+                      </span>
                       <span style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "var(--text-muted)" }}>{row.course_name}</span>
                       <span
                         style={{

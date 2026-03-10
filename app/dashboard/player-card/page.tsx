@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import {
   getDashboard,
   getLeaderboards,
+  getTournament,
   signOut,
   type DashboardData,
   type LeaderboardData,
+  type TournamentData,
 } from "@/lib/player";
 import CardPanel from "@/components/CardPanel";
 import ScoreBarChart from "@/components/charts/ScoreBarChart";
@@ -18,17 +20,19 @@ import ScoreTrendLine from "@/components/charts/ScoreTrendLine";
 import RankingsBarChart from "@/components/charts/RankingsBarChart";
 import GameProgressChart from "@/components/charts/GameProgressChart";
 import ShotsVsParChart from "@/components/charts/ShotsVsParChart";
+import MVPBirdmanChart from "@/components/charts/MVPBirdmanChart";
 
 export default function PlayerCardPage() {
   const router = useRouter();
   const [dash, setDash] = useState<DashboardData | null>(null);
   const [lb, setLb] = useState<LeaderboardData | null>(null);
+  const [tourney, setTourney] = useState<TournamentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    Promise.all([getDashboard(), getLeaderboards()])
-      .then(([dashRes, lbRes]) => {
+    Promise.all([getDashboard(), getLeaderboards(), getTournament()])
+      .then(([dashRes, lbRes, tRes]) => {
         if (dashRes.success && dashRes.data) {
           setDash(dashRes.data);
         } else {
@@ -40,6 +44,9 @@ export default function PlayerCardPage() {
         }
         if (lbRes.success && lbRes.data) {
           setLb(lbRes.data);
+        }
+        if (tRes.success && tRes.data) {
+          setTourney(tRes.data);
         }
       })
       .catch(() => setError("Verkkovirhe."))
@@ -119,6 +126,12 @@ export default function PlayerCardPage() {
             color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
           }}>
             HALLINTAPANEELI
+          </a>
+          <a href="/tournament" style={{
+            fontFamily: "var(--font-mono)", fontSize: "11px",
+            color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
+          }}>
+            TURNAUS
           </a>
           <a href="/leaderboards" style={{
             fontFamily: "var(--font-mono)", fontSize: "11px",
@@ -216,14 +229,28 @@ export default function PlayerCardPage() {
           </CardPanel>
         </div>
 
-        {/* Row 4: Rankings */}
-        {lb && (
-          <div style={{ marginBottom: "20px" }}>
+        {/* Row 4: Rankings + MVP/Birdman */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: "20px",
+          marginBottom: "20px",
+        }}>
+          {lb && (
             <CardPanel title="Sijoitukset" delay={0.4}>
               <RankingsBarChart playerName={player.name} leaderboardData={lb} />
             </CardPanel>
-          </div>
-        )}
+          )}
+          {tourney && (
+            <CardPanel title="MVP & Birdman" delay={0.45}>
+              <MVPBirdmanChart
+                bonusPoints={tourney.bonusPoints}
+                events={tourney.events}
+                playerName={player.name}
+              />
+            </CardPanel>
+          )}
+        </div>
       </main>
     </div>
   );
