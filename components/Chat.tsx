@@ -118,24 +118,16 @@ export default function Chat() {
           flexShrink: 0,
         }}
       >
-        <div
+        <img
+          src="/wc26-logo.png"
+          alt="WC26"
           style={{
             width: "36px",
             height: "36px",
-            borderRadius: "8px",
-            background: "var(--blue-mid)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "var(--font-display)",
-            fontWeight: 900,
-            fontSize: "13px",
-            color: "#fff",
-            letterSpacing: "0.04em",
+            objectFit: "contain",
+            borderRadius: "6px",
           }}
-        >
-          WC
-        </div>
+        />
         <div>
           <div
             style={{

@@ -503,12 +503,7 @@ export default function AdminPage() {
         backdropFilter: "blur(8px)", background: "rgba(6,8,14,0.8)",
         position: "sticky", top: 0, zIndex: 10,
       }}>
-        <a href="/" style={{
-          fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "18px",
-          letterSpacing: "0.15em", color: "var(--text)", textDecoration: "none",
-        }}>
-          WC26
-        </a>
+        <a href="/" style={{ textDecoration: "none" }}><img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} /></a>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <a href="/dashboard" style={{
             fontFamily: "var(--font-mono)", fontSize: "11px",
@@ -564,7 +559,7 @@ export default function AdminPage() {
         {/* Feedback */}
         {feedback && (
           <div style={{
-            background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.25)",
+            background: "rgba(63,91,123,0.1)", border: "1px solid rgba(63,91,123,0.25)",
             borderRadius: "var(--radius)", padding: "10px 16px", marginBottom: "20px",
             fontFamily: "var(--font-mono)", fontSize: "11px",
             color: "var(--blue-bright)", letterSpacing: "0.05em",
@@ -767,12 +762,12 @@ export default function AdminPage() {
               }}>
                 {/* Team 1 */}
                 <div style={{
-                  background: "rgba(37,99,235,0.05)", border: "1px solid rgba(37,99,235,0.15)",
+                  background: "rgba(63,91,123,0.05)", border: "1px solid rgba(63,91,123,0.15)",
                   borderRadius: "var(--radius)", padding: "12px",
                 }}>
                   <div style={{
                     fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "12px",
-                    color: "#2563eb", letterSpacing: "0.1em", marginBottom: "8px",
+                    color: "#3f5b7b", letterSpacing: "0.1em", marginBottom: "8px",
                   }}>
                     JOUKKUE 1
                   </div>
@@ -805,12 +800,12 @@ export default function AdminPage() {
 
                 {/* Team 2 */}
                 <div style={{
-                  background: "rgba(96,165,250,0.05)", border: "1px solid rgba(96,165,250,0.15)",
+                  background: "rgba(107,141,181,0.05)", border: "1px solid rgba(107,141,181,0.15)",
                   borderRadius: "var(--radius)", padding: "12px",
                 }}>
                   <div style={{
                     fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "12px",
-                    color: "#60a5fa", letterSpacing: "0.1em", marginBottom: "8px",
+                    color: "#6b8db5", letterSpacing: "0.1em", marginBottom: "8px",
                   }}>
                     JOUKKUE 2
                   </div>
@@ -1081,7 +1076,7 @@ export default function AdminPage() {
                             }}>
                               <span style={{
                                 width: "8px", height: "8px", borderRadius: "50%",
-                                background: p.team === 1 ? "#2563eb" : "#60a5fa",
+                                background: p.team === 1 ? "#3f5b7b" : "#6b8db5",
                               }} />
                               {p.team}
                             </span>

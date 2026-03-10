@@ -25,7 +25,7 @@ function TeamDot({ name, tourney }: { name: string; tourney: TournamentData | nu
   if (!tourney) return null;
   const p = tourney.players.find((tp) => tp.name === name);
   if (!p) return null;
-  const color = p.team === 1 ? "#2563eb" : "#60a5fa";
+  const color = p.team === 1 ? "#3f5b7b" : "#6b8db5";
   return (
     <span style={{
       display: "inline-block", width: "8px", height: "8px",
@@ -132,19 +132,7 @@ export default function LeaderboardsPage() {
           zIndex: 10,
         }}
       >
-        <a
-          href="/"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 900,
-            fontSize: "18px",
-            letterSpacing: "0.15em",
-            color: "var(--text)",
-            textDecoration: "none",
-          }}
-        >
-          WC26
-        </a>
+        <a href="/" style={{ textDecoration: "none" }}><img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} /></a>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <a
             href="/dashboard"

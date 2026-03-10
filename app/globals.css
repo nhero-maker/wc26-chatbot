@@ -7,29 +7,30 @@
   --surface-2: #101828;
   --surface-3: #162035;
   --border: #1a2945;
-  --border-bright: #253c65;
+  --border-bright: #2a4060;
 
-  --blue: #1c43c8;
-  --blue-mid: #2563eb;
-  --blue-bright: #60a5fa;
-  --blue-glow: rgba(37, 99, 235, 0.25);
+  --blue: #2a3f5b;
+  --blue-mid: #3f5b7b;
+  --blue-bright: #6b8db5;
+  --blue-light: #a1b5cb;
+  --blue-glow: rgba(63, 91, 123, 0.25);
 
   --red: #b91c1c;
   --red-mid: #dc2626;
   --red-bright: #f87171;
   --red-glow: rgba(220, 38, 38, 0.25);
 
-  --gold: #b8860b;
-  --gold-mid: #d4a017;
-  --gold-bright: #fbbf24;
-  --gold-glow: rgba(212, 160, 23, 0.2);
+  --gold: #a08040;
+  --gold-mid: #c9a96e;
+  --gold-bright: #dbb878;
+  --gold-glow: rgba(201, 169, 110, 0.2);
 
-  --text: #c8daf0;
-  --text-muted: #4e6c94;
+  --text: #ccd0d8;
+  --text-muted: #5a6e88;
   --text-dim: #1e3050;
 
-  --font-display: var(--font-barlow-condensed), "Barlow Condensed", sans-serif;
-  --font-body: var(--font-barlow), "Barlow", sans-serif;
+  --font-display: var(--font-graduate), "Graduate", serif;
+  --font-body: var(--font-montserrat), "Montserrat", sans-serif;
   --font-mono: var(--font-space-mono), "Space Mono", monospace;
 
   --radius: 4px;
@@ -51,15 +52,15 @@ body {
   min-height: 100vh;
 }
 
-/* Noise grain overlay */
+/* Brand watermark overlay */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-image: url("/wc26-watermark.png");
   background-repeat: repeat;
-  background-size: 256px 256px;
-  opacity: 0.035;
+  background-size: 280px;
+  opacity: 0.025;
   pointer-events: none;
   z-index: 9999;
 }
@@ -117,9 +118,9 @@ h1, h2, h3, h4 {
   font-weight: 700;
   white-space: nowrap;
 }
-.badge-blue { background: rgba(37,99,235,0.12); color: var(--blue-bright); border: 1px solid rgba(37,99,235,0.25); }
+.badge-blue { background: rgba(63,91,123,0.15); color: var(--blue-bright); border: 1px solid rgba(63,91,123,0.3); }
 .badge-red  { background: rgba(220,38,38,0.12);  color: var(--red-bright);  border: 1px solid rgba(220,38,38,0.25); }
-.badge-gold { background: rgba(212,160,23,0.1);  color: var(--gold-bright); border: 1px solid rgba(212,160,23,0.25); }
+.badge-gold { background: rgba(201,169,110,0.12);  color: var(--gold-bright); border: 1px solid rgba(201,169,110,0.25); }
 
 /* ─── Divider ────────────────────────────────────── */
 .divider {

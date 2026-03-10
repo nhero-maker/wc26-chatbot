@@ -216,7 +216,7 @@ export default function RoundForm({
           type="button"
           onClick={() => setShowHoles(!showHoles)}
           style={{
-            background: showHoles ? "rgba(37,99,235,0.15)" : "transparent",
+            background: showHoles ? "rgba(63,91,123,0.15)" : "transparent",
             border: `1px solid ${showHoles ? "var(--blue-mid)" : "var(--border)"}`,
             borderRadius: "var(--radius)",
             padding: "10px 16px",

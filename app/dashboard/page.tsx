@@ -209,18 +209,12 @@ export default function DashboardPage() {
           zIndex: 10,
         }}
       >
-        <a
-          href="/"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 900,
-            fontSize: "18px",
-            letterSpacing: "0.15em",
-            color: "var(--text)",
-            textDecoration: "none",
-          }}
-        >
-          WC26
+        <a href="/" style={{ textDecoration: "none" }}>
+          <img
+            src="/wc26-logo.png"
+            alt="WC26"
+            style={{ height: "36px", width: "auto" }}
+          />
         </a>
         <div
           style={{
@@ -443,7 +437,7 @@ export default function DashboardPage() {
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(212,160,23,0.1)";
+              e.currentTarget.style.background = "rgba(201,169,110,0.1)";
               e.currentTarget.style.borderColor = "var(--gold-bright)";
             }}
             onMouseLeave={(e) => {

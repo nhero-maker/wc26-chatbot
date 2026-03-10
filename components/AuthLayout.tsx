@@ -40,18 +40,17 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
         href="/"
         style={{
           position: "fixed",
-          top: "24px",
+          top: "20px",
           left: "32px",
-          fontFamily: "var(--font-display)",
-          fontWeight: 900,
-          fontSize: "18px",
-          letterSpacing: "0.15em",
-          color: "var(--text)",
           textDecoration: "none",
           zIndex: 10,
         }}
       >
-        WC26
+        <img
+          src="/wc26-logo.png"
+          alt="WC26"
+          style={{ height: "40px", width: "auto" }}
+        />
       </a>
 
       {/* Card */}

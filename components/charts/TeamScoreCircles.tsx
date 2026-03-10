@@ -23,7 +23,7 @@ export default function TeamScoreCircles({ team1Total, team2Total }: Props) {
           <stop offset="100%" stopColor="transparent" />
         </radialGradient>
         <radialGradient id="team2-glow" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stopColor="rgba(96, 165, 250, 0.2)" />
+          <stop offset="0%" stopColor="rgba(107, 141, 181, 0.2)" />
           <stop offset="100%" stopColor="transparent" />
         </radialGradient>
       </defs>

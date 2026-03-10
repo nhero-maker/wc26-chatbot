@@ -65,8 +65,8 @@ export default function RegisterPage() {
           style={{
             textAlign: "center",
             padding: "16px",
-            background: "rgba(37,99,235,0.08)",
-            border: "1px solid rgba(37,99,235,0.2)",
+            background: "rgba(63,91,123,0.08)",
+            border: "1px solid rgba(63,91,123,0.2)",
             borderRadius: "var(--radius)",
             marginBottom: "24px",
           }}

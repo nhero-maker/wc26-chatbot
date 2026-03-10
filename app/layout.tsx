@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Barlow, Barlow_Condensed, Space_Mono } from "next/font/google";
+import { Graduate, Montserrat, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const barlow = Barlow({
+const graduate = Graduate({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-barlow",
+  weight: "400",
+  variable: "--font-graduate",
   display: "swap",
 });
 
-const barlowCondensed = Barlow_Condensed({
+const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "900"],
-  variable: "--font-barlow-condensed",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -27,6 +27,10 @@ export const metadata: Metadata = {
   title: "WC26 — Winter Cup 2026",
   description:
     "Winter Cup 2026 on kuuden kuukauden simulaattorigolf-turnaus. Kaksi joukkuetta, kuusi kenttää, yksi mestari.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -37,9 +41,9 @@ export default function RootLayout({
   return (
     <html lang="fi">
       <body
-        className={`${barlow.variable} ${barlowCondensed.variable} ${spaceMono.variable}`}
+        className={`${graduate.variable} ${montserrat.variable} ${spaceMono.variable}`}
         style={{
-          fontFamily: "var(--font-barlow), sans-serif",
+          fontFamily: "var(--font-montserrat), sans-serif",
         }}
       >
         {children}

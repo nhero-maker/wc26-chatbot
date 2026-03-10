@@ -23,45 +23,27 @@ export default function Hero() {
         justifyContent: "center",
       }}
     >
-      {/* Background grid lines */}
+      {/* Hero background image */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `
-            linear-gradient(var(--border) 1px, transparent 1px),
-            linear-gradient(90deg, var(--border) 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
-          opacity: 0.4,
+          backgroundImage: "url(/wc26-hero-bg.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.15,
         }}
       />
 
-      {/* Blue/Red ambient glow */}
+      {/* Dark overlay for readability */}
       <div
         aria-hidden
         style={{
           position: "absolute",
-          left: 0,
-          top: "20%",
-          width: "35%",
-          height: "60%",
+          inset: 0,
           background:
-            "radial-gradient(ellipse at left center, rgba(37,99,235,0.12) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          right: 0,
-          top: "20%",
-          width: "35%",
-          height: "60%",
-          background:
-            "radial-gradient(ellipse at right center, rgba(220,38,38,0.1) 0%, transparent 70%)",
+            "linear-gradient(to bottom, rgba(6,8,14,0.4) 0%, rgba(6,8,14,0.7) 50%, rgba(6,8,14,0.95) 100%)",
           pointerEvents: "none",
         }}
       />
@@ -73,7 +55,7 @@ export default function Hero() {
           top: 0,
           left: 0,
           right: 0,
-          padding: "20px 32px",
+          padding: "16px 32px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -83,17 +65,11 @@ export default function Hero() {
           zIndex: 10,
         }}
       >
-        <div
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 900,
-            fontSize: "18px",
-            letterSpacing: "0.15em",
-            color: "var(--text)",
-          }}
-        >
-          WC26
-        </div>
+        <img
+          src="/wc26-logo.png"
+          alt="WC26 Winter Cup 2026"
+          style={{ height: "36px", width: "auto" }}
+        />
         <div
           style={{
             fontFamily: "var(--font-mono)",
@@ -138,12 +114,12 @@ export default function Hero() {
               letterSpacing: "0.1em",
               textDecoration: "none",
               padding: "6px 14px",
-              border: "1px solid rgba(37,99,235,0.3)",
+              border: "1px solid rgba(63,91,123,0.4)",
               borderRadius: "var(--radius)",
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(37,99,235,0.1)";
+              e.currentTarget.style.background = "rgba(63,91,123,0.15)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";
@@ -155,54 +131,32 @@ export default function Hero() {
       </div>
 
       {/* Main hero content */}
-      <div className="container" style={{ position: "relative", zIndex: 1 }}>
+      <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
         {/* Season label */}
-        <div className="section-label" style={{ marginBottom: "32px", animation: "fadeUp 0.5s 0.1s ease both" }}>
+        <div
+          className="section-label"
+          style={{
+            marginBottom: "32px",
+            animation: "fadeUp 0.5s 0.1s ease both",
+            justifyContent: "center",
+          }}
+        >
           Talvigolf · Simulaattoriturnaus · 2026
         </div>
 
-        {/* Giant title */}
-        <div style={{ position: "relative", marginBottom: "8px" }}>
-          <h1
+        {/* Shield logo */}
+        <div style={{ animation: "fadeUp 0.6s 0.2s ease both" }}>
+          <img
+            src="/wc26-logo.png"
+            alt="Winter Cup 2026"
             style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 900,
-              fontSize: "clamp(72px, 13vw, 180px)",
-              lineHeight: 0.9,
-              letterSpacing: "-0.01em",
-              color: "var(--text)",
-              animation: "fadeUp 0.6s 0.2s ease both",
+              height: "clamp(200px, 30vw, 320px)",
+              width: "auto",
+              margin: "0 auto",
+              display: "block",
+              filter: "drop-shadow(0 4px 40px rgba(0,0,0,0.5))",
             }}
-          >
-            WINTER
-          </h1>
-          <h1
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 900,
-              fontSize: "clamp(72px, 13vw, 180px)",
-              lineHeight: 0.9,
-              letterSpacing: "-0.01em",
-              WebkitTextStroke: "2px var(--border-bright)",
-              color: "transparent",
-              animation: "fadeUp 0.6s 0.3s ease both",
-            }}
-          >
-            CUP
-          </h1>
-          <h1
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 900,
-              fontSize: "clamp(72px, 13vw, 180px)",
-              lineHeight: 0.9,
-              letterSpacing: "-0.01em",
-              color: "var(--gold-bright)",
-              animation: "fadeUp 0.6s 0.4s ease both",
-            }}
-          >
-            2026
-          </h1>
+          />
         </div>
 
         {/* Teams vs bar */}
@@ -212,14 +166,15 @@ export default function Hero() {
             display: "flex",
             alignItems: "center",
             gap: "20px",
-            animation: "fadeUp 0.6s 0.5s ease both",
+            animation: "fadeUp 0.6s 0.4s ease both",
+            maxWidth: "600px",
+            margin: "48px auto 0",
           }}
         >
           <div style={{ textAlign: "right", minWidth: "120px" }}>
             <div
               style={{
                 fontFamily: "var(--font-display)",
-                fontWeight: 900,
                 fontSize: "22px",
                 letterSpacing: "0.08em",
                 color: "var(--blue-bright)",
@@ -234,7 +189,7 @@ export default function Hero() {
                 color: "var(--text-muted)",
               }}
             >
-              BLUE TEAM
+              JOUKKUE 1
             </div>
           </div>
           <div style={{ flex: 1, position: "relative" }}>
@@ -264,8 +219,9 @@ export default function Hero() {
                   top: 0,
                   height: "100%",
                   width: "50%",
-                  background: "linear-gradient(90deg, var(--red-bright), var(--red-mid))",
+                  background: "linear-gradient(90deg, var(--blue-light), var(--blue-light))",
                   borderRadius: "0 2px 2px 0",
+                  opacity: 0.6,
                 }}
               />
             </div>
@@ -284,7 +240,6 @@ export default function Hero() {
                 alignItems: "center",
                 justifyContent: "center",
                 fontFamily: "var(--font-display)",
-                fontWeight: 900,
                 fontSize: "10px",
                 letterSpacing: "0.05em",
                 color: "var(--text-muted)",
@@ -297,10 +252,9 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: "var(--font-display)",
-                fontWeight: 900,
                 fontSize: "22px",
                 letterSpacing: "0.08em",
-                color: "var(--red-bright)",
+                color: "var(--blue-light)",
               }}
             >
               PUNAISET
@@ -312,7 +266,7 @@ export default function Hero() {
                 color: "var(--text-muted)",
               }}
             >
-              RED TEAM
+              JOUKKUE 2
             </div>
           </div>
         </div>
@@ -321,10 +275,10 @@ export default function Hero() {
         <div
           style={{
             marginTop: "48px",
-            animation: "fadeUp 0.6s 0.6s ease both",
+            animation: "fadeUp 0.6s 0.5s ease both",
           }}
         >
-          <div className="section-label" style={{ marginBottom: "20px" }}>
+          <div className="section-label" style={{ marginBottom: "20px", justifyContent: "center" }}>
             Kauden eteneminen
           </div>
           <div
@@ -333,6 +287,8 @@ export default function Hero() {
               alignItems: "flex-start",
               gap: 0,
               position: "relative",
+              maxWidth: "700px",
+              margin: "0 auto",
             }}
           >
             {courses.map((course, i) => (
@@ -375,7 +331,7 @@ export default function Hero() {
                     justifyContent: "center",
                     transition: "all 0.3s",
                     boxShadow: course.active
-                      ? "0 0 12px var(--gold-glow), 0 0 24px rgba(212,160,23,0.1)"
+                      ? "0 0 12px var(--gold-glow), 0 0 24px rgba(201,169,110,0.1)"
                       : "none",
                   }}
                 >
@@ -386,7 +342,6 @@ export default function Hero() {
                         height: "8px",
                         borderRadius: "50%",
                         background: "var(--gold-bright)",
-                        animation: "shimmer 2s linear infinite",
                       }}
                     />
                   )}
@@ -428,8 +383,10 @@ export default function Hero() {
             marginTop: "60px",
             display: "flex",
             alignItems: "center",
-            gap: "32px",
-            animation: "fadeUp 0.6s 0.7s ease both",
+            justifyContent: "center",
+            gap: "16px",
+            animation: "fadeUp 0.6s 0.6s ease both",
+            flexWrap: "wrap",
           }}
         >
           <a
@@ -443,7 +400,6 @@ export default function Hero() {
               padding: "14px 28px",
               borderRadius: "var(--radius)",
               fontFamily: "var(--font-display)",
-              fontWeight: 700,
               fontSize: "16px",
               letterSpacing: "0.08em",
               textDecoration: "none",
@@ -474,20 +430,19 @@ export default function Hero() {
               padding: "14px 28px",
               borderRadius: "var(--radius)",
               fontFamily: "var(--font-display)",
-              fontWeight: 700,
               fontSize: "16px",
               letterSpacing: "0.08em",
               textDecoration: "none",
-              border: "1px solid rgba(212,160,23,0.4)",
+              border: "1px solid rgba(201,169,110,0.4)",
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(212,160,23,0.1)";
+              e.currentTarget.style.background = "rgba(201,169,110,0.1)";
               e.currentTarget.style.borderColor = "var(--gold-bright)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.borderColor = "rgba(212,160,23,0.4)";
+              e.currentTarget.style.borderColor = "rgba(201,169,110,0.4)";
             }}
           >
             REKISTERÖIDY

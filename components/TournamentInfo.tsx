@@ -129,7 +129,7 @@ export default function TournamentInfo() {
             style={{
               padding: "16px 20px",
               background: "var(--surface)",
-              border: "1px solid rgba(212,160,23,0.15)",
+              border: "1px solid rgba(201,169,110,0.15)",
               borderRadius: "var(--radius-lg)",
               display: "flex",
               alignItems: "flex-start",

@@ -55,7 +55,7 @@ export default function MatchupBracket({ matchups, format }: Props) {
               alignItems: "center",
               justifyContent: "space-between",
               background: t1Wins
-                ? "rgba(37, 99, 235, 0.12)"
+                ? "rgba(63, 91, 123, 0.12)"
                 : "transparent",
               borderLeft: `3px solid ${t1Wins ? COLORS.blueMid : isDraw ? COLORS.textMuted : "transparent"}`,
             }}>
@@ -103,7 +103,7 @@ export default function MatchupBracket({ matchups, format }: Props) {
               justifyContent: "space-between",
               flexDirection: "row-reverse",
               background: t2Wins
-                ? "rgba(96, 165, 250, 0.12)"
+                ? "rgba(107, 141, 181, 0.12)"
                 : "transparent",
               borderRight: `3px solid ${t2Wins ? COLORS.blueBright : isDraw ? COLORS.textMuted : "transparent"}`,
             }}>

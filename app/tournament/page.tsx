@@ -122,12 +122,7 @@ export default function TournamentPage() {
         backdropFilter: "blur(8px)", background: "rgba(6,8,14,0.8)",
         position: "sticky", top: 0, zIndex: 10,
       }}>
-        <a href="/" style={{
-          fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "18px",
-          letterSpacing: "0.15em", color: "var(--text)", textDecoration: "none",
-        }}>
-          WC26
-        </a>
+        <a href="/" style={{ textDecoration: "none" }}><img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} /></a>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <a href="/dashboard" style={{
             fontFamily: "var(--font-mono)", fontSize: "11px",
@@ -272,7 +267,7 @@ export default function TournamentPage() {
                 <div style={{
                   fontFamily: "var(--font-display)", fontWeight: 900,
                   fontSize: "14px", letterSpacing: "0.1em",
-                  color: teamNum === 1 ? "#2563eb" : "#60a5fa",
+                  color: teamNum === 1 ? "#3f5b7b" : "#6b8db5",
                   marginBottom: "12px",
                 }}>
                   JOUKKUE {teamNum}

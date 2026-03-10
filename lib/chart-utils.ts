@@ -35,14 +35,15 @@ export function arcPathD(
 
 // Chart color constants (matching CSS vars for use inside SVG)
 export const COLORS = {
-  blueMid: "#2563eb",
-  blueBright: "#60a5fa",
-  blueGlow: "rgba(37, 99, 235, 0.25)",
-  goldBright: "#fbbf24",
-  goldGlow: "rgba(212, 160, 23, 0.2)",
+  blueMid: "#3f5b7b",
+  blueBright: "#6b8db5",
+  blueGlow: "rgba(63, 91, 123, 0.25)",
+  blueLight: "#a1b5cb",
+  goldBright: "#dbb878",
+  goldGlow: "rgba(201, 169, 110, 0.2)",
   redBright: "#f87171",
-  text: "#c8daf0",
-  textMuted: "#4e6c94",
+  text: "#ccd0d8",
+  textMuted: "#5a6e88",
   textDim: "#1e3050",
   surface: "#0b1120",
   surface2: "#101828",
