@@ -49,12 +49,12 @@ export default function PlayerContributionBars({ matchups, eventId }: Props) {
     <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
       <defs>
         <linearGradient id="pcb-team1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={COLORS.blueMid} stopOpacity={0.95} />
-          <stop offset="100%" stopColor={COLORS.blueMid} stopOpacity={0.6} />
+          <stop offset="0%" stopColor={COLORS.blueTeam} stopOpacity={0.95} />
+          <stop offset="100%" stopColor={COLORS.blueTeam} stopOpacity={0.55} />
         </linearGradient>
         <linearGradient id="pcb-team2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={COLORS.blueBright} />
-          <stop offset="100%" stopColor={COLORS.blueBright} stopOpacity={0.6} />
+          <stop offset="0%" stopColor={COLORS.redTeam} stopOpacity={0.95} />
+          <stop offset="100%" stopColor={COLORS.redTeam} stopOpacity={0.55} />
         </linearGradient>
       </defs>
 
@@ -91,7 +91,7 @@ export default function PlayerContributionBars({ matchups, eventId }: Props) {
               />
               <text
                 x={t1x + barWidth / 2} y={y(d.t1) - 4}
-                fill={COLORS.blueMid} fontSize={9} fontFamily="Barlow Condensed"
+                fill={COLORS.blueTeam} fontSize={9} fontFamily="Space Mono"
                 fontWeight={700} textAnchor="middle"
               >
                 {d.t1}
@@ -105,7 +105,7 @@ export default function PlayerContributionBars({ matchups, eventId }: Props) {
               />
               <text
                 x={t2x + barWidth / 2} y={y(d.t2) - 4}
-                fill={COLORS.blueBright} fontSize={9} fontFamily="Barlow Condensed"
+                fill={COLORS.redTeam} fontSize={9} fontFamily="Space Mono"
                 fontWeight={700} textAnchor="middle"
               >
                 {d.t2}
@@ -124,11 +124,11 @@ export default function PlayerContributionBars({ matchups, eventId }: Props) {
         })}
 
         {/* Legend */}
-        <g transform={`translate(${chartW - 120}, -10)`}>
-          <rect x={0} y={0} width={10} height={10} fill={COLORS.blueMid} rx={1} />
-          <text x={14} y={8} fill={COLORS.textMuted} fontSize={7} fontFamily="Barlow">Team 1</text>
-          <rect x={60} y={0} width={10} height={10} fill={COLORS.blueBright} rx={1} />
-          <text x={74} y={8} fill={COLORS.textMuted} fontSize={7} fontFamily="Barlow">Team 2</text>
+        <g transform={`translate(${chartW - 130}, -10)`}>
+          <rect x={0} y={0} width={10} height={10} fill={COLORS.blueTeam} rx={1} />
+          <text x={14} y={8} fill={COLORS.textMuted} fontSize={7} fontFamily="Space Mono">SINISET</text>
+          <rect x={70} y={0} width={10} height={10} fill={COLORS.redTeam} rx={1} />
+          <text x={84} y={8} fill={COLORS.textMuted} fontSize={7} fontFamily="Space Mono">PUNAISET</text>
         </g>
       </g>
     </svg>

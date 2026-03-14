@@ -7,7 +7,8 @@ export default function Home() {
     <main>
       <Hero />
 
-      {/* Main content */}
+      {/* Main content — gradient background for depth */}
+      <div style={{ background: "linear-gradient(180deg, #f0f3f8 0%, #fefefe 120px)" }}>
       <div
         style={{
           maxWidth: "1400px",
@@ -18,11 +19,11 @@ export default function Home() {
         {/* Section header */}
         <div
           style={{
-            padding: "48px 0 0",
+            padding: "52px 0 0",
             marginBottom: "0",
           }}
         >
-          <div className="section-label">Turnaus & Assistentti</div>
+          <div className="section-label" style={{ fontSize: "13px", letterSpacing: "0.2em" }}>Turnaus & Assistentti</div>
           <div className="divider" style={{ marginTop: "16px" }} />
         </div>
 
@@ -49,6 +50,7 @@ export default function Home() {
             <Chat />
           </div>
         </div>
+      </div>
       </div>
 
       {/* Footer */}

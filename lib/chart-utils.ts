@@ -42,6 +42,11 @@ export const COLORS = {
   goldBright: "#b8952e",
   goldGlow: "rgba(201, 169, 110, 0.15)",
   redBright: "#dc2626",
+  // Team identity — strong saturated colors
+  blueTeam: "#2d6bc4",
+  blueTeamGlow: "rgba(45, 107, 196, 0.18)",
+  redTeam: "#c73030",
+  redTeamGlow: "rgba(199, 48, 48, 0.18)",
   text: "#1a2940",
   textMuted: "#5a6e88",
   textDim: "#8a9bb0",

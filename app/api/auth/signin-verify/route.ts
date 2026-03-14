@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { setSessionCookie } from "@/lib/auth";
+import { setSessionCookie, setAdminCookie } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   const baseUrl = process.env.N8N_BASE_URL?.trim();
@@ -50,6 +50,17 @@ export async function POST(req: NextRequest) {
       data: { player: data.data.player },
     });
     setSessionCookie(res, data.data.sessionToken);
+
+    // Set admin cookie if player's email is in the ADMIN_EMAILS list
+    const adminEmails = (process.env.ADMIN_EMAILS ?? "")
+      .split(",")
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean);
+    const playerEmail = (data.data.player?.email ?? "").toLowerCase();
+    if (playerEmail && adminEmails.includes(playerEmail)) {
+      setAdminCookie(res);
+    }
+
     return res;
   } catch (error) {
     console.error("Signin verify error:", error instanceof Error ? error.message : "Unknown error");

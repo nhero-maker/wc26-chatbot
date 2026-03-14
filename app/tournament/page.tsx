@@ -267,10 +267,10 @@ export default function TournamentPage() {
                 <div style={{
                   fontFamily: "var(--font-display)", fontWeight: 900,
                   fontSize: "14px", letterSpacing: "0.1em",
-                  color: teamNum === 1 ? "#3f5b7b" : "#6b8db5",
+                  color: teamNum === 1 ? "var(--blue-team)" : "var(--red-team)",
                   marginBottom: "12px",
                 }}>
-                  JOUKKUE {teamNum}
+                  {teamNum === 1 ? "SINISET" : "PUNAISET"}
                 </div>
                 {players
                   .filter((p) => p.team === teamNum)

@@ -15,14 +15,14 @@ export default function Hero() {
       style={{
         position: "relative",
         overflow: "hidden",
-        background: "#0e1a2e",
+        background: "#0a1520",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
       }}
     >
-      {/* Hero background image */}
+      {/* Hero background image — more visible */}
       <div
         aria-hidden
         style={{
@@ -30,19 +30,19 @@ export default function Hero() {
           inset: 0,
           backgroundImage: "url(/wc26-hero-bg.png)",
           backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.35,
+          backgroundPosition: "center top",
+          opacity: 0.5,
         }}
       />
 
-      {/* Navy overlay for readability */}
+      {/* Dark gradient overlay */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(14,26,46,0.5) 0%, rgba(14,26,46,0.65) 50%, rgba(14,26,46,0.9) 85%, #FEFEFE 100%)",
+            "linear-gradient(to bottom, rgba(10,21,32,0.55) 0%, rgba(10,21,32,0.5) 40%, rgba(10,21,32,0.75) 75%, rgba(10,21,32,0.97) 100%)",
           pointerEvents: "none",
         }}
       />
@@ -58,23 +58,23 @@ export default function Hero() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          borderBottom: "1px solid rgba(255,255,255,0.1)",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
           backdropFilter: "blur(12px)",
-          background: "rgba(255,255,255,0.08)",
+          background: "rgba(10,21,32,0.4)",
           zIndex: 10,
         }}
       >
         <img
           src="/wc26-logo.png"
           alt="WC26 Winter Cup 2026"
-          style={{ height: "40px", width: "auto" }}
+          style={{ height: "38px", width: "auto" }}
         />
         <div
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "13px",
-            color: "rgba(255,255,255,0.6)",
-            letterSpacing: "0.12em",
+            color: "rgba(255,255,255,0.5)",
+            letterSpacing: "0.14em",
           }}
         >
           KAUSI 2026
@@ -88,8 +88,8 @@ export default function Hero() {
               color: "rgba(255,255,255,0.7)",
               letterSpacing: "0.1em",
               textDecoration: "none",
-              padding: "8px 16px",
-              border: "1px solid rgba(255,255,255,0.2)",
+              padding: "8px 18px",
+              border: "1px solid rgba(255,255,255,0.18)",
               borderRadius: "var(--radius)",
               transition: "all 0.2s",
             }}
@@ -99,7 +99,7 @@ export default function Hero() {
               e.currentTarget.style.background = "rgba(255,255,255,0.08)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)";
               e.currentTarget.style.color = "rgba(255,255,255,0.7)";
               e.currentTarget.style.background = "transparent";
             }}
@@ -114,17 +114,19 @@ export default function Hero() {
               color: "#fff",
               letterSpacing: "0.1em",
               textDecoration: "none",
-              padding: "8px 16px",
-              border: "1px solid rgba(107,141,181,0.5)",
+              padding: "8px 18px",
+              border: "1px solid rgba(45,107,196,0.6)",
               borderRadius: "var(--radius)",
-              background: "rgba(63,91,123,0.3)",
+              background: "rgba(45,107,196,0.25)",
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(63,91,123,0.5)";
+              e.currentTarget.style.background = "rgba(45,107,196,0.45)";
+              e.currentTarget.style.borderColor = "rgba(45,107,196,0.9)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(63,91,123,0.3)";
+              e.currentTarget.style.background = "rgba(45,107,196,0.25)";
+              e.currentTarget.style.borderColor = "rgba(45,107,196,0.6)";
             }}
           >
             KYSY ASSISTENTILTA
@@ -134,53 +136,80 @@ export default function Hero() {
 
       {/* Main hero content */}
       <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+
         {/* Season label */}
         <div
           className="section-label"
           style={{
-            marginBottom: "32px",
+            marginBottom: "28px",
             animation: "fadeUp 0.5s 0.1s ease both",
             justifyContent: "center",
-            color: "rgba(255,255,255,0.5)",
+            color: "rgba(255,255,255,0.45)",
           }}
         >
           Talvigolf · Simulaattoriturnaus · 2026
         </div>
 
-        {/* Shield logo */}
+        {/* Main title — bold text hero instead of redundant logo */}
         <div style={{ animation: "fadeUp 0.6s 0.2s ease both" }}>
-          <img
-            src="/wc26-logo.png"
-            alt="Winter Cup 2026"
+          <div
             style={{
-              height: "clamp(220px, 32vw, 350px)",
-              width: "auto",
-              margin: "0 auto",
-              display: "block",
-              filter: "drop-shadow(0 8px 48px rgba(0,0,0,0.4))",
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(64px, 12vw, 130px)",
+              lineHeight: 0.9,
+              letterSpacing: "0.03em",
+              color: "#fff",
+              textShadow: "0 4px 40px rgba(0,0,0,0.5)",
             }}
-          />
+          >
+            WINTER
+          </div>
+          <div
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(64px, 12vw, 130px)",
+              lineHeight: 0.9,
+              letterSpacing: "0.03em",
+              color: "#c9a96e",
+              textShadow: "0 4px 40px rgba(201,169,110,0.3)",
+            }}
+          >
+            CUP
+          </div>
+          <div
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "clamp(22px, 4vw, 44px)",
+              letterSpacing: "0.3em",
+              color: "rgba(255,255,255,0.55)",
+              marginTop: "8px",
+            }}
+          >
+            2026
+          </div>
         </div>
 
         {/* Teams vs bar */}
         <div
           style={{
-            marginTop: "48px",
+            marginTop: "52px",
             display: "flex",
             alignItems: "center",
             gap: "20px",
             animation: "fadeUp 0.6s 0.4s ease both",
-            maxWidth: "600px",
-            margin: "48px auto 0",
+            maxWidth: "640px",
+            margin: "52px auto 0",
           }}
         >
-          <div style={{ textAlign: "right", minWidth: "120px" }}>
+          {/* Siniset — Blue */}
+          <div style={{ textAlign: "right", minWidth: "130px" }}>
             <div
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "24px",
+                fontSize: "clamp(20px, 3vw, 28px)",
                 letterSpacing: "0.08em",
-                color: "#8bb0d8",
+                color: "#4d9ef7",
+                textShadow: "0 0 24px rgba(45,107,196,0.6)",
               }}
             >
               SINISET
@@ -188,76 +217,58 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "13px",
-                color: "rgba(255,255,255,0.45)",
+                fontSize: "14px",
+                color: "rgba(255,255,255,0.7)",
+                letterSpacing: "0.1em",
+                marginTop: "2px",
               }}
             >
               JOUKKUE 1
             </div>
           </div>
+
+          {/* VS divider + gradient bar */}
           <div style={{ flex: 1, position: "relative" }}>
             <div
               style={{
-                height: "4px",
-                background: "rgba(255,255,255,0.15)",
-                borderRadius: "2px",
-                overflow: "hidden",
+                height: "5px",
+                borderRadius: "3px",
+                background: "linear-gradient(90deg, #2d6bc4 0%, rgba(255,255,255,0.15) 50%, #c73030 100%)",
               }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  top: 0,
-                  height: "100%",
-                  width: "50%",
-                  background: "linear-gradient(90deg, #3f5b7b, #6b8db5)",
-                  borderRadius: "2px 0 0 2px",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: 0,
-                  height: "100%",
-                  width: "50%",
-                  background: "#a1b5cb",
-                  borderRadius: "0 2px 2px 0",
-                  opacity: 0.7,
-                }}
-              />
-            </div>
+            />
             <div
               style={{
                 position: "absolute",
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                background: "rgba(14,26,46,0.8)",
-                border: "1px solid rgba(255,255,255,0.2)",
+                background: "rgba(10,21,32,0.9)",
+                border: "1px solid rgba(255,255,255,0.25)",
                 borderRadius: "50%",
-                width: "32px",
-                height: "32px",
+                width: "36px",
+                height: "36px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontFamily: "var(--font-display)",
                 fontSize: "12px",
-                letterSpacing: "0.05em",
-                color: "rgba(255,255,255,0.6)",
+                letterSpacing: "0.06em",
+                color: "rgba(255,255,255,0.75)",
               }}
             >
               VS
             </div>
           </div>
-          <div style={{ minWidth: "120px" }}>
+
+          {/* Punaiset — Red */}
+          <div style={{ minWidth: "130px" }}>
             <div
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "24px",
+                fontSize: "clamp(20px, 3vw, 28px)",
                 letterSpacing: "0.08em",
-                color: "#a1b5cb",
+                color: "#f06060",
+                textShadow: "0 0 24px rgba(199,48,48,0.6)",
               }}
             >
               PUNAISET
@@ -265,8 +276,10 @@ export default function Hero() {
             <div
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "13px",
-                color: "rgba(255,255,255,0.45)",
+                fontSize: "14px",
+                color: "rgba(255,255,255,0.7)",
+                letterSpacing: "0.1em",
+                marginTop: "2px",
               }}
             >
               JOUKKUE 2
@@ -277,15 +290,21 @@ export default function Hero() {
         {/* Season timeline */}
         <div
           style={{
-            marginTop: "48px",
+            marginTop: "52px",
             animation: "fadeUp 0.6s 0.5s ease both",
           }}
         >
           <div
             className="section-label"
-            style={{ marginBottom: "20px", justifyContent: "center", color: "rgba(255,255,255,0.5)" }}
+            style={{
+              marginBottom: "24px",
+              justifyContent: "center",
+              color: "rgba(255,255,255,0.55)",
+              fontSize: "13px",
+              letterSpacing: "0.2em",
+            }}
           >
-            Kauden eteneminen
+            KAUDEN ETENEMINEN
           </div>
           <div
             style={{
@@ -293,7 +312,7 @@ export default function Hero() {
               alignItems: "flex-start",
               gap: 0,
               position: "relative",
-              maxWidth: "700px",
+              maxWidth: "760px",
               margin: "0 auto",
             }}
           >
@@ -313,11 +332,13 @@ export default function Hero() {
                   <div
                     style={{
                       position: "absolute",
-                      top: "12px",
+                      top: "18px",
                       left: "50%",
                       right: "-50%",
-                      height: "1px",
-                      background: "rgba(255,255,255,0.15)",
+                      height: "2px",
+                      background: course.active
+                        ? "linear-gradient(90deg, rgba(201,169,110,0.6), rgba(255,255,255,0.15))"
+                        : "rgba(255,255,255,0.12)",
                       zIndex: 0,
                     }}
                   />
@@ -325,11 +346,13 @@ export default function Hero() {
                 {/* Dot */}
                 <div
                   style={{
-                    width: "24px",
-                    height: "24px",
+                    width: "36px",
+                    height: "36px",
                     borderRadius: "50%",
-                    border: `2px solid ${course.active ? "#c9a96e" : "rgba(255,255,255,0.2)"}`,
-                    background: course.active ? "rgba(201,169,110,0.2)" : "rgba(14,26,46,0.6)",
+                    border: `2px solid ${course.active ? "#c9a96e" : "rgba(255,255,255,0.22)"}`,
+                    background: course.active
+                      ? "rgba(201,169,110,0.18)"
+                      : "rgba(10,21,32,0.7)",
                     position: "relative",
                     zIndex: 1,
                     display: "flex",
@@ -337,42 +360,45 @@ export default function Hero() {
                     justifyContent: "center",
                     transition: "all 0.3s",
                     boxShadow: course.active
-                      ? "0 0 12px rgba(201,169,110,0.3), 0 0 24px rgba(201,169,110,0.1)"
+                      ? "0 0 18px rgba(201,169,110,0.4), 0 0 36px rgba(201,169,110,0.15)"
                       : "none",
                   }}
                 >
                   {course.active && (
                     <div
                       style={{
-                        width: "8px",
-                        height: "8px",
+                        width: "10px",
+                        height: "10px",
                         borderRadius: "50%",
                         background: "#c9a96e",
+                        boxShadow: "0 0 8px rgba(201,169,110,0.8)",
                       }}
                     />
                   )}
                 </div>
-                {/* Labels */}
+                {/* Month label */}
                 <div
                   style={{
-                    marginTop: "8px",
+                    marginTop: "10px",
                     textAlign: "center",
                     fontFamily: "var(--font-mono)",
-                    fontSize: "12px",
-                    color: course.active ? "#c9a96e" : "rgba(255,255,255,0.4)",
-                    letterSpacing: "0.08em",
+                    fontSize: "14px",
+                    color: course.active ? "#c9a96e" : "rgba(255,255,255,0.5)",
+                    letterSpacing: "0.1em",
                   }}
                 >
                   {course.month}
                 </div>
+                {/* Course name */}
                 <div
                   style={{
-                    marginTop: "2px",
+                    marginTop: "4px",
                     textAlign: "center",
                     fontFamily: "var(--font-body)",
-                    fontSize: "13px",
-                    color: course.active ? "#fff" : "rgba(255,255,255,0.35)",
-                    maxWidth: "80px",
+                    fontSize: "14px",
+                    fontWeight: course.active ? 600 : 400,
+                    color: course.active ? "#fff" : "rgba(255,255,255,0.45)",
+                    maxWidth: "88px",
                     lineHeight: 1.3,
                   }}
                 >
@@ -386,7 +412,7 @@ export default function Hero() {
         {/* CTA */}
         <div
           style={{
-            marginTop: "60px",
+            marginTop: "64px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -400,66 +426,74 @@ export default function Hero() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "10px",
-              background: "#3f5b7b",
+              gap: "12px",
+              background: "linear-gradient(135deg, #2d6bc4, #3d7fd4)",
               color: "#fff",
-              padding: "16px 32px",
+              padding: "18px 36px",
               borderRadius: "var(--radius)",
               fontFamily: "var(--font-display)",
-              fontSize: "16px",
+              fontSize: "18px",
               letterSpacing: "0.08em",
               textDecoration: "none",
               transition: "all 0.2s",
-              boxShadow: "0 4px 16px rgba(63,91,123,0.3)",
+              boxShadow: "0 6px 24px rgba(45,107,196,0.45), 0 2px 8px rgba(0,0,0,0.3)",
+              border: "1px solid rgba(255,255,255,0.15)",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#6b8db5";
-              e.currentTarget.style.boxShadow = "0 6px 20px rgba(63,91,123,0.4)";
+              e.currentTarget.style.background = "linear-gradient(135deg, #3d7fd4, #5090e0)";
+              e.currentTarget.style.boxShadow = "0 8px 32px rgba(45,107,196,0.6), 0 2px 8px rgba(0,0,0,0.3)";
+              e.currentTarget.style.transform = "translateY(-1px)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#3f5b7b";
-              e.currentTarget.style.boxShadow = "0 4px 16px rgba(63,91,123,0.3)";
+              e.currentTarget.style.background = "linear-gradient(135deg, #2d6bc4, #3d7fd4)";
+              e.currentTarget.style.boxShadow = "0 6px 24px rgba(45,107,196,0.45), 0 2px 8px rgba(0,0,0,0.3)";
+              e.currentTarget.style.transform = "translateY(0)";
             }}
           >
             KYSY ASSISTENTILTA
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
               <path d="M8 3l5 5-5 5M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
+
           <a
             href="/register"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "10px",
-              background: "transparent",
+              gap: "12px",
+              background: "rgba(201,169,110,0.1)",
               color: "#c9a96e",
-              padding: "16px 32px",
+              padding: "18px 36px",
               borderRadius: "var(--radius)",
               fontFamily: "var(--font-display)",
-              fontSize: "16px",
+              fontSize: "18px",
               letterSpacing: "0.08em",
               textDecoration: "none",
-              border: "1px solid rgba(201,169,110,0.4)",
+              border: "1px solid rgba(201,169,110,0.55)",
               transition: "all 0.2s",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(201,169,110,0.1)";
+              e.currentTarget.style.background = "rgba(201,169,110,0.18)";
               e.currentTarget.style.borderColor = "#c9a96e";
+              e.currentTarget.style.transform = "translateY(-1px)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.borderColor = "rgba(201,169,110,0.4)";
+              e.currentTarget.style.background = "rgba(201,169,110,0.1)";
+              e.currentTarget.style.borderColor = "rgba(201,169,110,0.55)";
+              e.currentTarget.style.transform = "translateY(0)";
             }}
           >
             REKISTERÖIDY
           </a>
+
           <div
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              color: "rgba(255,255,255,0.45)",
-              lineHeight: 1.5,
+              fontSize: "14px",
+              color: "rgba(255,255,255,0.4)",
+              lineHeight: 1.6,
             }}
           >
             6 kierrosta · 6 kenttää

@@ -18,6 +18,7 @@ export default function CardPanel({
         padding: "24px",
         boxShadow: "var(--shadow-card)",
         animation: `fadeUp 0.4s ${delay}s ease both`,
+        borderTop: "2px solid rgba(201,169,110,0.25)",
       }}
     >
       <div

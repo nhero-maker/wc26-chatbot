@@ -88,10 +88,12 @@ export default function TournamentInfo() {
               padding: "16px 20px",
               background: "var(--surface)",
               border: "1px solid var(--border)",
+              borderLeft: "4px solid var(--blue-team)",
               borderRadius: "var(--radius-lg)",
               display: "flex",
               alignItems: "flex-start",
               gap: "16px",
+              boxShadow: "var(--shadow-card)",
             }}
           >
             <span className="badge badge-blue" style={{ marginTop: "2px" }}>FOURBALL</span>
@@ -109,10 +111,12 @@ export default function TournamentInfo() {
               padding: "16px 20px",
               background: "var(--surface)",
               border: "1px solid var(--border)",
+              borderLeft: "4px solid var(--red-team)",
               borderRadius: "var(--radius-lg)",
               display: "flex",
               alignItems: "flex-start",
               gap: "16px",
+              boxShadow: "var(--shadow-card)",
             }}
           >
             <span className="badge badge-red" style={{ marginTop: "2px" }}>SINGLES</span>
@@ -128,12 +132,14 @@ export default function TournamentInfo() {
           <div
             style={{
               padding: "16px 20px",
-              background: "var(--surface)",
-              border: "1px solid rgba(201,169,110,0.2)",
+              background: "rgba(201,169,110,0.04)",
+              border: "1px solid rgba(201,169,110,0.25)",
+              borderLeft: "4px solid var(--gold-mid)",
               borderRadius: "var(--radius-lg)",
               display: "flex",
               alignItems: "flex-start",
               gap: "16px",
+              boxShadow: "var(--shadow-card)",
             }}
           >
             <span className="badge badge-gold" style={{ marginTop: "2px" }}>FINAALI</span>

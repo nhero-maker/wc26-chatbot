@@ -11,6 +11,11 @@ export async function PATCH(
   }
 
   const { id } = await params;
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!UUID_RE.test(id)) {
+    return NextResponse.json({ success: false, error: "Virheellinen pyyntö" }, { status: 400 });
+  }
+
   const baseUrl = process.env.N8N_BASE_URL?.trim();
   const webhookSecret = process.env.N8N_PLAYER_SECRET?.trim();
   if (!baseUrl || !webhookSecret) {
@@ -108,6 +113,11 @@ export async function DELETE(
   }
 
   const { id } = await params;
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!UUID_RE.test(id)) {
+    return NextResponse.json({ success: false, error: "Virheellinen pyyntö" }, { status: 400 });
+  }
+
   const baseUrl = process.env.N8N_BASE_URL?.trim();
   const webhookSecret = process.env.N8N_PLAYER_SECRET?.trim();
   if (!baseUrl || !webhookSecret) {

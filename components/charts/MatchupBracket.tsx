@@ -47,7 +47,7 @@ export default function MatchupBracket({ matchups, format }: Props) {
               fontFamily: "Barlow, sans-serif",
             }}
           >
-            {/* Team 1 side */}
+            {/* Team 1 (Siniset/Blue) side */}
             <div style={{
               flex: 1,
               padding: "10px 12px",
@@ -55,9 +55,9 @@ export default function MatchupBracket({ matchups, format }: Props) {
               alignItems: "center",
               justifyContent: "space-between",
               background: t1Wins
-                ? "rgba(63, 91, 123, 0.12)"
+                ? "rgba(45, 107, 196, 0.1)"
                 : "transparent",
-              borderLeft: `3px solid ${t1Wins ? COLORS.blueMid : isDraw ? COLORS.textMuted : "transparent"}`,
+              borderLeft: `3px solid ${t1Wins ? COLORS.blueTeam : isDraw ? COLORS.textMuted : "transparent"}`,
             }}>
               <span style={{
                 fontSize: "12px",
@@ -69,9 +69,9 @@ export default function MatchupBracket({ matchups, format }: Props) {
               </span>
               <span style={{
                 fontSize: "16px",
-                fontFamily: "Barlow Condensed, sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 900,
-                color: t1Wins ? COLORS.blueMid : COLORS.textMuted,
+                color: t1Wins ? COLORS.blueTeam : COLORS.textMuted,
                 marginLeft: "8px",
                 minWidth: "24px",
                 textAlign: "center",
@@ -94,7 +94,7 @@ export default function MatchupBracket({ matchups, format }: Props) {
               VS
             </div>
 
-            {/* Team 2 side */}
+            {/* Team 2 (Punaiset/Red) side */}
             <div style={{
               flex: 1,
               padding: "10px 12px",
@@ -103,9 +103,9 @@ export default function MatchupBracket({ matchups, format }: Props) {
               justifyContent: "space-between",
               flexDirection: "row-reverse",
               background: t2Wins
-                ? "rgba(107, 141, 181, 0.12)"
+                ? "rgba(199, 48, 48, 0.1)"
                 : "transparent",
-              borderRight: `3px solid ${t2Wins ? COLORS.blueBright : isDraw ? COLORS.textMuted : "transparent"}`,
+              borderRight: `3px solid ${t2Wins ? COLORS.redTeam : isDraw ? COLORS.textMuted : "transparent"}`,
             }}>
               <span style={{
                 fontSize: "12px",
@@ -118,9 +118,9 @@ export default function MatchupBracket({ matchups, format }: Props) {
               </span>
               <span style={{
                 fontSize: "16px",
-                fontFamily: "Barlow Condensed, sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 900,
-                color: t2Wins ? COLORS.blueBright : COLORS.textMuted,
+                color: t2Wins ? COLORS.redTeam : COLORS.textMuted,
                 marginRight: "8px",
                 minWidth: "24px",
                 textAlign: "center",

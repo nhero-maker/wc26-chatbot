@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth";
+import { getSession, isAdmin } from "@/lib/auth";
 
 async function handleRequest(req: NextRequest) {
   const session = getSession(req);
   if (!session) {
     return NextResponse.json({ success: false, error: "Ei kirjautunut" }, { status: 401 });
+  }
+  if (!isAdmin(req)) {
+    return NextResponse.json({ success: false, error: "Ei oikeuksia" }, { status: 403 });
   }
 
   const baseUrl = process.env.N8N_BASE_URL?.trim();
