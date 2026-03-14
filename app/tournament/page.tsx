@@ -7,6 +7,12 @@ import {
   signOut,
   type TournamentData,
 } from "@/lib/player";
+import {
+  WC26_TOURNAMENT_PLAYERS,
+  WC26_EVENTS,
+  WC26_MATCHUPS,
+  getStaticTeamStandings,
+} from "@/lib/wc26-data";
 import CardPanel from "@/components/CardPanel";
 import TeamScoreCircles from "@/components/charts/TeamScoreCircles";
 import PlayerContributionBars from "@/components/charts/PlayerContributionBars";
@@ -27,27 +33,61 @@ export default function TournamentPage() {
   const router = useRouter();
   const [data, setData] = useState<TournamentData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [expandedEvent, setExpandedEvent] = useState<number | null>(null);
 
   useEffect(() => {
     getTournament()
       .then((res) => {
         if (res.success && res.data) {
-          setData(res.data);
-          // Auto-expand latest event
-          if (res.data.events.length > 0) {
-            setExpandedEvent(res.data.events[res.data.events.length - 1].id);
+          const d = res.data;
+          // Merge static data when N8N returns empty collections
+          const merged: TournamentData = {
+            players: d.players.length > 0 ? d.players : WC26_TOURNAMENT_PLAYERS,
+            events: d.events.length > 0 ? d.events : WC26_EVENTS,
+            matchups: d.matchups.length > 0 ? d.matchups : WC26_MATCHUPS,
+            bonusPoints: d.bonusPoints,
+            teamStandings:
+              d.teamStandings.team1_total > 0 || d.teamStandings.team2_total > 0
+                ? d.teamStandings
+                : getStaticTeamStandings(),
+          };
+          setData(merged);
+          const evts = merged.events;
+          if (evts.length > 0) {
+            setExpandedEvent(evts[evts.length - 1].id);
           }
         } else {
           if (res.error?.includes("kirjautunut")) {
             router.replace("/signin");
             return;
           }
-          setError(res.error ?? "Lataus epäonnistui.");
+          // Fall back to static data on any error
+          const standings = getStaticTeamStandings();
+          setData({
+            players: WC26_TOURNAMENT_PLAYERS,
+            events: WC26_EVENTS,
+            matchups: WC26_MATCHUPS,
+            bonusPoints: [],
+            teamStandings: standings,
+          });
+          if (WC26_EVENTS.length > 0) {
+            setExpandedEvent(WC26_EVENTS[WC26_EVENTS.length - 1].id);
+          }
         }
       })
-      .catch(() => setError("Verkkovirhe."))
+      .catch(() => {
+        const standings = getStaticTeamStandings();
+        setData({
+          players: WC26_TOURNAMENT_PLAYERS,
+          events: WC26_EVENTS,
+          matchups: WC26_MATCHUPS,
+          bonusPoints: [],
+          teamStandings: standings,
+        });
+        if (WC26_EVENTS.length > 0) {
+          setExpandedEvent(WC26_EVENTS[WC26_EVENTS.length - 1].id);
+        }
+      })
       .finally(() => setLoading(false));
   }, [router]);
 
@@ -72,30 +112,14 @@ export default function TournamentPage() {
     );
   }
 
-  if (error || !data) {
+  if (!data) {
     return (
       <div style={{
         minHeight: "100vh", background: "var(--bg)",
-        display: "flex", alignItems: "center", justifyContent: "center", padding: "24px",
+        display: "flex", alignItems: "center", justifyContent: "center",
       }}>
-        <div style={{
-          background: "rgba(220,38,38,0.06)", border: "1px solid rgba(220,38,38,0.15)",
-          borderRadius: "var(--radius-lg)", padding: "24px", maxWidth: "400px", textAlign: "center",
-        }}>
-          <div style={{
-            fontFamily: "var(--font-body)", fontSize: "14px",
-            color: "var(--red-bright)", marginBottom: "16px",
-          }}>
-            {error || "Lataus epäonnistui."}
-          </div>
-          <a href="/dashboard" style={{
-            display: "inline-block", background: "var(--blue-mid)", color: "#fff",
-            padding: "10px 20px", borderRadius: "var(--radius)",
-            fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "13px",
-            letterSpacing: "0.08em", textDecoration: "none",
-          }}>
-            TAKAISIN
-          </a>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)", letterSpacing: "0.1em" }}>
+          LADATAAN TURNAUSDATAA...
         </div>
       </div>
     );

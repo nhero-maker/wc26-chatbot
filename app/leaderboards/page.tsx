@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getLeaderboards, getTournament, signOut, type LeaderboardData, type TournamentData } from "@/lib/player";
+import { WC26_SEASON_STATS, type PlayerSeasonStats } from "@/lib/wc26-data";
 
-type Tab = "bestScores" | "longestDrives" | "closestToPin" | "netScores";
+type Tab = "bestScores" | "longestDrives" | "closestToPin" | "netScores" | "standings";
 
 const TABS: { key: Tab; label: string }[] = [
+  { key: "standings", label: "SIJOITUKSET" },
   { key: "bestScores", label: "PARAS TULOS" },
   { key: "longestDrives", label: "PISIN LYÖNTI" },
   { key: "closestToPin", label: "LÄHIMPÄNÄ" },
@@ -25,7 +27,7 @@ function TeamDot({ name, tourney }: { name: string; tourney: TournamentData | nu
   if (!tourney) return null;
   const p = tourney.players.find((tp) => tp.name === name);
   if (!p) return null;
-  const color = p.team === 1 ? "#3f5b7b" : "#6b8db5";
+  const color = p.team === 1 ? "var(--blue-team)" : "var(--red-team)";
   return (
     <span style={{
       display: "inline-block", width: "10px", height: "10px",
@@ -62,7 +64,7 @@ export default function LeaderboardsPage() {
   const [tourney, setTourney] = useState<TournamentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<Tab>("bestScores");
+  const [activeTab, setActiveTab] = useState<Tab>("standings");
 
   async function load() {
     const [res, tRes] = await Promise.all([getLeaderboards(), getTournament()]);
@@ -296,7 +298,11 @@ export default function LeaderboardsPage() {
                 animation: "fadeUp 0.4s 0.15s ease both",
               }}
             >
-              {!data && (
+              {activeTab === "standings" && (
+                <StandingsTable stats={WC26_SEASON_STATS} tourney={tourney} />
+              )}
+
+              {!data && activeTab !== "standings" && (
                 <div
                   style={{
                     padding: "48px",
@@ -437,6 +443,124 @@ export default function LeaderboardsPage() {
           </>
         )}
       </main>
+    </div>
+  );
+}
+
+// ─── Season Standings Table ───────────────────────────────────────────────────
+
+type StandingsView = "net" | "mvp" | "birdies" | "drive" | "sharp";
+
+const STANDING_VIEWS: { key: StandingsView; label: string; desc: string }[] = [
+  { key: "net",    label: "NETTO",   desc: "Nettopisteet (pienempi = parempi)" },
+  { key: "mvp",    label: "MVP",     desc: "Reikäpisteet yhteensä" },
+  { key: "birdies",label: "BIRDMAN", desc: "Birdieitä yhteensä" },
+  { key: "drive",  label: "DRAIVI",  desc: "Pisin draivi (m)" },
+  { key: "sharp",  label: "TARKKUUS",desc: "Ero 100 metriin (m, pienempi = parempi)" },
+];
+
+function StandingsTable({ stats, tourney }: { stats: PlayerSeasonStats[]; tourney: TournamentData | null }) {
+  const [view, setView] = useState<StandingsView>("net");
+
+  const sorted = [...stats].sort((a, b) => {
+    switch (view) {
+      case "net":    return a.netTotal - b.netTotal;
+      case "mvp":    return b.mvpTotal - a.mvpTotal;
+      case "birdies":return b.birdiesTotal - a.birdiesTotal;
+      case "drive":  return b.bestDrive - a.bestDrive;
+      case "sharp":  return a.sharpShooterBest - b.sharpShooterBest;
+    }
+  });
+
+  return (
+    <div>
+      {/* Sub-tab bar */}
+      <div style={{
+        display: "flex", gap: "4px", padding: "12px 16px",
+        borderBottom: "1px solid var(--border)", overflowX: "auto",
+        background: "var(--surface-2)",
+      }}>
+        {STANDING_VIEWS.map((sv) => (
+          <button
+            key={sv.key}
+            onClick={() => setView(sv.key)}
+            style={{
+              padding: "6px 12px",
+              border: "none",
+              borderRadius: "var(--radius)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              letterSpacing: "0.08em",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              background: view === sv.key ? "var(--blue-team)" : "transparent",
+              color: view === sv.key ? "#fff" : "var(--text-muted)",
+              transition: "all 0.2s",
+            }}
+          >
+            {sv.label}
+          </button>
+        ))}
+      </div>
+      {/* Rows */}
+      {sorted.map((p, i) => {
+        const isT1 = p.team === 1;
+        const teamColor = isT1 ? "var(--blue-team)" : "var(--red-team)";
+        let value: string;
+        switch (view) {
+          case "net":     value = String(p.netTotal); break;
+          case "mvp":     value = String(p.mvpTotal); break;
+          case "birdies": value = String(p.birdiesTotal); break;
+          case "drive":   value = `${p.bestDrive.toFixed(1)} m`; break;
+          case "sharp":   value = `${p.sharpShooterBest.toFixed(2)} m`; break;
+        }
+        return (
+          <div
+            key={p.name}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              padding: "12px 24px",
+              borderBottom: i < sorted.length - 1 ? "1px solid var(--border)" : "none",
+              transition: "background 0.15s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--surface-2)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+          >
+            <span style={{
+              fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "14px",
+              color: i < 3 ? (["var(--gold-bright)", "#c0c0c0", "#cd7f32"] as const)[i] : "var(--text-muted)",
+              minWidth: "24px", textAlign: "right",
+            }}>
+              {i + 1}
+            </span>
+            <span style={{
+              display: "inline-block", width: "10px", height: "10px",
+              borderRadius: "50%", background: teamColor, flexShrink: 0,
+            }} />
+            <span style={{
+              fontFamily: "var(--font-body)", fontSize: "14px",
+              color: "var(--text)", flex: 1,
+            }}>
+              {p.name}
+            </span>
+            <span style={{
+              fontFamily: "var(--font-mono)", fontSize: "11px",
+              color: "var(--text-dim)", marginRight: "8px",
+            }}>
+              {p.roundsPlayed}kd
+            </span>
+            <span style={{
+              fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "20px",
+              color: i === 0 ? "var(--gold-bright)" : "var(--text)",
+              minWidth: "60px", textAlign: "right",
+            }}>
+              {value}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
