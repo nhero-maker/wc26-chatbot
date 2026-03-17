@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       .filter(Boolean);
     const playerEmail = (data.data.player?.email ?? "").toLowerCase();
     if (playerEmail && adminEmails.includes(playerEmail)) {
-      setAdminCookie(res);
+      setAdminCookie(res, data.data.sessionToken);
     }
 
     return res;
