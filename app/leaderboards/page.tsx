@@ -2,8 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getLeaderboards, getTournament, signOut, type LeaderboardData, type TournamentData } from "@/lib/player";
-import { WC26_SEASON_STATS, type PlayerSeasonStats } from "@/lib/wc26-data";
+import { getLeaderboards, getTournament, getMe, signOut, type LeaderboardData, type TournamentData } from "@/lib/player";
+import AppNav from "@/components/AppNav";
+import { LeaderboardSkeleton } from "@/components/Skeleton";
+import { WC26_SEASON_STATS, WC26_SCORECARDS, WC26_EVENT_PARS, type PlayerSeasonStats } from "@/lib/wc26-data";
+
+// Rounds completed so far — update when new rounds finish
+const COMPLETED_ROUND_IDS = [1, 2];
 
 type Tab = "bestScores" | "longestDrives" | "closestToPin" | "netScores" | "standings";
 
@@ -62,12 +67,13 @@ export default function LeaderboardsPage() {
   const router = useRouter();
   const [data, setData] = useState<LeaderboardData | null>(null);
   const [tourney, setTourney] = useState<TournamentData | null>(null);
+  const [me, setMe] = useState<{ name: string; team: number | null } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("standings");
 
   async function load() {
-    const [res, tRes] = await Promise.all([getLeaderboards(), getTournament()]);
+    const [res, tRes, meRes] = await Promise.all([getLeaderboards(), getTournament(), getMe()]);
     if (res.success && res.data) {
       setData(res.data);
     } else {
@@ -79,6 +85,9 @@ export default function LeaderboardsPage() {
     }
     if (tRes.success && tRes.data) {
       setTourney(tRes.data);
+    }
+    if (meRes.success && meRes.data) {
+      setMe(meRes.data);
     }
     setLoading(false);
   }
@@ -93,106 +102,12 @@ export default function LeaderboardsPage() {
   }
 
   if (loading) {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "var(--bg)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "13px",
-            color: "var(--text-muted)",
-            letterSpacing: "0.1em",
-          }}
-        >
-          LADATAAN...
-        </div>
-      </div>
-    );
+    return <LeaderboardSkeleton />;
   }
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
-      {/* Header */}
-      <header
-        style={{
-          borderBottom: "1px solid var(--border)",
-          padding: "18px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          background: "rgba(255,255,255,0.9)",
-          backdropFilter: "blur(8px)",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-        }}
-      >
-        <a href="/" style={{ textDecoration: "none" }}><img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} /></a>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <a
-            href="/dashboard"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              color: "var(--text-muted)",
-              letterSpacing: "0.1em",
-              textDecoration: "none",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-          >
-            HALLINTAPANEELI
-          </a>
-          <a
-            href="/tournament"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              color: "var(--text-muted)",
-              letterSpacing: "0.1em",
-              textDecoration: "none",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-          >
-            TURNAUS
-          </a>
-          <button
-            onClick={handleSignOut}
-            style={{
-              background: "none",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius)",
-              padding: "6px 12px",
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              letterSpacing: "0.1em",
-              color: "var(--text-muted)",
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--border-bright)";
-              e.currentTarget.style.color = "var(--text)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "var(--border)";
-              e.currentTarget.style.color = "var(--text-muted)";
-            }}
-          >
-            KIRJAUDU ULOS
-          </button>
-        </div>
-      </header>
+      <AppNav activePage="leaderboards" onSignOut={handleSignOut} />
 
       <main style={{ maxWidth: "900px", margin: "0 auto", padding: "48px 32px 80px" }}>
         {/* Page header */}
@@ -299,7 +214,7 @@ export default function LeaderboardsPage() {
               }}
             >
               {activeTab === "standings" && (
-                <StandingsTable stats={WC26_SEASON_STATS} tourney={tourney} />
+                <StandingsTable stats={WC26_SEASON_STATS} tourney={tourney} me={me} />
               )}
 
               {!data && activeTab !== "standings" && (
@@ -321,6 +236,7 @@ export default function LeaderboardsPage() {
                 <LeaderTable
                   rows={data.bestScores}
                   columns={["Nimi", "Kenttä", "Lyöntiä", "Päivä"]}
+                  meName={me?.name} tourney={tourney} getPlayerName={(r) => r.player_name}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -351,6 +267,7 @@ export default function LeaderboardsPage() {
                 <LeaderTable
                   rows={data.longestDrives}
                   columns={["Nimi", "Kenttä", "Metriä", "Päivä"]}
+                  meName={me?.name} tourney={tourney} getPlayerName={(r) => r.player_name}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -382,6 +299,7 @@ export default function LeaderboardsPage() {
                 <LeaderTable
                   rows={data.closestToPin}
                   columns={["Nimi", "Kenttä", "Senttimetriä", "Päivä"]}
+                  meName={me?.name} tourney={tourney} getPlayerName={(r) => r.player_name}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -413,6 +331,7 @@ export default function LeaderboardsPage() {
                 <LeaderTable
                   rows={data.netScores}
                   columns={["Nimi", "Kenttä", "Netto", "Päivä"]}
+                  meName={me?.name} tourney={tourney} getPlayerName={(r) => r.player_name}
                   renderRow={(row, i) => (
                     <>
                       <MedalBadge rank={i + 1} />
@@ -459,12 +378,26 @@ const STANDING_VIEWS: { key: StandingsView; label: string; desc: string }[] = [
   { key: "sharp",  label: "TARKKUUS",desc: "Ero 100 metriin (m, pienempi = parempi)" },
 ];
 
-function StandingsTable({ stats, tourney }: { stats: PlayerSeasonStats[]; tourney: TournamentData | null }) {
+function getProjectedNet(playerName: string, actualNet: number): { projected: number; isProjected: boolean } {
+  const playedIds = new Set(
+    WC26_SCORECARDS.filter((s) => s.playerName === playerName).map((s) => s.eventId)
+  );
+  const missingPar = COMPLETED_ROUND_IDS
+    .filter((id) => !playedIds.has(id))
+    .reduce((sum, id) => sum + (WC26_EVENT_PARS[id]?.reduce((a, b) => a + b, 0) ?? 0), 0);
+  return { projected: actualNet + missingPar, isProjected: missingPar > 0 };
+}
+
+function StandingsTable({ stats, tourney, me }: { stats: PlayerSeasonStats[]; tourney: TournamentData | null; me?: { name: string; team: number | null } | null }) {
   const [view, setView] = useState<StandingsView>("net");
 
   const sorted = [...stats].sort((a, b) => {
+    if (view === "net") {
+      const pa = getProjectedNet(a.name, a.netTotal).projected;
+      const pb = getProjectedNet(b.name, b.netTotal).projected;
+      return pa - pb;
+    }
     switch (view) {
-      case "net":    return a.netTotal - b.netTotal;
       case "mvp":    return b.mvpTotal - a.mvpTotal;
       case "birdies":return b.birdiesTotal - a.birdiesTotal;
       case "drive":  return b.bestDrive - a.bestDrive;
@@ -502,18 +435,42 @@ function StandingsTable({ stats, tourney }: { stats: PlayerSeasonStats[]; tourne
           </button>
         ))}
       </div>
+      {/* Projected score note */}
+      {view === "net" && (
+        <div style={{
+          padding: "8px 24px",
+          background: "rgba(201,169,110,0.06)",
+          borderBottom: "1px solid var(--border)",
+          fontFamily: "var(--font-mono)",
+          fontSize: "11px",
+          color: "var(--text-muted)",
+          letterSpacing: "0.06em",
+        }}>
+          <span style={{ color: "var(--gold-bright)", marginRight: "6px" }}>proj.</span>
+          = kierros pelaamatta, kentän par lisätty väliaikaisesti
+        </div>
+      )}
       {/* Rows */}
       {sorted.map((p, i) => {
         const isT1 = p.team === 1;
         const teamColor = isT1 ? "var(--blue-team)" : "var(--red-team)";
-        let value: string;
+        let displayValue: string;
+        let isProjected = false;
         switch (view) {
-          case "net":     value = String(p.netTotal); break;
-          case "mvp":     value = String(p.mvpTotal); break;
-          case "birdies": value = String(p.birdiesTotal); break;
-          case "drive":   value = `${p.bestDrive.toFixed(1)} m`; break;
-          case "sharp":   value = `${p.sharpShooterBest.toFixed(2)} m`; break;
+          case "net": {
+            const { projected, isProjected: proj } = getProjectedNet(p.name, p.netTotal);
+            displayValue = String(projected);
+            isProjected = proj;
+            break;
+          }
+          case "mvp":     displayValue = String(p.mvpTotal); break;
+          case "birdies": displayValue = String(p.birdiesTotal); break;
+          case "drive":   displayValue = `${p.bestDrive.toFixed(1)} m`; break;
+          case "sharp":   displayValue = `${p.sharpShooterBest.toFixed(2)} m`; break;
         }
+        const isMe = me?.name === p.name;
+        const meBg = isT1 ? "rgba(45,107,196,0.08)" : "rgba(199,48,48,0.08)";
+        const meBorder = isT1 ? "var(--blue-team)" : "var(--red-team)";
         return (
           <div
             key={p.name}
@@ -522,11 +479,14 @@ function StandingsTable({ stats, tourney }: { stats: PlayerSeasonStats[]; tourne
               alignItems: "center",
               gap: "16px",
               padding: "12px 24px",
+              paddingLeft: isMe ? "21px" : "24px",
               borderBottom: i < sorted.length - 1 ? "1px solid var(--border)" : "none",
+              borderLeft: isMe ? `3px solid ${meBorder}` : "3px solid transparent",
+              background: isMe ? meBg : "transparent",
               transition: "background 0.15s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--surface-2)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            onMouseEnter={(e) => { if (!isMe) e.currentTarget.style.background = "var(--surface-2)"; }}
+            onMouseLeave={(e) => { if (!isMe) e.currentTarget.style.background = "transparent"; }}
           >
             <span style={{
               fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "14px",
@@ -547,16 +507,24 @@ function StandingsTable({ stats, tourney }: { stats: PlayerSeasonStats[]; tourne
             </span>
             <span style={{
               fontFamily: "var(--font-mono)", fontSize: "11px",
-              color: "var(--text-dim)", marginRight: "8px",
+              color: "var(--text-dim)", marginRight: "4px",
             }}>
               {p.roundsPlayed}kd
             </span>
+            {isProjected && (
+              <span style={{
+                fontFamily: "var(--font-mono)", fontSize: "10px",
+                color: "var(--gold-bright)", letterSpacing: "0.06em",
+              }}>
+                proj.
+              </span>
+            )}
             <span style={{
               fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "20px",
-              color: i === 0 ? "var(--gold-bright)" : "var(--text)",
+              color: isProjected ? "var(--text-muted)" : (i === 0 ? "var(--gold-bright)" : "var(--text)"),
               minWidth: "60px", textAlign: "right",
             }}>
-              {value}
+              {displayValue}
             </span>
           </div>
         );
@@ -569,11 +537,17 @@ function LeaderTable<T>({
   rows,
   renderRow,
   emptyMsg,
+  meName,
+  tourney: tableTeam,
+  getPlayerName,
 }: {
   rows: T[];
   columns: string[];
   renderRow: (row: T, index: number) => React.ReactNode;
   emptyMsg: string;
+  meName?: string | null;
+  tourney?: TournamentData | null;
+  getPlayerName?: (row: T) => string;
 }) {
   if (rows.length === 0) {
     return (
@@ -593,23 +567,33 @@ function LeaderTable<T>({
 
   return (
     <div>
-      {rows.map((row, i) => (
-        <div
-          key={i}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            padding: "14px 24px",
-            borderBottom: i < rows.length - 1 ? "1px solid var(--border)" : "none",
-            transition: "background 0.15s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "var(--surface-2)")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-        >
-          {renderRow(row, i)}
-        </div>
-      ))}
+      {rows.map((row, i) => {
+        const pName = getPlayerName ? getPlayerName(row) : undefined;
+        const isMe = !!(meName && pName && pName === meName);
+        const tp = isMe && tableTeam ? tableTeam.players.find((p) => p.name === pName) : null;
+        const meBg = tp?.team === 1 ? "rgba(45,107,196,0.08)" : tp ? "rgba(199,48,48,0.08)" : "transparent";
+        const meBorder = tp?.team === 1 ? "var(--blue-team)" : tp ? "var(--red-team)" : "transparent";
+        return (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              padding: "14px 24px",
+              paddingLeft: isMe ? "21px" : "24px",
+              borderBottom: i < rows.length - 1 ? "1px solid var(--border)" : "none",
+              borderLeft: isMe ? `3px solid ${meBorder}` : "3px solid transparent",
+              background: isMe ? meBg : "transparent",
+              transition: "background 0.15s",
+            }}
+            onMouseEnter={(e) => { if (!isMe) e.currentTarget.style.background = "var(--surface-2)"; }}
+            onMouseLeave={(e) => { if (!isMe) e.currentTarget.style.background = "transparent"; }}
+          >
+            {renderRow(row, i)}
+          </div>
+        );
+      })}
     </div>
   );
 }

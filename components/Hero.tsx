@@ -2,13 +2,16 @@
 
 export default function Hero() {
   const courses = [
-    { label: "Lofoten", month: "Tam", active: true },
-    { label: "Marco Simone", month: "Hel", active: false },
-    { label: "Evian", month: "Maa", active: false },
-    { label: "Valderrama", month: "Huh", active: false },
-    { label: "St Andrews", month: "Tou", active: false },
-    { label: "Finale", month: "Kes", active: false },
+    { label: "Lofoten",      month: "Tammikuu",  eventMonth: 1 },
+    { label: "Marco Simone", month: "Helmikuu",   eventMonth: 2 },
+    { label: "Evian",        month: "Maaliskuu",  eventMonth: 3 },
+    { label: "Valderrama",   month: "Huhtikuu",   eventMonth: 4 },
+    { label: "St Andrews",   month: "Toukokuu",   eventMonth: 5 },
+    { label: "Finale",       month: "Kesäkuu",    eventMonth: 6 },
   ];
+
+  const now = new Date();
+  const currentEventMonth = now.getFullYear() === 2026 ? now.getMonth() + 1 : 1;
 
   return (
     <section
@@ -135,7 +138,7 @@ export default function Hero() {
       </div>
 
       {/* Main hero content */}
-      <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+      <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center", paddingTop: "80px" }}>
 
         {/* Season label */}
         <div
@@ -316,96 +319,114 @@ export default function Hero() {
               margin: "0 auto",
             }}
           >
-            {courses.map((course, i) => (
-              <div
-                key={i}
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                {/* Connecting line */}
-                {i < courses.length - 1 && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "18px",
-                      left: "50%",
-                      right: "-50%",
-                      height: "2px",
-                      background: course.active
-                        ? "linear-gradient(90deg, rgba(201,169,110,0.6), rgba(255,255,255,0.15))"
-                        : "rgba(255,255,255,0.12)",
-                      zIndex: 0,
-                    }}
-                  />
-                )}
-                {/* Dot */}
+            {courses.map((course, i) => {
+              const isCompleted = currentEventMonth > course.eventMonth;
+              const isCurrent   = currentEventMonth === course.eventMonth;
+              const isGold      = isCompleted || isCurrent;
+              // Line to the right is gold if this course is completed (next dot is at least current)
+              const lineIsGold  = course.eventMonth < currentEventMonth;
+              const lineIsGradient = isCurrent;
+
+              return (
                 <div
+                  key={i}
                   style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "50%",
-                    border: `2px solid ${course.active ? "#c9a96e" : "rgba(255,255,255,0.22)"}`,
-                    background: course.active
-                      ? "rgba(201,169,110,0.18)"
-                      : "rgba(10,21,32,0.7)",
-                    position: "relative",
-                    zIndex: 1,
+                    flex: 1,
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
-                    justifyContent: "center",
-                    transition: "all 0.3s",
-                    boxShadow: course.active
-                      ? "0 0 18px rgba(201,169,110,0.4), 0 0 36px rgba(201,169,110,0.15)"
-                      : "none",
+                    position: "relative",
                   }}
                 >
-                  {course.active && (
+                  {/* Connecting line to the right */}
+                  {i < courses.length - 1 && (
                     <div
                       style={{
-                        width: "10px",
-                        height: "10px",
-                        borderRadius: "50%",
-                        background: "#c9a96e",
-                        boxShadow: "0 0 8px rgba(201,169,110,0.8)",
+                        position: "absolute",
+                        top: "18px",
+                        left: "50%",
+                        right: "-50%",
+                        height: "2px",
+                        background: lineIsGold
+                          ? "rgba(201,169,110,0.65)"
+                          : lineIsGradient
+                          ? "linear-gradient(90deg, rgba(201,169,110,0.6), rgba(255,255,255,0.12))"
+                          : "rgba(255,255,255,0.12)",
+                        zIndex: 0,
                       }}
                     />
                   )}
+                  {/* Dot */}
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "50%",
+                      border: `2px solid ${isGold ? "#c9a96e" : "rgba(255,255,255,0.22)"}`,
+                      background: isGold
+                        ? "rgba(201,169,110,0.14)"
+                        : "rgba(10,21,32,0.7)",
+                      position: "relative",
+                      zIndex: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "all 0.3s",
+                      boxShadow: isCurrent
+                        ? "0 0 18px rgba(201,169,110,0.4), 0 0 36px rgba(201,169,110,0.15)"
+                        : isCompleted
+                        ? "0 0 10px rgba(201,169,110,0.25)"
+                        : "none",
+                    }}
+                  >
+                    {isCompleted && (
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.5 7l3.5 3.5 5.5-6" stroke="#c9a96e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                    {isCurrent && (
+                      <div
+                        style={{
+                          width: "10px",
+                          height: "10px",
+                          borderRadius: "50%",
+                          background: "#c9a96e",
+                          boxShadow: "0 0 8px rgba(201,169,110,0.8)",
+                        }}
+                      />
+                    )}
+                  </div>
+                  {/* Month label */}
+                  <div
+                    style={{
+                      marginTop: "10px",
+                      textAlign: "center",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "12px",
+                      color: isCurrent ? "#c9a96e" : isCompleted ? "rgba(201,169,110,0.7)" : "rgba(255,255,255,0.5)",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    {course.month}
+                  </div>
+                  {/* Course name */}
+                  <div
+                    style={{
+                      marginTop: "4px",
+                      textAlign: "center",
+                      fontFamily: "var(--font-body)",
+                      fontSize: "14px",
+                      fontWeight: isCurrent ? 600 : 400,
+                      color: isCurrent ? "#fff" : isCompleted ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.45)",
+                      maxWidth: "88px",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {course.label}
+                  </div>
                 </div>
-                {/* Month label */}
-                <div
-                  style={{
-                    marginTop: "10px",
-                    textAlign: "center",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "14px",
-                    color: course.active ? "#c9a96e" : "rgba(255,255,255,0.5)",
-                    letterSpacing: "0.1em",
-                  }}
-                >
-                  {course.month}
-                </div>
-                {/* Course name */}
-                <div
-                  style={{
-                    marginTop: "4px",
-                    textAlign: "center",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "14px",
-                    fontWeight: course.active ? 600 : 400,
-                    color: course.active ? "#fff" : "rgba(255,255,255,0.45)",
-                    maxWidth: "88px",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {course.label}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

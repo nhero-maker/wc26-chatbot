@@ -11,57 +11,77 @@ import {
   WC26_TOURNAMENT_PLAYERS,
   WC26_EVENTS,
   WC26_MATCHUPS,
+  WC26_SCORECARDS,
+  WC26_ROUND_STATS,
+  WC26_EVENT_PARS,
+  WC26_SKILL_POINTS,
   getStaticTeamStandings,
 } from "@/lib/wc26-data";
+import AppNav from "@/components/AppNav";
+import { TournamentSkeleton } from "@/components/Skeleton";
 import CardPanel from "@/components/CardPanel";
 import TeamScoreCircles from "@/components/charts/TeamScoreCircles";
-import PlayerContributionBars from "@/components/charts/PlayerContributionBars";
-import StrokeLeaderboardBars from "@/components/charts/StrokeLeaderboardBars";
-import MatchupBracket from "@/components/charts/MatchupBracket";
-import CourseConditions from "@/components/charts/CourseConditions";
+import CourseSelector from "@/components/CourseSelector";
+import CourseHero from "@/components/charts/CourseHero";
+import EventGroupResults from "@/components/charts/EventGroupResults";
+import EventTeamPoints from "@/components/charts/EventTeamPoints";
+import EventMVPChart from "@/components/charts/EventMVPChart";
+import EventBirdmanChart from "@/components/charts/EventBirdmanChart";
+import EventDriveChart from "@/components/charts/EventDriveChart";
+import EventSharpShooterChart from "@/components/charts/EventSharpShooterChart";
+import EventStrokeLeaderboard from "@/components/charts/EventStrokeLeaderboard";
+import CumulativeTeamPointsChart from "@/components/charts/CumulativeTeamPointsChart";
+import AllPlayersMatchPointsChart from "@/components/charts/AllPlayersMatchPointsChart";
+import CrossRoundProgressionChart from "@/components/charts/CrossRoundProgressionChart";
 
-const MONTH_LABELS: Record<string, string> = {
-  "2026-01": "Tammikuu",
-  "2026-02": "Helmikuu",
-  "2026-03": "Maaliskuu",
-  "2026-04": "Huhtikuu",
-  "2026-05": "Toukokuu",
-  "2026-06": "Kesäkuu",
-};
+const NOW_MONTH = "2026-03";
 
 export default function TournamentPage() {
   const router = useRouter();
   const [data, setData] = useState<TournamentData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [expandedEvent, setExpandedEvent] = useState<number | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<number>(() => {
+    // Default: current month's event, or last event
+    const cur = WC26_EVENTS.find((e) => e.event_month === NOW_MONTH);
+    return cur?.id ?? WC26_EVENTS[WC26_EVENTS.length - 1]?.id ?? 1;
+  });
 
   useEffect(() => {
     getTournament()
       .then((res) => {
         if (res.success && res.data) {
           const d = res.data;
-          // Merge static data when N8N returns empty collections
+          const staticScoredEventIds = new Set(
+            WC26_MATCHUPS
+              .filter((m) => m.team1_points > 0 || m.team2_points > 0)
+              .map((m) => m.event_id)
+          );
+          const n8nOnlyMatchups = d.matchups.filter((m) => !staticScoredEventIds.has(m.event_id));
+          const mergedMatchups = [
+            ...WC26_MATCHUPS.filter((m) => staticScoredEventIds.has(m.event_id)),
+            ...n8nOnlyMatchups,
+          ];
+          const computedStandings = {
+            team1_total: mergedMatchups.reduce((s, m) => s + m.team1_points, 0),
+            team2_total: mergedMatchups.reduce((s, m) => s + m.team2_points, 0),
+          };
           const merged: TournamentData = {
             players: d.players.length > 0 ? d.players : WC26_TOURNAMENT_PLAYERS,
             events: d.events.length > 0 ? d.events : WC26_EVENTS,
-            matchups: d.matchups.length > 0 ? d.matchups : WC26_MATCHUPS,
+            matchups: mergedMatchups,
             bonusPoints: d.bonusPoints,
             teamStandings:
-              d.teamStandings.team1_total > 0 || d.teamStandings.team2_total > 0
+              d.teamStandings.team1_total > computedStandings.team1_total ||
+              d.teamStandings.team2_total > computedStandings.team2_total
                 ? d.teamStandings
-                : getStaticTeamStandings(),
+                : computedStandings,
           };
           setData(merged);
-          const evts = merged.events;
-          if (evts.length > 0) {
-            setExpandedEvent(evts[evts.length - 1].id);
-          }
         } else {
           if (res.error?.includes("kirjautunut")) {
             router.replace("/signin");
             return;
           }
-          // Fall back to static data on any error
           const standings = getStaticTeamStandings();
           setData({
             players: WC26_TOURNAMENT_PLAYERS,
@@ -70,9 +90,6 @@ export default function TournamentPage() {
             bonusPoints: [],
             teamStandings: standings,
           });
-          if (WC26_EVENTS.length > 0) {
-            setExpandedEvent(WC26_EVENTS[WC26_EVENTS.length - 1].id);
-          }
         }
       })
       .catch(() => {
@@ -84,9 +101,6 @@ export default function TournamentPage() {
           bonusPoints: [],
           teamStandings: standings,
         });
-        if (WC26_EVENTS.length > 0) {
-          setExpandedEvent(WC26_EVENTS[WC26_EVENTS.length - 1].id);
-        }
       })
       .finally(() => setLoading(false));
   }, [router]);
@@ -97,105 +111,47 @@ export default function TournamentPage() {
   }
 
   if (loading) {
-    return (
-      <div style={{
-        minHeight: "100vh", background: "var(--bg)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
-        <div style={{
-          fontFamily: "var(--font-mono)", fontSize: "13px",
-          color: "var(--text-muted)", letterSpacing: "0.1em",
-        }}>
-          LADATAAN TURNAUSDATAA...
-        </div>
-      </div>
-    );
+    return <TournamentSkeleton />;
   }
 
-  if (!data) {
-    return (
-      <div style={{
-        minHeight: "100vh", background: "var(--bg)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-muted)", letterSpacing: "0.1em" }}>
-          LADATAAN TURNAUSDATAA...
-        </div>
-      </div>
-    );
-  }
+  const { players, events, matchups, teamStandings } = data ?? {
+    players: WC26_TOURNAMENT_PLAYERS,
+    events: WC26_EVENTS,
+    matchups: WC26_MATCHUPS,
+    teamStandings: getStaticTeamStandings(),
+  };
 
-  const { players, events, matchups, bonusPoints, teamStandings } = data;
+  const selectedEvent = events.find((e) => e.id === selectedEventId) ?? events[0];
+  const isCompleted = (selectedEvent?.event_month ?? "") < NOW_MONTH;
+  const isActive = selectedEvent?.event_month === NOW_MONTH;
+  const eventMatchups = matchups.filter((m) => m.event_id === selectedEventId);
+  const eventSkillPoints = WC26_SKILL_POINTS.find((sp) => sp.eventId === selectedEventId);
 
-  // Compute gross scores per player from matchups (aggregate team points)
-  // For the stroke leaderboard we need actual round data — use bonus MVP as proxy for now
-  // Actually, compute per-event team point totals
-  const perEventStandings = events.map((event) => {
-    const eventMatchups = matchups.filter((m) => m.event_id === event.id);
-    const t1 = eventMatchups.reduce((s, m) => s + m.team1_points, 0);
-    const t2 = eventMatchups.reduce((s, m) => s + m.team2_points, 0);
-    return { event, team1: t1, team2: t2 };
-  });
+  // Previous event id for rank-change arrows
+  const selectedEventIndex = events.findIndex((e) => e.id === selectedEventId);
+  const prevEventId = selectedEventIndex > 0 ? events[selectedEventIndex - 1].id : undefined;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
-      {/* Header */}
-      <header style={{
-        borderBottom: "1px solid var(--border)", padding: "18px 32px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        backdropFilter: "blur(8px)", background: "rgba(255,255,255,0.9)",
-        position: "sticky", top: 0, zIndex: 10,
-      }}>
-        <a href="/" style={{ textDecoration: "none" }}><img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} /></a>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <a href="/dashboard" style={{
-            fontFamily: "var(--font-mono)", fontSize: "13px",
-            color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
-          }}>
-            HALLINTAPANEELI
-          </a>
-          <a href="/leaderboards" style={{
-            fontFamily: "var(--font-mono)", fontSize: "13px",
-            color: "var(--text-muted)", letterSpacing: "0.1em", textDecoration: "none",
-          }}>
-            TULOKSET
-          </a>
-          <button onClick={handleSignOut} style={{
-            background: "none", border: "1px solid var(--border)",
-            borderRadius: "var(--radius)", padding: "6px 12px",
-            fontFamily: "var(--font-mono)", fontSize: "12px",
-            letterSpacing: "0.1em", color: "var(--text-muted)", cursor: "pointer",
-          }}>
-            KIRJAUDU ULOS
-          </button>
-        </div>
-      </header>
+      <AppNav activePage="tournament" onSignOut={handleSignOut} />
 
       <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 32px 80px" }}>
         {/* Title */}
-        <div style={{ marginBottom: "48px", animation: "fadeUp 0.4s ease both" }}>
-          <div className="section-label" style={{ marginBottom: "12px" }}>
-            Winter Cup 2026
-          </div>
+        <div style={{ marginBottom: "32px", animation: "fadeUp 0.4s ease both" }}>
+          <div className="section-label" style={{ marginBottom: "12px" }}>Winter Cup 2026</div>
           <h1 style={{
             fontFamily: "var(--font-display)", fontWeight: 900,
             fontSize: "clamp(48px, 8vw, 80px)", color: "var(--text)",
             lineHeight: 1, letterSpacing: "0.02em",
-          }}>
-            TURNAUS
-          </h1>
-          <div style={{
-            display: "flex", gap: "12px", marginTop: "12px", flexWrap: "wrap",
-          }}>
+          }}>TURNAUS</h1>
+          <div style={{ display: "flex", gap: "12px", marginTop: "12px", flexWrap: "wrap" }}>
             <span className="badge badge-blue">{players.length} pelaajaa</span>
             <span className="badge badge-blue">{events.length} kierrosta</span>
           </div>
         </div>
 
-        <div className="divider" style={{ marginBottom: "32px" }} />
-
-        {/* Team Score Overview */}
-        <CardPanel title="Joukkuepisteet — Yhteensä" delay={0.05}>
+        {/* Overall standings */}
+        <CardPanel title="Kokonaispistetilanne" delay={0.05}>
           <TeamScoreCircles
             team1Total={teamStandings.team1_total}
             team2Total={teamStandings.team2_total}
@@ -204,88 +160,183 @@ export default function TournamentPage() {
 
         <div style={{ height: "20px" }} />
 
-        {/* Per-Event Standings */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "20px",
-          marginBottom: "20px",
-        }}>
-          {perEventStandings.map(({ event, team1, team2 }) => (
-            <CardPanel
-              key={event.id}
-              title={`${event.course_name} — ${MONTH_LABELS[event.event_month] ?? event.event_month}`}
-              delay={0.1}
-            >
-              <div style={{ marginBottom: "12px" }}>
-                <span className="badge badge-blue" style={{ marginRight: "8px" }}>
-                  {event.format === "fourball" ? "Fourball" : "Singles"}
-                </span>
-              </div>
-              <TeamScoreCircles team1Total={team1} team2Total={team2} />
-              <div style={{ marginTop: "16px" }}>
-                <button
-                  onClick={() => setExpandedEvent(expandedEvent === event.id ? null : event.id)}
-                  style={{
-                    background: "none", border: "1px solid var(--border)",
-                    borderRadius: "var(--radius)", padding: "8px 16px",
-                    fontFamily: "var(--font-mono)", fontSize: "12px",
-                    letterSpacing: "0.1em", color: "var(--text-muted)",
-                    cursor: "pointer", width: "100%",
-                  }}
-                >
-                  {expandedEvent === event.id ? "PIILOTA TIEDOT" : "NÄYTÄ TIEDOT"}
-                </button>
-              </div>
-            </CardPanel>
-          ))}
-        </div>
+        {/* Koko kisa — always visible */}
+        <div className="section-label" style={{ marginBottom: "12px" }}>Koko kisa</div>
+        <CardPanel title="Pistetilanne kierroksittain" delay={0.1}>
+          <CrossRoundProgressionChart
+            matchups={matchups}
+            skillPoints={WC26_SKILL_POINTS}
+            events={events}
+          />
+        </CardPanel>
 
-        {/* Expanded Event Details */}
-        {expandedEvent && (() => {
-          const event = events.find((e) => e.id === expandedEvent);
-          if (!event) return null;
-          const eventMatchups = matchups.filter((m) => m.event_id === expandedEvent);
-          return (
-            <div style={{ marginBottom: "20px", animation: "fadeUp 0.3s ease both" }}>
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "20px",
-                marginBottom: "20px",
-              }}>
-                <CardPanel title={`Parit — ${event.course_name}`} delay={0}>
-                  <MatchupBracket
-                    matchups={eventMatchups}
-                    format={event.format}
-                  />
-                </CardPanel>
-                <CardPanel title="Pelaajien pisteet" delay={0.05}>
-                  <PlayerContributionBars
-                    matchups={matchups}
-                    eventId={expandedEvent}
-                  />
-                </CardPanel>
+        <div style={{ height: "24px" }} />
+        <div className="divider" style={{ marginBottom: "0" }} />
+      </main>
+
+      {/* Course selector (sticky below header) */}
+      <CourseSelector
+        events={events}
+        selectedId={selectedEventId}
+        onSelect={setSelectedEventId}
+      />
+
+      <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 32px 80px" }}>
+        {selectedEvent && (
+          <div style={{ animation: "fadeUp 0.3s ease both" }}>
+            {/* Course hero */}
+            <CourseHero event={selectedEvent} isCompleted={isCompleted} />
+
+            {isCompleted || isActive ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+
+                {/* ── JOUKKUEPISTEET ────────────────────────────────────────── */}
+                <div>
+                  <div className="section-label" style={{ marginBottom: "16px" }}>Joukkuepisteet</div>
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                    gap: "20px",
+                  }}>
+                    <CardPanel title="Joukkuepisteet" delay={0.05}>
+                      <EventTeamPoints
+                        matchups={matchups}
+                        eventId={selectedEventId}
+                        format={selectedEvent.format}
+                      />
+                    </CardPanel>
+
+                    {eventSkillPoints && (
+                      <CardPanel title="Pistekertymä" delay={0.1}>
+                        <CumulativeTeamPointsChart
+                          matchups={eventMatchups}
+                          skillPoints={eventSkillPoints}
+                        />
+                      </CardPanel>
+                    )}
+                  </div>
+
+                  {eventSkillPoints && (
+                    <div style={{ marginTop: "20px" }}>
+                      <CardPanel title="Kaikkien pelaajien pisteet" delay={0.12}>
+                        <AllPlayersMatchPointsChart
+                          matchups={eventMatchups}
+                          skillPoints={eventSkillPoints}
+                        />
+                      </CardPanel>
+                    </div>
+                  )}
+                </div>
+
+                {/* ── YKSILÖTULOKSET ────────────────────────────────────────── */}
+                <div>
+                  <div className="section-label" style={{ marginBottom: "16px" }}>Yksilötulokset</div>
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                    gap: "20px",
+                  }}>
+                    <CardPanel title="Lyöntimäärä (Gross)" delay={0.05}>
+                      <EventStrokeLeaderboard
+                        scorecards={WC26_SCORECARDS}
+                        players={players}
+                        eventId={selectedEventId}
+                        mode="gross"
+                        prevEventId={prevEventId}
+                      />
+                    </CardPanel>
+
+                    <CardPanel title="Nettotulos" delay={0.1}>
+                      <EventStrokeLeaderboard
+                        scorecards={WC26_SCORECARDS}
+                        players={players}
+                        eventId={selectedEventId}
+                        mode="net"
+                        prevEventId={prevEventId}
+                      />
+                    </CardPanel>
+                  </div>
+                </div>
+
+                {/* ── OTTELUT ───────────────────────────────────────────────── */}
+                <div>
+                  <div className="section-label" style={{ marginBottom: "16px" }}>Ottelut</div>
+                  <CardPanel title="Ottelutulokset" delay={0.15}>
+                    <EventGroupResults
+                      matchups={eventMatchups}
+                      format={selectedEvent.format}
+                      scorecards={WC26_SCORECARDS}
+                      pars={WC26_EVENT_PARS[selectedEventId]}
+                      roundStats={WC26_ROUND_STATS}
+                      players={players}
+                      eventId={selectedEventId}
+                    />
+                  </CardPanel>
+                </div>
+
+                {/* ── TAITOPISTEET ──────────────────────────────────────────── */}
+                <div>
+                  <div className="section-label" style={{ marginBottom: "16px" }}>Taitopisteet</div>
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                    gap: "20px",
+                  }}>
+                    <CardPanel title="MVP Pisteet" delay={0.15}>
+                      <EventMVPChart
+                        roundStats={WC26_ROUND_STATS}
+                        players={players}
+                        eventId={selectedEventId}
+                      />
+                    </CardPanel>
+
+                    <CardPanel title="Birdman" delay={0.2}>
+                      <EventBirdmanChart
+                        players={players}
+                        eventId={selectedEventId}
+                      />
+                    </CardPanel>
+
+                    <CardPanel title="Pisin Draivi" delay={0.2}>
+                      <EventDriveChart
+                        roundStats={WC26_ROUND_STATS}
+                        players={players}
+                        eventId={selectedEventId}
+                      />
+                    </CardPanel>
+
+                    <CardPanel title="Tarkin 100m" delay={0.25}>
+                      <EventSharpShooterChart
+                        roundStats={WC26_ROUND_STATS}
+                        players={players}
+                        eventId={selectedEventId}
+                      />
+                    </CardPanel>
+                  </div>
+                </div>
+
               </div>
-              {event.course_settings && Object.keys(event.course_settings).length > 0 && (
-                <CardPanel title="Kentän asetukset" delay={0.1}>
-                  <CourseConditions settings={event.course_settings} />
-                </CardPanel>
-              )}
-            </div>
-          );
-        })()}
+            ) : (
+              <div style={{
+                textAlign: "center", padding: "48px 32px",
+                border: "1px solid var(--border)", borderRadius: "var(--radius)",
+                fontFamily: "var(--font-mono)", fontSize: "13px",
+                color: "var(--text-muted)", letterSpacing: "0.08em",
+              }}>
+                Tulokset lisätään kierroksen jälkeen.
+              </div>
+            )}
+
+            <div style={{ height: "32px" }} />
+          </div>
+        )}
 
         <div className="divider" style={{ marginBottom: "32px" }} />
 
-        {/* Player Rankings */}
-        <div className="section-label" style={{ marginBottom: "16px" }}>
-          Pelaajat
-        </div>
-        <CardPanel title="Joukkueet" delay={0.2}>
-          <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px",
-          }}>
+        {/* Players list */}
+        <div className="section-label" style={{ marginBottom: "16px" }}>Pelaajat</div>
+        <CardPanel title="Joukkueet" delay={0.3}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
             {[1, 2].map((teamNum) => (
               <div key={teamNum}>
                 <div style={{
@@ -305,16 +356,10 @@ export default function TournamentPage() {
                       alignItems: "center", padding: "6px 0",
                       borderBottom: "1px solid var(--border)",
                     }}>
-                      <span style={{
-                        fontFamily: "var(--font-body)", fontSize: "13px",
-                        color: "var(--text)",
-                      }}>
+                      <span style={{ fontFamily: "var(--font-body)", fontSize: "13px", color: "var(--text)" }}>
                         {p.name}
                       </span>
-                      <span style={{
-                        fontFamily: "var(--font-mono)", fontSize: "12px",
-                        color: "var(--text-muted)",
-                      }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-muted)" }}>
                         HCP {p.handicap}
                       </span>
                     </div>

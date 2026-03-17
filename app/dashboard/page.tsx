@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getDashboard, signOut, deleteRound, type DashboardData, type Round } from "@/lib/player";
+import AppNav from "@/components/AppNav";
+import { DashboardSkeleton } from "@/components/Skeleton";
+import CardPanel from "@/components/CardPanel";
+import ScoreTrendLine from "@/components/charts/ScoreTrendLine";
+import NextEventBanner from "@/components/NextEventBanner";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("fi-FI", {
@@ -68,6 +73,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   async function loadDashboard() {
     const res = await getDashboard();
@@ -87,14 +94,26 @@ export default function DashboardPage() {
     loadDashboard();
   }, []);
 
-  async function handleDelete(round: Round) {
-    if (!confirm(`Haluatko poistaa kierroksen ${round.course_name ?? round.course_name_custom} (${formatDate(round.date_played)})?`)) return;
-    setDeletingId(round.id);
-    const res = await deleteRound(round.id);
+  function requestDelete(roundId: string) {
+    setDeleteError(null);
+    setConfirmDeleteId(roundId);
+    // Auto-cancel after 4 seconds
+    setTimeout(() => setConfirmDeleteId((prev) => prev === roundId ? null : prev), 4000);
+  }
+
+  function cancelDelete() {
+    setConfirmDeleteId(null);
+  }
+
+  async function handleDelete(roundId: string) {
+    setConfirmDeleteId(null);
+    setDeletingId(roundId);
+    setDeleteError(null);
+    const res = await deleteRound(roundId);
     if (res.success) {
       loadDashboard();
     } else {
-      alert(res.error ?? "Poisto epäonnistui.");
+      setDeleteError(res.error ?? "Poisto epäonnistui.");
     }
     setDeletingId(null);
   }
@@ -105,28 +124,7 @@ export default function DashboardPage() {
   }
 
   if (loading) {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "var(--bg)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "13px",
-            color: "var(--text-muted)",
-            letterSpacing: "0.1em",
-          }}
-        >
-          LADATAAN...
-        </div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (error) {
@@ -194,101 +192,7 @@ export default function DashboardPage() {
         background: "var(--bg)",
       }}
     >
-      {/* Header */}
-      <header
-        style={{
-          borderBottom: "1px solid var(--border)",
-          padding: "18px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          backdropFilter: "blur(8px)",
-          background: "rgba(255,255,255,0.9)",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-        }}
-      >
-        <a href="/" style={{ textDecoration: "none" }}>
-          <img
-            src="/wc26-logo.png"
-            alt="WC26"
-            style={{ height: "36px", width: "auto" }}
-          />
-        </a>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-          }}
-        >
-          <a
-            href="/tournament"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              color: "var(--text-muted)",
-              letterSpacing: "0.1em",
-              textDecoration: "none",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-          >
-            TURNAUS
-          </a>
-          <a
-            href="/leaderboards"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              color: "var(--text-muted)",
-              letterSpacing: "0.1em",
-              textDecoration: "none",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-          >
-            TULOKSET
-          </a>
-          <span
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "13px",
-              color: "var(--text-muted)",
-            }}
-          >
-            {player.name}
-          </span>
-          <button
-            onClick={handleSignOut}
-            style={{
-              background: "none",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius)",
-              padding: "6px 12px",
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
-              letterSpacing: "0.1em",
-              color: "var(--text-muted)",
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--border-bright)";
-              e.currentTarget.style.color = "var(--text)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "var(--border)";
-              e.currentTarget.style.color = "var(--text-muted)";
-            }}
-          >
-            KIRJAUDU ULOS
-          </button>
-        </div>
-      </header>
+      <AppNav activePage="dashboard" playerName={player.name} onSignOut={handleSignOut} />
 
       {/* Main content */}
       <main
@@ -329,6 +233,11 @@ export default function DashboardPage() {
         </div>
 
         <div className="divider" style={{ marginBottom: "40px" }} />
+
+        {/* Next event banner */}
+        <div style={{ marginBottom: "32px", animation: "fadeUp 0.4s 0.05s ease both" }}>
+          <NextEventBanner />
+        </div>
 
         {/* Stats grid */}
         <div
@@ -449,11 +358,36 @@ export default function DashboardPage() {
           </a>
         </div>
 
+        {/* Score trend */}
+        {rounds.length >= 2 && (
+          <div style={{ marginBottom: "48px", animation: "fadeUp 0.4s 0.18s ease both" }}>
+            <div className="section-label" style={{ marginBottom: "16px" }}>Tuloskehitys</div>
+            <CardPanel title="Pistemäärä kierroksittain">
+              <ScoreTrendLine rounds={rounds} />
+            </CardPanel>
+          </div>
+        )}
+
         {/* Rounds list */}
         <div style={{ animation: "fadeUp 0.4s 0.2s ease both" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
             <div className="section-label">Kierrokset ({rounds.length})</div>
           </div>
+
+          {deleteError && (
+            <div style={{
+              background: "rgba(220,38,38,0.06)", border: "1px solid rgba(220,38,38,0.2)",
+              borderRadius: "var(--radius)", padding: "12px 16px", marginBottom: "16px",
+              display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px",
+              fontFamily: "var(--font-body)", fontSize: "13px", color: "var(--red-bright)",
+            }}>
+              <span>{deleteError}</span>
+              <button onClick={() => setDeleteError(null)} style={{
+                background: "none", border: "none", cursor: "pointer", padding: "2px 6px",
+                color: "var(--text-muted)", fontFamily: "var(--font-mono)", fontSize: "12px",
+              }} aria-label="Sulje virhe">✕</button>
+            </div>
+          )}
 
           {rounds.length === 0 ? (
             <div
@@ -567,57 +501,57 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Edit */}
-                  <a
-                    href={`/dashboard/rounds/${round.id}/edit`}
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "12px",
-                      letterSpacing: "0.08em",
-                      color: "var(--text-muted)",
-                      textDecoration: "none",
-                      padding: "8px 12px",
-                      border: "1px solid var(--border)",
-                      borderRadius: "var(--radius)",
-                      transition: "all 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = "var(--border-bright)";
-                      e.currentTarget.style.color = "var(--text)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = "var(--border)";
-                      e.currentTarget.style.color = "var(--text-muted)";
-                    }}
-                  >
+                  <a href={`/dashboard/rounds/${round.id}/edit`} className="nav-btn" style={{ textDecoration: "none", fontSize: "12px", letterSpacing: "0.08em" }}>
                     MUOKKAA
                   </a>
 
-                  {/* Delete */}
-                  <button
-                    onClick={() => handleDelete(round)}
-                    disabled={deletingId === round.id}
-                    style={{
-                      background: "none",
-                      border: "1px solid rgba(220,38,38,0.3)",
-                      borderRadius: "var(--radius)",
-                      padding: "8px 12px",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "12px",
-                      letterSpacing: "0.08em",
-                      color: "var(--red-bright)",
-                      cursor: deletingId === round.id ? "not-allowed" : "pointer",
-                      opacity: deletingId === round.id ? 0.5 : 1,
-                      transition: "all 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(220,38,38,0.1)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "none";
-                    }}
-                  >
-                    {deletingId === round.id ? "..." : "POISTA"}
-                  </button>
+                  {/* Delete — two-step inline confirmation */}
+                  {confirmDeleteId === round.id ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                      <button
+                        onClick={() => handleDelete(round.id)}
+                        style={{
+                          background: "var(--red-bright)", border: "none",
+                          borderRadius: "var(--radius)", padding: "8px 12px",
+                          fontFamily: "var(--font-mono)", fontSize: "12px",
+                          letterSpacing: "0.08em", color: "#fff", cursor: "pointer",
+                        }}
+                        aria-label="Vahvista poisto"
+                      >
+                        VAHVISTA?
+                      </button>
+                      <button
+                        onClick={cancelDelete}
+                        style={{
+                          background: "none", border: "none", padding: "8px 4px",
+                          fontFamily: "var(--font-mono)", fontSize: "11px",
+                          color: "var(--text-dim)", cursor: "pointer",
+                          letterSpacing: "0.06em",
+                        }}
+                        aria-label="Peruuta poisto"
+                      >
+                        PERUUTA
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => requestDelete(round.id)}
+                      disabled={deletingId === round.id}
+                      style={{
+                        background: "none",
+                        border: "1px solid rgba(220,38,38,0.3)",
+                        borderRadius: "var(--radius)", padding: "8px 12px",
+                        fontFamily: "var(--font-mono)", fontSize: "12px",
+                        letterSpacing: "0.08em", color: "var(--red-bright)",
+                        cursor: deletingId === round.id ? "not-allowed" : "pointer",
+                        opacity: deletingId === round.id ? 0.5 : 1,
+                        transition: "all 0.2s",
+                      }}
+                      aria-label={`Poista kierros ${round.course_name ?? round.course_name_custom}`}
+                    >
+                      {deletingId === round.id ? "..." : "POISTA"}
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

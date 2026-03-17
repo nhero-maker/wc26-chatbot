@@ -88,6 +88,7 @@ export default function RoundForm({
   const [handicap, setHandicap] = useState(initial.handicap_at_time?.toString() ?? "");
 
   const [showHoles, setShowHoles] = useState(!!initial.holes?.length);
+  const [holeTab, setHoleTab] = useState<"front" | "back">("front");
   const [holes, setHoles] = useState<{ par: number; strokes: string }[]>(() => {
     if (initial.holes?.length === 18) {
       return initial.holes.map((h) => ({ par: h.par, strokes: h.strokes.toString() }));
@@ -113,6 +114,21 @@ export default function RoundForm({
     return sum + (isNaN(s) ? 0 : s);
   }, 0);
   const allHolesFilled = holes.every((h) => h.strokes !== "" && !isNaN(parseInt(h.strokes)));
+
+  // Front/back 9 subtotals
+  const front9Par = holes.slice(0, 9).reduce((sum, h) => sum + h.par, 0);
+  const back9Par = holes.slice(9).reduce((sum, h) => sum + h.par, 0);
+  const front9Strokes = holes.slice(0, 9).reduce((sum, h) => { const s = parseInt(h.strokes); return sum + (isNaN(s) ? 0 : s); }, 0);
+  const back9Strokes = holes.slice(9).reduce((sum, h) => { const s = parseInt(h.strokes); return sum + (isNaN(s) ? 0 : s); }, 0);
+  const front9AllFilled = holes.slice(0, 9).every((h) => h.strokes !== "" && !isNaN(parseInt(h.strokes)));
+  const back9AllFilled = holes.slice(9).every((h) => h.strokes !== "" && !isNaN(parseInt(h.strokes)));
+
+  // Auto-switch to back 9 when front 9 is all filled
+  useEffect(() => {
+    if (front9AllFilled && !back9AllFilled) {
+      setHoleTab("back");
+    }
+  }, [front9AllFilled, back9AllFilled]);
 
   useEffect(() => {
     if (showHoles && allHolesFilled && holesTotal > 0) {
@@ -242,172 +258,302 @@ export default function RoundForm({
             background: "var(--surface)",
             border: "1px solid var(--border)",
             borderRadius: "var(--radius-lg)",
-            padding: "16px",
+            overflow: "hidden",
           }}
         >
-          {/* Header */}
+          {/* Tab bar */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "40px 60px 1fr",
-              gap: "8px",
-              marginBottom: "8px",
-              paddingBottom: "8px",
+              gridTemplateColumns: "1fr 1fr",
               borderBottom: "1px solid var(--border)",
             }}
           >
-            <div style={{ ...labelStyle, marginBottom: 0 }}>Väylä</div>
-            <div style={{ ...labelStyle, marginBottom: 0 }}>Par</div>
-            <div style={{ ...labelStyle, marginBottom: 0 }}>Lyönnit</div>
+            {(["front", "back"] as const).map((tab) => {
+              const label = tab === "front" ? "ETU 9  (1–9)" : "TAKA 9  (10–18)";
+              const isActive = holeTab === tab;
+              const filled = tab === "front" ? front9AllFilled : back9AllFilled;
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setHoleTab(tab)}
+                  style={{
+                    background: isActive ? "var(--surface-2)" : "transparent",
+                    border: "none",
+                    borderBottom: isActive ? "2px solid var(--blue-mid)" : "2px solid transparent",
+                    padding: "10px 12px",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "11px",
+                    letterSpacing: "0.1em",
+                    color: isActive ? "var(--text)" : "var(--text-muted)",
+                    cursor: "pointer",
+                    transition: "all 0.15s",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "6px",
+                  }}
+                >
+                  {label}
+                  {filled && (
+                    <span
+                      style={{
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                        background: "var(--blue-mid)",
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Hole rows */}
-          {holes.map((hole, i) => {
-            const strokes = parseInt(hole.strokes);
-            const diff = !isNaN(strokes) ? strokes - hole.par : 0;
-            let diffColor = "var(--text-muted)";
-            if (diff < 0) diffColor = "var(--blue-bright)";
-            else if (diff > 0) diffColor = "var(--red-bright)";
-            else if (!isNaN(strokes)) diffColor = "var(--text)";
+          <div style={{ padding: "16px" }}>
+            {/* Header */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "40px 60px 1fr",
+                gap: "8px",
+                marginBottom: "8px",
+                paddingBottom: "8px",
+                borderBottom: "1px solid var(--border)",
+              }}
+            >
+              <div style={{ ...labelStyle, marginBottom: 0 }}>Väylä</div>
+              <div style={{ ...labelStyle, marginBottom: 0 }}>Par</div>
+              <div style={{ ...labelStyle, marginBottom: 0 }}>Lyönnit</div>
+            </div>
 
-            return (
+            {/* Hole rows — filtered to active 9 */}
+            {holes.slice(holeTab === "front" ? 0 : 9, holeTab === "front" ? 9 : 18).map((hole, relIdx) => {
+              const i = holeTab === "front" ? relIdx : relIdx + 9;
+              const strokes = parseInt(hole.strokes);
+              const diff = !isNaN(strokes) ? strokes - hole.par : 0;
+              let diffColor = "var(--text-muted)";
+              if (diff < 0) diffColor = "var(--blue-bright)";
+              else if (diff > 0) diffColor = "var(--red-bright)";
+              else if (!isNaN(strokes)) diffColor = "var(--text)";
+
+              return (
+                <div
+                  key={i}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "40px 60px 1fr",
+                    gap: "8px",
+                    alignItems: "center",
+                    padding: "3px 0",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "12px",
+                      color: "var(--text-muted)",
+                      textAlign: "center",
+                    }}
+                  >
+                    {i + 1}
+                  </div>
+                  <select
+                    value={hole.par}
+                    onChange={(e) => updateHole(i, "par", e.target.value)}
+                    style={{
+                      ...inputStyle,
+                      padding: "6px 8px",
+                      fontSize: "13px",
+                      cursor: "pointer",
+                      textAlign: "center",
+                    }}
+                  >
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                  </select>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <input
+                      type="number"
+                      value={hole.strokes}
+                      onChange={(e) => updateHole(i, "strokes", e.target.value)}
+                      placeholder="—"
+                      min={1}
+                      max={20}
+                      style={{
+                        ...inputStyle,
+                        padding: "6px 8px",
+                        fontSize: "13px",
+                        width: "70px",
+                        textAlign: "center",
+                      }}
+                    />
+                    {hole.strokes && !isNaN(strokes) && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "12px",
+                          color: diffColor,
+                          minWidth: "28px",
+                        }}
+                      >
+                        {diff === 0 ? "E" : diff > 0 ? `+${diff}` : diff}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Subtotals row (OUT / IN) */}
+            {(() => {
+              const subPar = holeTab === "front" ? front9Par : back9Par;
+              const subStrokes = holeTab === "front" ? front9Strokes : back9Strokes;
+              const subFilled = holeTab === "front" ? front9AllFilled : back9AllFilled;
+              const subLabel = holeTab === "front" ? "OUT" : "IN";
+              const subDiff = subStrokes - subPar;
+              return (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "40px 60px 1fr",
+                    gap: "8px",
+                    marginTop: "8px",
+                    paddingTop: "8px",
+                    borderTop: "1px solid var(--border)",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "11px",
+                      color: "var(--text-muted)",
+                      textAlign: "center",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    {subLabel}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 700,
+                      fontSize: "14px",
+                      color: "var(--text-muted)",
+                      textAlign: "center",
+                    }}
+                  >
+                    {subPar}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontWeight: 900,
+                        fontSize: "14px",
+                        color: subFilled ? "var(--text)" : "var(--text-dim)",
+                        width: "70px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {subStrokes > 0 ? subStrokes : "—"}
+                    </div>
+                    {subFilled && subStrokes > 0 && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "12px",
+                          color:
+                            subDiff < 0
+                              ? "var(--blue-bright)"
+                              : subDiff > 0
+                                ? "var(--red-bright)"
+                                : "var(--text)",
+                          minWidth: "28px",
+                        }}
+                      >
+                        {subDiff === 0 ? "E" : subDiff > 0 ? `+${subDiff}` : subDiff}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Grand total row — only when all 18 filled */}
+            {allHolesFilled && (
               <div
-                key={i}
                 style={{
                   display: "grid",
                   gridTemplateColumns: "40px 60px 1fr",
                   gap: "8px",
+                  marginTop: "4px",
+                  paddingTop: "8px",
+                  borderTop: "1px solid var(--border)",
                   alignItems: "center",
-                  padding: "3px 0",
                 }}
               >
                 <div
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "12px",
+                    fontSize: "11px",
+                    color: "var(--text-muted)",
+                    textAlign: "center",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  YHT
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 700,
+                    fontSize: "14px",
                     color: "var(--text-muted)",
                     textAlign: "center",
                   }}
                 >
-                  {i + 1}
+                  {parTotal}
                 </div>
-                <select
-                  value={hole.par}
-                  onChange={(e) => updateHole(i, "par", e.target.value)}
-                  style={{
-                    ...inputStyle,
-                    padding: "6px 8px",
-                    fontSize: "13px",
-                    cursor: "pointer",
-                    textAlign: "center",
-                  }}
-                >
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                </select>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <input
-                    type="number"
-                    value={hole.strokes}
-                    onChange={(e) => updateHole(i, "strokes", e.target.value)}
-                    placeholder="—"
-                    min={1}
-                    max={20}
+                  <div
                     style={{
-                      ...inputStyle,
-                      padding: "6px 8px",
-                      fontSize: "13px",
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 900,
+                      fontSize: "16px",
+                      color: "var(--text)",
                       width: "70px",
                       textAlign: "center",
                     }}
-                  />
-                  {hole.strokes && !isNaN(strokes) && (
-                    <span
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "12px",
-                        color: diffColor,
-                        minWidth: "28px",
-                      }}
-                    >
-                      {diff === 0 ? "E" : diff > 0 ? `+${diff}` : diff}
-                    </span>
-                  )}
+                  >
+                    {holesTotal}
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "12px",
+                      color:
+                        holesTotal - parTotal < 0
+                          ? "var(--blue-bright)"
+                          : holesTotal - parTotal > 0
+                            ? "var(--red-bright)"
+                            : "var(--text)",
+                      minWidth: "28px",
+                    }}
+                  >
+                    {holesTotal - parTotal === 0
+                      ? "E"
+                      : holesTotal - parTotal > 0
+                        ? `+${holesTotal - parTotal}`
+                        : holesTotal - parTotal}
+                  </span>
                 </div>
               </div>
-            );
-          })}
-
-          {/* Totals row */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "40px 60px 1fr",
-              gap: "8px",
-              marginTop: "8px",
-              paddingTop: "8px",
-              borderTop: "1px solid var(--border)",
-              alignItems: "center",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "12px",
-                color: "var(--text-muted)",
-                textAlign: "center",
-                letterSpacing: "0.08em",
-              }}
-            >
-              YHT
-            </div>
-            <div
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 700,
-                fontSize: "14px",
-                color: "var(--text-muted)",
-                textAlign: "center",
-              }}
-            >
-              {parTotal}
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 900,
-                  fontSize: "14px",
-                  color: allHolesFilled ? "var(--text)" : "var(--text-dim)",
-                  width: "70px",
-                  textAlign: "center",
-                }}
-              >
-                {holesTotal > 0 ? holesTotal : "—"}
-              </div>
-              {allHolesFilled && holesTotal > 0 && (
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "12px",
-                    color:
-                      holesTotal - parTotal < 0
-                        ? "var(--blue-bright)"
-                        : holesTotal - parTotal > 0
-                          ? "var(--red-bright)"
-                          : "var(--text)",
-                    minWidth: "28px",
-                  }}
-                >
-                  {holesTotal - parTotal === 0
-                    ? "E"
-                    : holesTotal - parTotal > 0
-                      ? `+${holesTotal - parTotal}`
-                      : holesTotal - parTotal}
-                </span>
-              )}
-            </div>
+            )}
           </div>
         </div>
       )}

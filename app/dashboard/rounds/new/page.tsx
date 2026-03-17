@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import RoundForm, { type RoundFormData } from "@/components/RoundForm";
 import { createRound } from "@/lib/player";
+import AppNav from "@/components/AppNav";
 
 export default function NewRoundPage() {
   const router = useRouter();
@@ -29,50 +30,7 @@ export default function NewRoundPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
-      {/* Header */}
-      <header
-        style={{
-          borderBottom: "1px solid var(--border)",
-          padding: "18px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          background: "rgba(255,255,255,0.9)",
-          backdropFilter: "blur(8px)",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-        }}
-      >
-        <a
-          href="/"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 900,
-            fontSize: "18px",
-            letterSpacing: "0.15em",
-            color: "var(--text)",
-            textDecoration: "none",
-          }}
-        >
-          <img src="/wc26-logo.png" alt="WC26" style={{ height: "36px", width: "auto" }} />
-        </a>
-        <a
-          href="/dashboard"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "13px",
-            color: "var(--text-muted)",
-            letterSpacing: "0.1em",
-            textDecoration: "none",
-            transition: "color 0.2s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-        >
-          ← TAKAISIN
-        </a>
-      </header>
+      <AppNav backHref="/dashboard" backLabel="TAKAISIN" onSignOut={() => router.push("/")} />
 
       <main style={{ maxWidth: "560px", margin: "0 auto", padding: "48px 32px 80px" }}>
         <div style={{ marginBottom: "40px", animation: "fadeUp 0.4s ease both" }}>

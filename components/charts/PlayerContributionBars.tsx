@@ -30,6 +30,19 @@ export default function PlayerContributionBars({ matchups, eventId }: Props) {
     t2: m.team2_points,
   }));
 
+  const allZero = data.every((d) => d.t1 === 0 && d.t2 === 0);
+  if (allZero) {
+    return (
+      <div style={{
+        textAlign: "center", padding: "32px 0",
+        fontFamily: "var(--font-mono)", fontSize: "12px",
+        color: "var(--text-muted)", letterSpacing: "0.08em",
+      }}>
+        Tuloksia ei vielä saatavilla
+      </div>
+    );
+  }
+
   const maxPts = Math.max(...data.flatMap((d) => [d.t1, d.t2]), 1);
   const ticks = niceScale(0, maxPts, 4);
   const yMax = ticks[ticks.length - 1];

@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import TournamentInfo from "@/components/TournamentInfo";
 import Chat from "@/components/Chat";
+import NextEventBanner from "@/components/NextEventBanner";
 
 export default function Home() {
   return (
@@ -16,10 +17,15 @@ export default function Home() {
           padding: "0 24px 80px",
         }}
       >
+        {/* Next event banner */}
+        <div style={{ padding: "32px 0 0" }}>
+          <NextEventBanner />
+        </div>
+
         {/* Section header */}
         <div
           style={{
-            padding: "52px 0 0",
+            padding: "32px 0 0",
             marginBottom: "0",
           }}
         >

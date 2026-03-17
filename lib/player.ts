@@ -113,6 +113,11 @@ export interface TournamentEvent {
     green_firmness?: string;
     green_stimp?: string;
   };
+  // Extended course info (optional, populated for all 6 WC26 rounds)
+  round_number?: number;
+  dates?: string;
+  description?: string;
+  scoring_rule?: string;
 }
 
 export interface Matchup {
@@ -182,6 +187,15 @@ export async function verifySignIn(token: string) {
 
 export async function signOut() {
   const res = await fetch("/api/auth/signout", { method: "POST" });
+  return res.json();
+}
+
+export async function getMe(): Promise<{
+  success: boolean;
+  data?: { name: string; team: number | null };
+  error?: string;
+}> {
+  const res = await fetch("/api/me");
   return res.json();
 }
 
