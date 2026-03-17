@@ -67,7 +67,7 @@ export default function TournamentPage() {
           };
           const merged: TournamentData = {
             players: d.players.length > 0 ? d.players : WC26_TOURNAMENT_PLAYERS,
-            events: d.events.length > 0 ? d.events : WC26_EVENTS,
+            events: WC26_EVENTS,
             matchups: mergedMatchups,
             bonusPoints: d.bonusPoints,
             teamStandings:
