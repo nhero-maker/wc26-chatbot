@@ -101,10 +101,22 @@ export default function CourseHero({ event, isCompleted }: Props) {
             {event.description && (
               <p style={{
                 fontFamily: "var(--font-body)", fontSize: "14px", lineHeight: 1.7,
-                color: "var(--text)", margin: "0 0 20px",
+                color: "var(--text)", margin: "0 0 16px",
               }}>
                 {event.description}
               </p>
+            )}
+            {event.format_label && (
+              <div style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "6px 0 10px", marginBottom: "12px",
+                borderBottom: "1px solid var(--border)",
+              }}>
+                <span style={{ fontFamily: "var(--font-body)", fontSize: "12px", color: "var(--text-muted)" }}>Pelimuoto</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text)", fontWeight: 600 }}>
+                  {event.format_label}
+                </span>
+              </div>
             )}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
               {/* Game settings */}
@@ -148,6 +160,28 @@ export default function CourseHero({ event, isCompleted }: Props) {
                 ))}
               </div>
             </div>
+            {event.bonus_challenges && event.bonus_challenges.length > 0 && (
+              <div style={{
+                marginTop: "20px", padding: "14px 16px",
+                background: "rgba(201,168,76,0.06)", borderRadius: "var(--radius)",
+                border: "1px solid rgba(201,168,76,0.2)",
+              }}>
+                <div style={{
+                  fontFamily: "var(--font-mono)", fontSize: "10px", letterSpacing: "0.1em",
+                  color: "var(--gold, #c9a84c)", fontWeight: 700, marginBottom: "8px",
+                }}>TAITOPISTEBONUKSET</div>
+                {event.bonus_challenges.map((challenge, i) => (
+                  <div key={i} style={{
+                    fontFamily: "var(--font-body)", fontSize: "12px", color: "var(--text)",
+                    lineHeight: 1.6,
+                    paddingLeft: "10px", position: "relative",
+                  }}>
+                    <span style={{ position: "absolute", left: 0, color: "var(--gold, #c9a84c)" }}>·</span>
+                    {challenge}
+                  </div>
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>

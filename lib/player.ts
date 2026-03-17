@@ -118,6 +118,8 @@ export interface TournamentEvent {
   dates?: string;
   description?: string;
   scoring_rule?: string;
+  format_label?: string;
+  bonus_challenges?: string[];
 }
 
 export interface Matchup {

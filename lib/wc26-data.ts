@@ -52,6 +52,11 @@ export const WC26_EVENTS: TournamentEvent[] = [
     dates: "1.1. – 31.1.2026",
     description: "Yksi maailman pohjoisimmista kentistä ja todellinen elämys jo maisemiensa puolesta. Merituuli, dramaattiset rantakalliot ja pitkät avarat väylät tekevät tästä täydellisen kauden avauskentän. Pelillisesti reilu links – hyvä draivaaja saa palkintonsa, mutta väärä suunta kostautuu heti.",
     scoring_rule: "2 pistettä reiän voittavalle joukkueelle · 1 piste molemmille jos tasatulos",
+    format_label: "Fourball (best ball)",
+    bonus_challenges: [
+      "Kuukauden pisin draivi → +2 bonuspistettä pelaajan joukkueelle",
+      "Kuukauden tarkin 100 metriin → +2 bonuspistettä",
+    ],
     course_settings: {
       male_tee: "TEE 55, 5499 m",
       female_tee: "TEE 55, 5499 m",
@@ -76,6 +81,11 @@ export const WC26_EVENTS: TournamentEvent[] = [
     dates: "1.2. – 28.2.2026",
     description: "Ryder Cup 2023:n näyttämö Rooman kupeessa. Moderni championship-kenttä, jossa kumpuileva maasto, risk–reward-väyliä ja strategisia avauksia. Täydellinen joukkuekenttä: rohkeat ratkaisut voivat tuoda isot pisteet – tai jättää kaiken greenin bunkkereihin.",
     scoring_rule: "1 piste reiän voittavan pelaajan joukkueelle · 0,5 pistettä molemmille jos tasatulos",
+    format_label: "Singles (1 vs 1)",
+    bonus_challenges: [
+      "Kuukauden pisin draivi → +2 bonuspistettä pelaajan joukkueelle",
+      "Kuukauden tarkin 100 metriin → +2 bonuspistettä",
+    ],
     course_settings: {
       male_tee: "White, 6234 m",
       female_tee: "Red, 5252 m",
@@ -100,6 +110,11 @@ export const WC26_EVENTS: TournamentEvent[] = [
     dates: "1.3. – 31.3.2026",
     description: "Genevejärven rannalla, Alppien juurella sijaitseva kenttä yhdistää vuoristomaisemat ja park-kentän pelattavuuden. Korkeuserot tekevät etäisyyksien arvioinnista haastavaa, ja greenit vaativat pehmeän kosketuksen. Elegantti ja tarkkuutta palkitseva kokonaisuus.",
     scoring_rule: "2 pistettä reiän voittavalle joukkueelle · 1 piste molemmille jos tasatulos",
+    format_label: "Fourball (best ball)",
+    bonus_challenges: [
+      "Kuukauden pisin draivi → +2 bonuspistettä pelaajan joukkueelle",
+      "Kuukauden tarkin 100 metriin → +2 bonuspistettä",
+    ],
     course_settings: {
       male_tee: "White, 5954 m",
       female_tee: "Red, 4705 m",
@@ -124,6 +139,11 @@ export const WC26_EVENTS: TournamentEvent[] = [
     dates: "1.4. – 30.4.2026",
     description: "Euroopan ehkä arvostetuin kenttä ja todellinen teknisen golfin mittari. Kapeat väylät, korkkitammet ja pienet, nopeat greenit pitävät pelaajan hereillä jokaisella lyönnillä. Par on erinomainen tulos, ja voittaminen täällä vaatii kylmää päätä.",
     scoring_rule: "1 piste reiän voittavan pelaajan joukkueelle · 0,5 pistettä molemmille jos tasatulos",
+    format_label: "Singles (1 vs 1)",
+    bonus_challenges: [
+      "Kuukauden pisin draivi → +2 bonuspistettä pelaajan joukkueelle",
+      "Kuukauden tarkin 100 metriin → +2 bonuspistettä",
+    ],
     course_settings: {
       male_tee: "Champ., 5912 m",
       female_tee: "Fwd., 4871 m",
@@ -148,6 +168,11 @@ export const WC26_EVENTS: TournamentEvent[] = [
     dates: "1.5. – 31.5.2026",
     description: "Lajin syntypaikka ja turnauksen arvolle sopiva päätöskenttä ennen liveturnausta. Leveät väylät, mutta petolliset bunkkerit ja tuuli pakottavat miettimään joka avauksen kahdesti. Yksi golfin historian ikonisimmista näyttämöistä – täydellinen paikka päättää Trackman-kausi.",
     scoring_rule: "2 pistettä reiän voittavalle joukkueelle · 1 piste molemmille jos tasatulos",
+    format_label: "Fourball (best ball)",
+    bonus_challenges: [
+      "Kuukauden pisin draivi → +2 bonuspistettä pelaajan joukkueelle",
+      "Kuukauden tarkin 100 metriin → +2 bonuspistettä",
+    ],
     course_settings: {
       male_tee: "White, 6146 m",
       female_tee: "Ladies, 5516 m",
@@ -172,6 +197,7 @@ export const WC26_EVENTS: TournamentEvent[] = [
     dates: "1.6. – 30.6.2026",
     description: "Kuuden kuukauden mittainen talvikiertue huipentuu kesäkuussa oikealle viheriölle. Edessä on finaalikierros, jossa triplapisteet tekevät jokaisesta reiästä ratkaisevan. Jokainen draivi, putti ja päätös voi kääntää mestaruuden suunnan. Tämä on huipennus, jossa mestarit syntyvät.",
     scoring_rule: "3 pistettä reiän voittavalle pelaajalle · 1,5 pistettä jos tasatulos",
+    format_label: "Singles (1 vs 1)",
     course_settings: {},
   },
 ];
