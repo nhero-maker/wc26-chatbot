@@ -34,7 +34,7 @@ export default function Home() {
             marginBottom: "0",
           }}
         >
-          <Link href="/info" style={{ textDecoration: "none" }}>
+          <Link href="/info" style={{ textDecoration: "none", opacity: 1 }} className="section-link">
             <div
               className="section-label"
               style={{
@@ -44,10 +44,7 @@ export default function Home() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                transition: "opacity 0.15s",
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.opacity = "0.7")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.opacity = "1")}
             >
               Turnaus & Assistentti
               <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", opacity: 0.5 }}>→</span>
@@ -133,6 +130,8 @@ export default function Home() {
             grid-template-columns: 1fr !important;
           }
         }
+        .section-link:hover { opacity: 0.7 !important; }
+        .section-link { transition: opacity 0.15s; }
       `}</style>
     </main>
   );
