@@ -1,7 +1,9 @@
+import Link from "next/link";
 import Hero from "@/components/Hero";
 import TournamentInfo from "@/components/TournamentInfo";
 import Chat from "@/components/Chat";
 import NextEventBanner from "@/components/NextEventBanner";
+import NewPlayerBanner from "@/components/NewPlayerBanner";
 
 export default function Home() {
   return (
@@ -22,6 +24,9 @@ export default function Home() {
           <NextEventBanner />
         </div>
 
+        {/* New player CTA banner — dismissible */}
+        <NewPlayerBanner />
+
         {/* Section header */}
         <div
           style={{
@@ -29,7 +34,25 @@ export default function Home() {
             marginBottom: "0",
           }}
         >
-          <div className="section-label" style={{ fontSize: "13px", letterSpacing: "0.2em" }}>Turnaus & Assistentti</div>
+          <Link href="/info" style={{ textDecoration: "none" }}>
+            <div
+              className="section-label"
+              style={{
+                fontSize: "13px",
+                letterSpacing: "0.2em",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                transition: "opacity 0.15s",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.opacity = "0.7")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.opacity = "1")}
+            >
+              Turnaus & Assistentti
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", opacity: 0.5 }}>→</span>
+            </div>
+          </Link>
           <div className="divider" style={{ marginTop: "16px" }} />
         </div>
 

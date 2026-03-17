@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-export type ActivePage = "dashboard" | "tournament" | "leaderboards" | "scorecards";
+export type ActivePage = "dashboard" | "tournament" | "leaderboards" | "scorecards" | "info";
 
 interface AppNavProps {
   activePage?: ActivePage;
@@ -18,6 +18,7 @@ const NAV_LINKS: { href: string; label: string; key: ActivePage }[] = [
   { href: "/tournament",  label: "TURNAUS",          key: "tournament" },
   { href: "/leaderboards",label: "TULOKSET",          key: "leaderboards" },
   { href: "/scorecards",  label: "TULOSKORTIT",       key: "scorecards" },
+  { href: "/info",        label: "OPAS",              key: "info" },
 ];
 
 export default function AppNav({ activePage, playerName, onSignOut, backHref, backLabel }: AppNavProps) {
