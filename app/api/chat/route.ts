@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSession } from "@/lib/auth";
 
 // ─── Rate limiting (in-memory, per serverless instance) ───────────────────────
 // Limits: 20 requests per minute per IP
@@ -24,6 +25,14 @@ const MAX_MESSAGE_LENGTH = 2000;
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function POST(req: NextRequest) {
+  // Auth check — must be a signed-in player
+  if (!getSession(req)) {
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+
   // Rate limit by IP
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
