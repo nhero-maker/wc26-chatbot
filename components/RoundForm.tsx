@@ -162,8 +162,8 @@ export default function RoundForm({
       data.course_id = parseInt(courseId);
     }
 
-    if (longestDrive) data.longest_drive = parseInt(longestDrive);
-    if (closestToPin) data.closest_to_pin = parseInt(closestToPin);
+    if (longestDrive) data.longest_drive = parseFloat(longestDrive);
+    if (closestToPin) data.closest_to_pin = parseFloat(closestToPin);
     if (notes.trim()) data.notes = notes.trim();
 
     if (showHoles && allHolesFilled) {
@@ -612,6 +612,7 @@ export default function RoundForm({
             onChange={(e) => setLongestDrive(e.target.value)}
             placeholder="240"
             min={1}
+            step="0.1"
             style={inputStyle}
           />
         </div>
@@ -625,6 +626,7 @@ export default function RoundForm({
             onChange={(e) => setClosestToPin(e.target.value)}
             placeholder="150"
             min={1}
+            step="0.1"
             style={inputStyle}
           />
         </div>
