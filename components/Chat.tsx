@@ -68,8 +68,12 @@ export default function Chat() {
           leadCaptured: res.data.leadCaptured,
         };
         setMessages((prev) => [...prev, botMsg]);
-      } catch {
-        setError("Yhteysvirhe. Tarkista verkkoyhteytesi ja yritä uudelleen.");
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Yhteysvirhe. Tarkista verkkoyhteytesi ja yritä uudelleen."
+        );
       } finally {
         setIsLoading(false);
         setTimeout(() => inputRef.current?.focus(), 50);

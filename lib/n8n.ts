@@ -22,7 +22,12 @@ export async function sendChatMessage(
   });
 
   if (!res.ok) {
-    throw new Error(`Chat request failed: ${res.status}`);
+    const body = await res.json().catch(() => null);
+    const serverMsg = body?.error;
+    if (res.status === 429) {
+      throw new Error(serverMsg ?? "Liian monta viestiä. Odota hetki.");
+    }
+    throw new Error(serverMsg ?? "Assistentti ei vastaa juuri nyt. Yritä hetken kuluttua.");
   }
 
   return res.json();

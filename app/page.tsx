@@ -10,10 +10,24 @@ export default function Home() {
     <main>
       <Hero />
 
-      {/* Main content — gradient background for depth */}
-      <div style={{ background: "linear-gradient(180deg, #f0f3f8 0%, #fefefe 120px)" }}>
+      {/* Main content — gradient background with brand grid pattern */}
+      <div style={{ position: "relative", background: "linear-gradient(180deg, #f0f3f8 0%, #fefefe 120px)" }}>
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url(/wc26-grid-bg.png)",
+            backgroundRepeat: "repeat",
+            backgroundSize: "600px",
+            opacity: 0.03,
+            mixBlendMode: "multiply",
+            pointerEvents: "none",
+          }}
+        />
       <div
         style={{
+          position: "relative",
           maxWidth: "1400px",
           margin: "0 auto",
           padding: "0 24px 80px",
