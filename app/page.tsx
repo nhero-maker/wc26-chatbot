@@ -20,8 +20,8 @@ export default function Home() {
             backgroundImage: "url(/wc26-grid-bg.png)",
             backgroundRepeat: "repeat",
             backgroundSize: "600px",
-            opacity: 0.03,
-            mixBlendMode: "multiply",
+            opacity: 0.06,
+            filter: "invert(1)",
             pointerEvents: "none",
           }}
         />
